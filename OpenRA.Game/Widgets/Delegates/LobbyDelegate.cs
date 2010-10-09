@@ -14,6 +14,7 @@ using System.Linq;
 using OpenRA.FileFormats;
 using OpenRA.Network;
 using OpenRA.Graphics;
+using OpenRA.Traits;
 
 namespace OpenRA.Widgets.Delegates
 {
@@ -228,45 +229,94 @@ namespace OpenRA.Widgets.Delegates
 				var c = GetClientInSlot(s);
 				Widget template;
 
-				if (c == null)
-				{
-					if (Game.IsHost)
-					{
-						template = EmptySlotTemplateHost.Clone();
-						var name = template.GetWidget<ButtonWidget>("NAME");
-						name.GetText = () => s.Closed ? "Closed" : (s.Bot == null)? "Open" : "Bot: " + s.Bot;
-						name.OnMouseUp = _ =>
-						{
-							if (s.Closed)
-							{
-								s.Bot = null;
-								orderManager.IssueOrder(Order.Command("slot_open " + s.Index));
-							}
-							else
-							{
-								if (s.Bot == null && Map.Players[s.MapPlayer].AllowBots)
-									orderManager.IssueOrder(Order.Command("slot_bot {0} HackyAI".F(s.Index)));
-								else
-									orderManager.IssueOrder(Order.Command("slot_close " + s.Index));
-							}
-							return true;
-						};
-					}
-					else
-					{
-						template = EmptySlotTemplate.Clone();
-						var name = template.GetWidget<LabelWidget>("NAME");
-						name.GetText = () => s.Closed ? "Closed" : "Open";
-					}
+                if (c == null)
+                {
+                    if (Game.IsHost)
+                    {
+                        template = EmptySlotTemplateHost.Clone();
+                        var name = template.GetWidget<ButtonWidget>("NAME");
+                        name.GetText = () => s.Closed ? "Closed" : (s.BotAI == null) ? "Open" : "Bot: " + s.BotAI.Name;
+                        name.OnMouseUp = _ =>
+                        {
+                            if (s.Closed)
+                            {
+                                s.Bot = null;
+                                orderManager.IssueOrder(Order.Command("slot_open " + s.Index));
+                            }
+                            else if (Map.Players[s.MapPlayer].AllowBots) 
+                            {
+                                // Attempt to clean up the AI system - Gecko
+                                if (s.Bot == null) // No bot selected, so select first one
+                                {
+                                    var bots = Rules.Info["player"].Traits.WithInterface<IBotInfo>();
 
-					var join = template.GetWidget<ButtonWidget>("JOIN");
-					if (join != null)
-					{
-						join.OnMouseUp = _ => { orderManager.IssueOrder(Order.Command("slot " + s.Index)); return true; };
-						join.IsVisible = () => !s.Closed && s.Bot == null;
-					}
-				}
-				else if (c.Index == orderManager.LocalClient.Index && c.State != Session.ClientState.Ready)
+                                    // Just pick the first bot - Gecko
+                                    foreach (var bot in bots)
+                                    {
+                                        s.Bot = bot.Identifier;
+                                        s.BotAI = bot;
+                                        break;
+                                    }
+
+                                    // No AIs found, close the slot - Gecko
+                                    if (s.BotAI == null)
+                                        Order.Command("slot_close " + s.Index);
+                                    else
+                                        orderManager.IssueOrder(Order.Command(("slot_bot {0} " + s.BotAI.Identifier).F(s.Index)));
+
+                                }
+                                else // An AI was already assigned, see what to do (get next bot, or close the slot) - Gecko
+                                {
+                                    bool foundBot = false;
+                                    bool foundCurrentBot = false;
+
+                                    var bots = Rules.Info["player"].Traits.WithInterface<IBotInfo>();
+
+                                    // Go through the list of available bots - Gecko
+                                    foreach (var bot in bots)
+                                    {
+                                        if (s.Bot == bot.Identifier)
+                                        {
+                                            foundCurrentBot = true;
+                                            continue;
+                                        }
+                                        if (foundCurrentBot)
+                                        {
+                                            s.Bot = bot.Identifier;
+                                            s.BotAI = bot;
+
+                                            foundBot = true;
+                                            break;
+                                        }
+                                    }
+
+                                    // Either issue a close slot order, or slot_bot, depending if we found a new AI - Gecko
+                                    orderManager.IssueOrder(!foundBot
+                                                        ? Order.Command("slot_close " + s.Index)
+                                                        : Order.Command(("slot_bot {0} " + s.BotAI.Identifier).F(s.Index)));
+                                }
+                            }else
+                            {
+								orderManager.IssueOrder(Order.Command("slot_close " + s.Index));
+                            }
+                            return true;
+                        };
+                    }
+                    else
+                    {
+                        template = EmptySlotTemplate.Clone();
+                        var name = template.GetWidget<LabelWidget>("NAME");
+                        name.GetText = () => s.Closed ? "Closed" : "Open";
+                    }
+
+                    var join = template.GetWidget<ButtonWidget>("JOIN");
+                    if (join != null)
+                    {
+                        join.OnMouseUp = _ => { orderManager.IssueOrder(Order.Command("slot " + s.Index)); return true; };
+                        join.IsVisible = () => !s.Closed && s.Bot == null;
+                    }
+                }
+                else if (c.Index == orderManager.LocalClient.Index && c.State != Session.ClientState.Ready)
 				{
 					template = LocalPlayerTemplate.Clone();
 					var name = template.GetWidget<TextFieldWidget>("NAME");

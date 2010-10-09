@@ -97,9 +97,11 @@ Player:
 		InitialCash: 5000
 	ActorGroupProxy:
 	DeveloperMode:
-	HackyAI:
 	PlayerColorPalette:
 		BasePalette: terrain
+	HackyAI:
+		InternalName: Hacky AI
+		InternalIdentifier: HACKY_AI
 
 World:
 	OpenWidgetAtGameStart:

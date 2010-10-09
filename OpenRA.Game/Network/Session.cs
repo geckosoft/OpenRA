@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using OpenRA.FileFormats;
+using OpenRA.Traits;
 
 namespace OpenRA.Network
 {
@@ -56,8 +57,33 @@ namespace OpenRA.Network
 			public string Bot;	// trait name of the bot to initialize in this slot, or null otherwise.
 			public bool Closed;	// host has explicitly closed this slot.
 			public string MapPlayer;	// playerReference to bind against.
-			
-			// todo: more stuff?
+		    protected IBotInfo InternalBotAI; // An internal copy of the bot ai - Gecko
+
+            public IBotInfo BotAI// New modular AI system - Gecko
+            {
+                get
+                {
+                    if (InternalBotAI == null)
+                    {
+                        var bots = Rules.Info["player"].Traits.WithInterface<IBotInfo>();
+
+                        foreach (var bot in bots)
+                        {
+                            if (bot.Identifier == Bot)
+                                InternalBotAI = bot;
+                        }
+
+                        return InternalBotAI;
+                    }
+                    else
+                    {
+                        return InternalBotAI;
+                    }
+                }
+                set { InternalBotAI = value; }
+            }
+
+		    // todo: more stuff?
 		}
 
 		public class Global

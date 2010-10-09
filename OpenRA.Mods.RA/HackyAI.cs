@@ -31,7 +31,33 @@ using XRandom = OpenRA.Thirdparty.Random;
 
 namespace OpenRA.Mods.RA
 {
-	class HackyAIInfo : TraitInfo<HackyAI> { }
+    class HackyAIInfo : TraitInfo<HackyAI>, IBotInfo
+    {
+        #region Implementation of IBotInfo
+
+        public readonly string InternalName = "Hacky AI";
+        public readonly string InternalIdentifier = "HACKY_AI";
+
+        public string Name
+        {
+            get { return InternalName; }
+        }
+
+        public string Identifier
+        {
+            get { return InternalIdentifier; }
+        }
+
+        public IBot AI { get; set; }
+
+        public override object Create(ActorInitializer init)
+        {
+            return new HackyAI(init, this);
+        }
+
+        #endregion
+    }
+
 
 	/* a pile of hacks, which control a local player on the host. */
 
@@ -93,6 +119,18 @@ namespace OpenRA.Mods.RA
 		BuildState bstate = BuildState.WaitForFeedback;
         BuildState dstate = BuildState.WaitForFeedback;
 
+        public HackyAI(ActorInitializer init, IBotInfo info)
+        {
+            Info = info;
+        }
+
+        public HackyAI()
+        {
+
+        }
+
+        public IBotInfo Info { get; protected set; }
+
 		/* called by the host's player creation code */
 		public void Activate(Player p)
 		{
@@ -101,7 +139,7 @@ namespace OpenRA.Mods.RA
 			playerPower = p.PlayerActor.Trait<PowerManager>();
 		}
 
-		int GetPowerProvidedBy(ActorInfo building)
+	    int GetPowerProvidedBy(ActorInfo building)
 		{
 			var bi = building.Traits.GetOrDefault<BuildingInfo>();
 			if (bi == null) return 0;

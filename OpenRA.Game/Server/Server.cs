@@ -20,6 +20,7 @@ using System.Threading;
 using OpenRA.FileFormats;
 using OpenRA.GameRules;
 using OpenRA.Network;
+using OpenRA.Traits;
 
 namespace OpenRA.Server
 {
@@ -493,7 +494,21 @@ namespace OpenRA.Server
 							return true;
 						}
 
-						slotData.Bot = parts[1];
+#region Modular AI system
+                        var bots = Rules.Info["player"].Traits.WithInterface<IBotInfo>();
+
+                        // Find the bot trait - Gecko
+                        foreach (var bot in bots)
+                        {
+                            if (bot.Identifier == parts[1]) // Found the matching AI trait - Gecko
+                            {
+                                // Assign info - Gecko
+                                slotData.Bot = bot.Identifier;
+                                slotData.BotAI = bot;
+                                break;
+                            }
+                        }
+#endregion
 
 						SyncLobbyInfo();
 						return true;

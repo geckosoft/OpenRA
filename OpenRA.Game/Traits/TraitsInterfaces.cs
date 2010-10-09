@@ -170,9 +170,22 @@ namespace OpenRA.Traits
 	public interface IWorldLoaded { void WorldLoaded(World w); }
 	public interface ICreatePlayers { void CreatePlayers(World w); }
 
-	public interface IBot { void Activate(Player p); }
-	
-	public interface IActivity
+    #region New modular AI system - Gecko
+    public interface IBot
+    {
+        void Activate(Player p);
+        IBotInfo Info { get; }
+    }
+
+    public interface IBotInfo
+    {
+        string Name { get; } // Name of the bot (shown in the lobby) - Gecko
+        string Identifier { get; } // Must be unique - Gecko
+        IBot AI { get; set; } // Stores reference to current active AI
+    }
+    #endregion
+
+    public interface IActivity
 	{
 		IActivity Tick(Actor self);
 		void Cancel(Actor self);
