@@ -24,16 +24,17 @@ function Events.OnPreRun(self)
 end
 
 -- Called each tick after running the other tick events (dont put heavy stuff in here kthx)
+-- Even better - dont use it at all, but use OnUpdate :)
 function Events.OnRun(self)
 
 end
 
 -- Called (if you didnt change the option) around once every 2 seconds
 function Events.OnCheck(self)
-	Engine.debug("Checking myself...")
-	for index,value in ipairs(Engine.getEnemies())	do
-		Engine.debug("Enemy found! " ..value:getName())
-	end	
+	--Engine.debug("Checking myself...")
+	--for index,value in ipairs(Engine.getEnemies())	do
+	--	Engine.debug("Enemy found! " ..value:getName())
+	--end	
 end
 
 -- Called when ANY actor got created (includes the Player actor)

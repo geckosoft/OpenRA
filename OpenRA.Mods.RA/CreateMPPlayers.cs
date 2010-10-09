@@ -57,12 +57,22 @@ namespace OpenRA.Mods.RA
 					/* todo: pick a random name from the pool */
 
 					var player = new Player(w, w.Map.Players[slot.MapPlayer], playerIndex++);
-					w.AddPlayer(player);
-					
-					/* todo: only activate the bot option that's selected! */
-					if (Game.IsHost)
-						foreach (var bot in player.PlayerActor.TraitsImplementing<IBot>())
-							bot.Activate(player);
+                    w.AddPlayer(player);
+
+                    // Only select & activate the selected bot - Gecko
+                    if (Game.IsHost && slot.BotAI != null)
+                    {
+                        foreach (var bot in player.PlayerActor.TraitsImplementing<IBot>())
+                        {
+                            if (slot.BotAI.Identifier == bot.Info.Identifier)// Found matching bot
+                            {
+                                bot.Activate(player);
+                                slot.BotAI.AI = bot; // Store our reference to the actual bot
+
+                                break;
+                            }
+                        }
+                    }
 
 					/* a bit of a hack */
 					player.IsBot = true;
