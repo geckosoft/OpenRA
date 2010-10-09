@@ -48,12 +48,6 @@ namespace OpenRA.Mods.RA
             get { return InternalIdentifier; }
         }
 
-        public IBot AI { get; set; }
-        public object Clone(IBot bot)
-        {
-            return this; /* cloning not required */
-        }
-
         public override object Create(ActorInitializer init)
         {
             return new HackyAI(init, this);
