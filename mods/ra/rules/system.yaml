@@ -102,6 +102,10 @@ Player:
 	HackyAI:
 		InternalName: Hacky AI
 		InternalIdentifier: HACKY_AI
+	LuaBot:
+		InternalName: Lua Bot (1)
+		InternalIdenfitier: LUA_BOT_1
+		Script: mods/ra/bots/luabot/main.lua
 
 World:
 	OpenWidgetAtGameStart:

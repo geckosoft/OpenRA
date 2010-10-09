@@ -181,7 +181,9 @@ namespace OpenRA.Traits
     {
         string Name { get; } // Name of the bot (shown in the lobby) - Gecko
         string Identifier { get; } // Must be unique - Gecko
-        IBot AI { get; set; } // Stores reference to current active AI
+        IBot AI { get; set; } // Stores reference to current active AI - Gecko
+
+        object Clone(IBot bot); // Creates a clone - Gecko
     }
     #endregion
 

@@ -49,6 +49,10 @@ namespace OpenRA.Mods.RA
         }
 
         public IBot AI { get; set; }
+        public object Clone(IBot bot)
+        {
+            return this; /* cloning not required */
+        }
 
         public override object Create(ActorInitializer init)
         {

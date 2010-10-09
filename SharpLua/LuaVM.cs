@@ -295,9 +295,9 @@ namespace SharpLua
             }
 
             // Clean up the stack
-            for (int i = 0; i < depth; i++)
+            for (int i = 0; i < depth-1; i++)
             {
-                Lua.lua_remove(L, -1);
+                Lua.lua_remove(L, -2);
             }
 
             return CallFunction(vars, returnType); ;
@@ -396,7 +396,6 @@ namespace SharpLua
         public void OpenLibs()
         {
             Lua.luaL_openlibs(L);
-           // Lua.lua_register(L, "echo", new Lua.lua_CFunction(echo));
         }
 
         public void Close()
@@ -521,6 +520,79 @@ namespace SharpLua
                 Lua.lua_settable(L, -(nup + 3));
             }
             Lua.lua_pop(L, nup);  /* remove upvalues */
+        }
+
+        public void RegisterObject(Object o)
+        {
+            string objectType = "";
+            string tableName = "";
+            var t = o.GetType();
+
+            var staticFunctions = new List<Lua.luaL_Reg>();
+            var objectFunctions = new List<Lua.luaL_Reg>();
+
+
+            // Get the object name
+            var objInfo = (LuaObjectAttribute)t.GetCustomAttributes(typeof(LuaObjectAttribute), false).SingleOrDefault();
+
+            if (objInfo == null)
+            {
+                objectType = "" + t.FullName.GetHashCode();
+                tableName = t.Name;
+            }
+            else
+            {
+                objectType = objInfo.TypeName;
+                tableName = objInfo.Name;
+            }
+
+            var functions =
+                t.GetMethods().Where(
+                    a =>
+                    a.GetCustomAttributes(typeof(LuaFunctionAttribute), false).Length > 0 &&
+                    ((LuaFunctionAttribute)
+                     a.GetCustomAttributes(typeof(LuaFunctionAttribute), false).SingleOrDefault()).RequireObject ==
+                    false);
+
+
+            var methods =
+                t.GetMethods().Where(
+                    a =>
+                    a.GetCustomAttributes(typeof(LuaFunctionAttribute), false).Length > 0 && (
+                    ((LuaFunctionAttribute)
+                     a.GetCustomAttributes(typeof(LuaFunctionAttribute), false).SingleOrDefault()).RequireObject ==
+                    true ||
+                    ((LuaFunctionAttribute)
+                     a.GetCustomAttributes(typeof(LuaFunctionAttribute), false).SingleOrDefault()).ForceMethod ==
+                    true));
+
+            foreach (var mi in functions)
+            {
+                var ca =
+                    mi.GetCustomAttributes(typeof(LuaFunctionAttribute), false).SingleOrDefault() as
+                    LuaFunctionAttribute;
+                var f = LuaCallback.Wrap(mi, ca, o);
+                var e = new Lua.luaL_Reg();
+                e.func = f;
+                e.name = ca.FunctionName;
+                staticFunctions.Add(e);
+                CallbackReferences.Add(f);
+            }
+
+            foreach (var mi in methods)
+            {
+                var ca =
+                    mi.GetCustomAttributes(typeof(LuaFunctionAttribute), false).SingleOrDefault() as
+                    LuaFunctionAttribute;
+                var f = LuaCallback.Wrap(mi, ca, o);
+                var e = new Lua.luaL_Reg();
+                e.func = f;
+                e.name = ca.FunctionName;
+                objectFunctions.Add(e);
+                CallbackReferences.Add(f);
+            }
+
+            RegisterObject(objectType, tableName, objectFunctions.ToArray(), staticFunctions.ToArray());
         }
 
         public void RegisterObject(Type t)

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4A8A43B5-A9EF-4ED0-99DD-4BAB10A0DB6E}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -76,6 +76,11 @@
     <Compile Include="Activities\Teleport.cs" />
     <Compile Include="Activities\UnloadCargo.cs" />
     <Compile Include="Activities\Wait.cs" />
+    <Compile Include="AI\ActorList.cs" />
+    <Compile Include="AI\LuaBot.cs" />
+    <Compile Include="AI\LuaBotInfo.cs" />
+    <Compile Include="AI\Modules\Engine.cs" />
+    <Compile Include="AI\Traits\LuaBrain.cs" />
     <Compile Include="AttackBase.cs" />
     <Compile Include="AttackMove.cs" />
     <Compile Include="Buildable.cs" />
@@ -277,6 +282,14 @@
       <Name>OpenRA.Game</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\SharpLua\SharpLua.csproj">
+      <Project>{0124A623-7AEE-4BDD-B823-27C1523BADAB}</Project>
+      <Name>SharpLua</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AI\Scripts\" />
+    <Folder Include="AI\Wrappers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

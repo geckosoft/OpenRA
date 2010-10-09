@@ -31,10 +31,10 @@ namespace SharpLua
             Attribute = attr;
             Instance = instance;
 
-            if (Instance != null && !Method.IsStatic)
-                throw new Exception("Expected Method to not be static!");
-            if (Instance == null && !Method.IsStatic)
-                throw new Exception("Expected Method to be static!");
+            //if (Instance != null)
+            //    throw new Exception("Expected Method to not be static!");
+            //if (Instance == null)
+            //    throw new Exception("Expected Method to be static!");
         }
 
         public static Lua.lua_CFunction Wrap(MethodInfo method, LuaFunctionAttribute attr)

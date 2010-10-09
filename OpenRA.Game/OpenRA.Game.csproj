@@ -218,6 +218,10 @@
       <Project>{BDAEAB25-991E-46A7-AF1E-4F0E03358DAA}</Project>
       <Name>OpenRA.FileFormats</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpLua\SharpLua.csproj">
+      <Project>{0124A623-7AEE-4BDD-B823-27C1523BADAB}</Project>
+      <Name>SharpLua</Name>
+    </ProjectReference>
     <Compile Include="ActorInitializer.cs" />
     <Compile Include="ActorReference.cs" />
     <Compile Include="ModData.cs" />
