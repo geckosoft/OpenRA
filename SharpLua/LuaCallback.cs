@@ -126,10 +126,36 @@ namespace SharpLua
             var result = Method.Invoke(Instance, callingParams.ToArray());
             int resCount = 0;
 
+            if (result != null && result.GetType().IsArray)
+            {
+                var a = (Array) result;
+                /* push a table */
+                Lua.lua_newtable(L);
+
+                for (int i = 0; i < a.GetLength(0); i++)
+                {
+                    var r = a.GetValue(i);
+                    Lua.lua_pushinteger(L, i+1); /* add the index */
+                    PushResult(VM, r); /* add the value */
+                    Lua.lua_settable(L, -3);
+                }
+                resCount++;
+            }else
+            {
+                PushResult(VM, result);
+                resCount++;
+            }
+
+            /* @todo Add support for custom userdata (already possible now - just make sure to implement ILuaObjectProxy so we know what 'type' it is! )*/
+
+            return resCount; // number of return values
+        }
+
+        protected void PushResult(LuaVM L, object result)
+        {
             if (result is string)
             {
                 Lua.lua_pushstring(L, (string)result);
-                resCount++;
             }
             else if (result is bool)
             {
@@ -137,41 +163,36 @@ namespace SharpLua
                     Lua.lua_pushboolean(L, 1);
                 else
                     Lua.lua_pushboolean(L, 0);
-                resCount++;
             }
             else if (result is int)
             {
                 Lua.lua_pushinteger(L, (int)result);
-                resCount++;
             }
             else if (result is double)
             {
                 Lua.lua_pushnumber(L, (double)result);
-                resCount++;
             }
             else if (result is float)
             {
                 Lua.lua_pushnumber(L, (float)result);
-                resCount++;
             }
-            else if (result is LuaUserData) /* creating it pushes it on the stack already  (bad 'm kay!) ! */
+            else if (result is LuaUserData)
             {
-                //VM.UserData.Create(result);
-                //Lua.lua_pu
-                //Lua.lua_pushnumber(L, (float)result);
-                resCount++;
+                var ud = result as LuaUserData;
+
+                if (!ud.Created)
+                {
+                    ud.Create(L);
+                }
+            }
+            else if (result is ILuaObjectProxy)
+            {
+                L.UserData.Create(result, ((ILuaObjectProxy)result).ObjectType);
             }
             else if (result is object)
             {
-                VM.UserData.Create(result);
-                //Lua.lua_pu
-                //Lua.lua_pushnumber(L, (float)result);
-                resCount++;
+                L.UserData.Create(result);
             }
-
-            /* @todo Add support for custom userdata */
-
-            return resCount; // number of return values
         }
     }
 

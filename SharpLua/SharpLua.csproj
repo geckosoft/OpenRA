@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Attributes\LuaFunction.cs" />
     <Compile Include="Attributes\LuaObject.cs" />
+    <Compile Include="ILuaObjectProxy.cs" />
     <Compile Include="LuaCallback.cs" />
     <Compile Include="LuaUserData.cs" />
     <Compile Include="LuaUserDataManager.cs" />

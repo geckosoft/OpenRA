@@ -15,8 +15,9 @@ namespace SharpLua.Attributes
         public LuaObjectAttribute(string objectName, string createFunction)
         {
             Name = objectName;
-            TypeName = createFunction;
+            TypeName = createFunction; /* unused! */
         }
+
         public LuaObjectAttribute(string objectName)
         {
             Name = objectName;

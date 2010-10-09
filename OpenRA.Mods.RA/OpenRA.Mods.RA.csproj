@@ -77,9 +77,17 @@
     <Compile Include="Activities\UnloadCargo.cs" />
     <Compile Include="Activities\Wait.cs" />
     <Compile Include="AI\ActorList.cs" />
+    <Compile Include="AI\AutoProductionQueue.cs" />
     <Compile Include="AI\LuaBot.cs" />
     <Compile Include="AI\LuaBotInfo.cs" />
-    <Compile Include="AI\Modules\Engine.cs" />
+    <Compile Include="AI\Module\Engine.cs" />
+    <Compile Include="AI\Proxies\ActorProxy.cs" />
+    <Compile Include="AI\Proxies\AttackInfoProxy.cs" />
+    <Compile Include="AI\Proxies\ProductionItemProxy.cs" />
+    <Compile Include="AI\Proxies\PlayerProxy.cs" />
+    <Compile Include="AI\Proxies\Int2Proxy.cs" />
+    <Compile Include="AI\Proxies\IProxy.cs" />
+    <Compile Include="AI\Proxies\Proxy.cs" />
     <Compile Include="AI\Traits\LuaBrain.cs" />
     <Compile Include="AttackBase.cs" />
     <Compile Include="AttackMove.cs" />
@@ -288,8 +296,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AI\Scripts\" />
-    <Folder Include="AI\Wrappers\" />
+    <None Include="..\mods\ra\bots\luabot\botlib.lua">
+      <Link>AI\Scripts\Lib\botlib.lua</Link>
+    </None>
+    <None Include="..\mods\ra\bots\luabot\events.lua">
+      <Link>AI\Scripts\LuaBot\events.lua</Link>
+    </None>
+    <None Include="..\mods\ra\bots\luabot\main.lua">
+      <Link>AI\Scripts\LuaBot\main.lua</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

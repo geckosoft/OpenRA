@@ -1,11 +1,8 @@
-Engine.debug("Loading the LuaBot AI")
+-- Include the botlib
+dofile("mods/ra/bots/luabot/botlib.lua")
 
--- Create the 'Events' object
--- Most callbacks will be done on here!
+-- Global event handlers
+dofile("mods/ra/bots/luabot/events.lua")
 
-Events = {}
-
-function Events.OnTick(self)
-	--Engine.debug("I'm ticking!")
-end
-
+-- Braaaains
+dofile("mods/ra/bots/luabot/brains.lua")

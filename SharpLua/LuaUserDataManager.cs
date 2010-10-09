@@ -54,7 +54,7 @@ namespace SharpLua
         {
             lock (this)
             {
-                var ot = "CSharpObject." + objectType;
+                var ot = objectType;
                 var entry = Register(obj);
                 entry.ObjectType = ot;
 

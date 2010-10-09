@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OpenRA.Mods.RA.AI.Module;
+using OpenRA.Mods.RA.AI.Proxies;
 using OpenRA.Traits;
 using SharpLua;
 
@@ -9,7 +11,7 @@ namespace OpenRA.Mods.RA.AI
 {
     public class LuaBot : ITick, IBot
     {
-        protected ActorList Actors = new ActorList();
+        protected ActorList Actors;
         protected Dictionary<string, ulong> BuildTicks = new Dictionary<string, ulong>();
 
         public bool Enabled;
@@ -18,9 +20,11 @@ namespace OpenRA.Mods.RA.AI
         protected PowerManager Power;
         protected ulong Ticks;
         protected ulong TicksPerCheck = 60;
-        protected ulong TicksPerUpdate = 30;
-        protected LuaVM VM;
-
+        protected ulong TicksPerUpdate = 5;
+        protected ulong TicksPerProductionUpdate = 30;
+        public LuaVM VM;
+        public Proxy Proxy = null;
+        public AutoProductionQueue Queue;
 
         public LuaBot()
         {
@@ -72,10 +76,21 @@ namespace OpenRA.Mods.RA.AI
 
         public virtual void Activate(Player p)
         {
+            Actors = new ActorList();
+            Actors.OnActorDestroyed = new Func<Actor, bool>(OnActorDestroyed);
             Player = p;
-
-            OnActivate();
+            Queue = new AutoProductionQueue(this);
+            OnActivate(p);
             Enabled = true;
+        }
+
+        protected virtual bool OnActorDestroyed(Actor actor)
+        {
+            if (VM.HasFunction("Events.OnActorDestroyed"))
+            {
+                VM.CallFunction("Events.OnActorDestroyed", new[] { Proxy.GetVar(actor) }, typeof(bool));
+            }
+            return true; // Needed?
         }
 
         public LuaBotInfo MyInfo
@@ -94,34 +109,53 @@ namespace OpenRA.Mods.RA.AI
 
             Ticks++;
 
-            OnPreRun(self);
-            // See if we have to trigger an update
-            if (Ticks%TicksPerUpdate == 0)
+            if (Ticks > 9) /* skip first 10 ticks */
             {
-                OnCleanup(self);
-                OnUpdate(self);
-            }
+                if (Ticks == 10)
+                {
+                    OnFirstRun(self);
+                }
 
-            // See if we have to perform some checks
-            if (Ticks%TicksPerCheck == 0)
+                OnPreRun(self);
+                // See if we have to trigger an update
+                if (Ticks%TicksPerUpdate == 0)
+                {
+                    OnCleanup(self);
+                    OnUpdate(self);
+                }
+
+                // See if we have to perform some checks
+                if (Ticks%TicksPerCheck == 0)
+                {
+                    OnCheck(self);
+                }
+
+                OnRun(self);
+            }
+        }
+
+        private void OnFirstRun(Actor self)
+        {
+            if (VM.HasFunction("Events.OnFirstRun"))
             {
-                OnCheck(self);
+                VM.CallFunction("Events.OnFirstRun", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
-
-            OnRun(self);
         }
 
         protected void OnRun(Actor self)
         {
-            if (VM.HasFunction("Events.OnTick"))
+            if (VM.HasFunction("Events.OnRun"))
             {
-                VM.CallFunction("Events.OnTick", new object[] {self}, typeof(bool));
+                VM.CallFunction("Events.OnRun", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
         }
 
         protected void OnCheck(Actor self)
         {
-
+            if (VM.HasFunction("Events.OnCheck"))
+            {
+                VM.CallFunction("Events.OnCheck", new[] { Proxy.GetVar(self) }, typeof(bool));
+            }
         }
 
         #endregion
@@ -146,10 +180,209 @@ namespace OpenRA.Mods.RA.AI
             Game.Debug("[" + Info.Identifier + "] " + msg);
         }
 
-        protected void DeployMcv(Actor self)
+        public ProductionQueue GetAvailableQueue(string type)
+        {
+            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+                .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type && a.Trait.CurrentItem() == null)
+                .Select(a => a.Trait).FirstOrDefault();
+        }
+
+        public ProductionQueue[] GetAvailableQueues(string type)
+        {
+            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+                .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type && a.Trait.CurrentItem() == null)
+                .Select(a => a.Trait).ToArray();
+        }
+
+        public ProductionQueue[] GetQueues(string type)
+        {
+            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+                .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type)
+                .Select(a => a.Trait)
+                .ToArray();
+        }
+
+        public ProductionQueue GetQueue(string type)
+        {
+            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+                .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type)
+                .Select(a => a.Trait)
+                .FirstOrDefault();
+        }
+
+        public int2? ChooseBuildLocation(ProductionItem item, int maxBaseDistance, int2? baseCenter)
+        {
+            if (baseCenter == null)
+                return null;
+
+            var bi = Rules.Info[item.Item].Traits.Get<BuildingInfo>();
+
+            for (int k = 0; k < maxBaseDistance; k++)
+                foreach (int2 t in Game.world.FindTilesInCircle((int2)baseCenter, k))
+                    if (Game.world.CanPlaceBuilding(item.Item, bi, t, null))
+                        if (Game.world.IsCloseEnoughToBase(Player, item.Item, bi, t))
+                            return t;
+
+            return null; // i don't know where to put it.
+        }
+
+        public Actor[] GetOwnedActors()
+        {
+            return Player.World.Queries.OwnedBy[Player].ToArray();
+        }
+
+        public virtual int2? GetConstructionYardLocation()
+        {
+            Actor fact = GetOwnedActors().FirstOrDefault(a => a.Info == Rules.Info["fact"]);
+            if (fact == null)
+                return null;
+
+            return fact.Location;
+        }
+
+        protected virtual bool OnPlaceBuilding(ProductionQueue queue, ProductionItem currentBuilding)
+        {
+
+
+            if (VM.HasFunction("Events.OnBuildingFinished"))
+            {
+                if (!(bool)VM.CallFunction("Events.OnBuildingFinished", new[] { Proxy.GetVar(currentBuilding) }, typeof(bool)))
+                    return false;
+            }else
+            {
+                // Fallback - auto building!
+                if (!PlaceBuilding(currentBuilding, ChooseBuildLocation(currentBuilding, 15, GetConstructionYardLocation())))
+                {
+                    Debug("Nowhere to place {0}.".F(currentBuilding.Item));
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        public bool PlaceBuilding(ProductionItem currentBuilding, int2? location)
+        {
+            if (location == null)
+                return false;
+
+            Debug("Placing {0}".F(currentBuilding.Item));
+
+            Game.IssueOrder(new Order("PlaceBuilding", Player.PlayerActor, location.Value,
+                                      currentBuilding.Item));
+            return true;
+        }
+
+        public string GetBuildableType(ActorInfo actor)
+        {
+            if (actor.Traits.GetOrDefault<BuildableInfo>() == null)
+                return null;
+
+            return actor.Traits.GetOrDefault<BuildableInfo>().Queue;
+        }
+
+        public AutoProductionQueue.Entry QueueProduction(string actor)
+        {
+            if (!Rules.Info.ContainsKey(actor))
+                return null;
+
+            var i = Rules.Info[actor];
+            var b = GetBuildableType(i);
+            if ( b == null)
+                return null;
+
+            return Queue.Enqueue(b, actor);
+        }
+
+        protected bool BuildNext(string buildType)
+        {
+            if ((BuildTicks[buildType.ToUpper()] != 0 && Ticks - BuildTicks[buildType.ToUpper()] < TicksPerProductionUpdate))
+                return false;
+
+            bool buildSomething = false;
+
+            ProductionQueue queue = GetAvailableQueue(buildType);
+            if (queue != null)
+            {
+                // Building Q available
+                ProductionItem currentUnitBeingBuild = queue.CurrentItem();
+
+                // if nothing is being build
+                if (currentUnitBeingBuild == null)
+                {
+                    // See what we want to build
+                    //AIGroupItem item = GetNextItem(buildType, queue);
+                    // GET ITEM TO BUILD
+                    var item = Queue.Dequeue(buildType, queue);
+                    BuildTicks[buildType.ToUpper()] = Ticks;
+
+                    if (item == null) // item == null
+                    {
+
+                    }
+                    else
+                    {
+                        Debug("Building unit {0}".F(item.ActorName));
+
+                        // Issue the build order
+                        Game.IssueOrder(Order.StartProduction(queue.self, item.ActorName, 1));
+                        buildSomething = true;
+                    }
+                }
+            }
+            if (buildSomething)
+                return true;
+
+            queue = GetQueue(buildType);
+            if (queue != null)
+            {
+                // Building Q available
+                ProductionItem currentUnitBeingBuild = queue.CurrentItem();
+
+                // if nothing is being build
+                if (currentUnitBeingBuild == null)
+                {
+                    // See what we want to build
+                    var item = Queue.Dequeue(buildType, queue);
+
+                    BuildTicks[buildType.ToUpper()] = Ticks;
+
+                    if (item == null)
+                    {
+                        return false;
+                    }
+
+                    Debug("Building unit {0}".F(item.ActorName));
+
+                    // Issue the build order
+                    Game.IssueOrder(Order.StartProduction(queue.self, item.ActorName, 1));
+
+                    return true;
+                }
+                else if (currentUnitBeingBuild.Paused)
+                    Game.IssueOrder(Order.PauseProduction(queue.self, currentUnitBeingBuild.Item, false)); // Resume
+                else if (currentUnitBeingBuild.Done) /* Done! */
+                {
+                    // Place it, since building is done
+                    BuildTicks[buildType.ToUpper()] = Ticks;
+
+                    if (buildType == "Building")
+                    {
+                        if (!OnPlaceBuilding(queue, currentUnitBeingBuild))
+                            Game.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        public void DeployMcv()
         {
             /* find our mcv and deploy it */
-            Actor mcv = self.World.Queries.OwnedBy[Player]
+            Actor mcv = Player.World.Queries.OwnedBy[Player]
                 .FirstOrDefault(a => a.Info == Rules.Info["mcv"]);
 
             if (mcv != null)
@@ -163,7 +396,7 @@ namespace OpenRA.Mods.RA.AI
                 Debug("Can't find the MCV.");
         }
 
-        protected virtual void OnActivate()
+        protected virtual void OnActivate(Player player)
         {
             Power = Player.PlayerActor.Trait<PowerManager>();
             GenerateBuildTicks();
@@ -179,7 +412,10 @@ namespace OpenRA.Mods.RA.AI
                     return;
                 }
 
-                //ScriptRunFunction("Bot::onActivate", new object[] { p });
+                if (VM.HasFunction("Events.OnActivate"))
+                {
+                    VM.CallFunction("Events.OnActivate", new[] { Proxy.GetVar(player) }, typeof(bool));
+                }
             }else
             {
                 Debug("Could not load Lua' Bot AI: " + ((LuaBotInfo)Info).Script);
@@ -193,9 +429,18 @@ namespace OpenRA.Mods.RA.AI
         {
             VM = new LuaVM();
             VM.Open();
+            Proxy = new Proxy(VM);
 
             VM.OpenLibs();
-            VM.RegisterObject(new Modules.ModEngine(this));
+
+            VM.RegisterObject(new ModEngine(this));
+
+            /* Register lua object proxies */
+            VM.RegisterObject(typeof(ActorProxy)); /* Actor */
+            VM.RegisterObject(typeof(PlayerProxy)); /* Player */
+            VM.RegisterObject(typeof(Int2Proxy)); /* int2 */
+            VM.RegisterObject(typeof(ProductionItemProxy)); /* ProductionItem */
+            VM.RegisterObject(typeof(AttackInfoProxy));
 
             int s = VM.Run(Path.GetFullPath(MyInfo.Script));
 
@@ -225,10 +470,23 @@ namespace OpenRA.Mods.RA.AI
                                                 a.HasTrait<IMove>() && !Actors["Units"].Contains(a) &&
                                                 !Actors["NewUnits"].Contains(a)).ToList());
 
+
+            Actors["NewBuildings"].AddRange(self.World.Queries.OwnedBy[Player]
+                                            .Where(
+                                                a =>
+                                                !a.HasTrait<IMove>() && !Actors["Buildings"].Contains(a) &&
+                                                !Actors["NewBuildings"].Contains(a)).ToList());
+
+
             Actors["NewFactories"].AddRange(self.World.Queries.OwnedBy[Player]
                                                 .Where(a => (a.TraitOrDefault<RallyPoint>() != null
                                                              && !Actors["Factories"].Contains(a) &&
                                                              !Actors["NewFactories"].Contains(a))).ToList());
+
+            if (VM.HasFunction("Events.OnPreRun"))
+            {
+                VM.CallFunction("Events.OnPreRun", new[] { Proxy.GetVar(self) }, typeof(bool));
+            }
         }
 
         public bool MoveActor(Actor a, int2 desiredMoveTarget)
@@ -265,12 +523,15 @@ namespace OpenRA.Mods.RA.AI
         /// <summary>
         /// won't work for shipyards...
         /// </summary>
-        protected int2 ChooseRallyLocationNear(int2 startPos)
+        public int2 ChooseRallyLocationNear(int2 startPos)
         {
             foreach (int2 t in Game.world.FindTilesInCircle(startPos, 6))
+            {
                 if (Game.world.IsCellBuildable(t, false) && t != startPos)
+                {
                     return t;
-
+                }
+            }
             return startPos; // i don't know where to put it.
         }
 
@@ -297,9 +558,33 @@ namespace OpenRA.Mods.RA.AI
                 Actors["Units"].Add(a);
             }
 
+
+            // Trigger OnUnitCreated events
+            foreach (Actor a in Actors["NewBuildings"])
+            {
+                OnStructureCreated(a);
+                Actors["Buildings"].Add(a);
+            }
+
             Actors["NewFactories"].Clear();
             Actors["NewUnits"].Clear();
             Actors["NewActors"].Clear();
+            Actors["NewBuildings"].Clear();
+
+            // Run the building Queue
+            while (BuildNext("Building")) { }
+            while (BuildNext("Infantry")) { }
+            while (BuildNext("Vehicle")) { }
+            while (BuildNext("Plane")) { }
+            while (BuildNext("Ship")) { }
+        }
+
+        private void OnStructureCreated(Actor actor)
+        {
+            if (VM.HasFunction("Events.OnStructureCreated"))
+            {
+                VM.CallFunction("Events.OnStructureCreated", new[] { Proxy.GetVar(actor) }, typeof(bool));
+            }
         }
 
 
@@ -316,6 +601,10 @@ namespace OpenRA.Mods.RA.AI
 
         protected virtual void OnActorCreated(Actor actor)
         {
+            if (VM.HasFunction("Events.OnActorCreated"))
+            {
+                VM.CallFunction("Events.OnActorCreated", new[] { Proxy.GetVar(actor) }, typeof(bool));
+            }
         }
 
         /// <summary>
@@ -324,16 +613,18 @@ namespace OpenRA.Mods.RA.AI
         /// <param name="factory"></param>
         protected virtual void OnUnitCreated(Actor unit)
         {
+            if (VM.HasFunction("Events.OnUnitCreated"))
+            {
+                VM.CallFunction("Events.OnUnitCreated", new[] { Proxy.GetVar(unit) }, typeof(bool));
+            }
         }
 
         protected virtual void OnFactoryCreated(Actor factory)
         {
-            // Default behaviour - set rally point
-            //int2 newRallyPoint = ChooseRallyLocationNear(factory.Location);
-            //Game.IssueOrder(new Order("SetRallyPoint", factory, newRallyPoint));
-            //
-            //if (ScriptHasFunction("Bot::onFactoryCreated"))
-            //   ScriptRunFunction("Bot::onFactoryCreated", new object[] { Wrapper.Wrap(factory, "", this) });
+            if (VM.HasFunction("Events.OnFactoryCreated"))
+            {
+                VM.CallFunction("Events.OnFactoryCreated", new[] { Proxy.GetVar(factory) }, typeof(bool));
+            }
         }
 
         #endregion
