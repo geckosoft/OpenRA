@@ -251,8 +251,6 @@ namespace SharpLua
 
             Lua.lua_getglobal(L, p[0]);
             var t = Lua.lua_type(L, -1);
-            object res = null;
-
 
             if (p.Length == 1)
             {

@@ -9,6 +9,9 @@ function Events.OnActivate(player)
 end
 
 function Events.OnFirstRun(self)
+	-- Init the Data (see data.lua)
+	Data_Init();
+	
 	-- Enable cheats
 	Engine.getPlayer():order(BotLib.Orders.CheatFastBuild);
 	
