@@ -70,10 +70,13 @@ namespace OpenRA.Mods.RA
 			var target = exit;
 			var rp = self.TraitOrDefault<RallyPoint>();
 			if (rp != null)
-			{
+            {
 				target = rp.rallyPoint;
 				// Todo: Move implies unit has Mobile
-				newUnit.QueueActivity(new Move(target, 1));
+
+                target = newUnit.TraitOrDefault<Mobile>().NearestMoveableCell(target); // Potential fix for rally points
+
+				newUnit.QueueActivity(new Move(target, 5));
 			}
 			
 			if (newUnit.Owner == self.World.LocalPlayer)
