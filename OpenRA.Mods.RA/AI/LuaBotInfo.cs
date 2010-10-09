@@ -46,19 +46,12 @@ namespace OpenRA.Mods.RA.AI
             get { return InternalIdentifier; }
         }
 
-        public IBot AI { get; set; }
-
         public override object Create(ActorInitializer init)
         {
             return new LuaBot(init, this);
         }
 
         #endregion
-
-        public virtual object Clone()
-        {
-            return new LuaBotInfo(Yaml);
-        }
 
         public virtual object Clone(IBot engine)
         {

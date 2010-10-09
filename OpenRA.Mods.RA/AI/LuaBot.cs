@@ -52,7 +52,7 @@ namespace OpenRA.Mods.RA.AI
 
         public LuaBot(ActorInitializer init, IBotInfo info)
         {
-            Info = (IBotInfo) info.Clone(this); // Get a personal instance :)
+            Info = (IBotInfo) info; //.Clone(this); // Get a personal instance :)
         }
 
         protected virtual ulong TicksPerAIRun

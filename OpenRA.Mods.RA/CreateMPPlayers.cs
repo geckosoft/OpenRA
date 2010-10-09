@@ -67,7 +67,7 @@ namespace OpenRA.Mods.RA
                             if (slot.BotAI.Identifier == bot.Info.Identifier)// Found matching bot
                             {
                                 bot.Activate(player);
-                                slot.BotAI.AI = bot; // Store our reference to the actual bot
+                                // slot.BotAI.AI = bot; // Store our reference to the actual bot
 
                                 break;
                             }
