@@ -76,7 +76,7 @@ namespace OpenRA.Mods.RA
 
                 target = newUnit.TraitOrDefault<Mobile>().NearestMoveableCell(target); // Potential fix for rally points
 
-				newUnit.QueueActivity(new Move(target, 1));
+				newUnit.QueueActivity(new Move(target, 5)); // 5 beats 1
 			}
 			
 			if (newUnit.Owner == self.World.LocalPlayer)

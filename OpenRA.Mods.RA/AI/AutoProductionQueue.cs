@@ -130,6 +130,45 @@ namespace OpenRA.Mods.RA.AI
                 return e;
             }
         }
+
+        public int Count(string buildType)
+        {
+            int count = 0;
+
+            lock (this)
+            {
+                for (int i = 0; i < Pending.Count; i++)
+                {
+                    var e = Pending[i];
+                    if (e.QueueType == buildType)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+
+
+        public bool IsBuilding(string actorName)
+        {
+            int count = 0;
+
+            lock (this)
+            {
+                for (int i = 0; i < Pending.Count; i++)
+                {
+                    var e = Pending[i];
+                    if (e.ActorName == actorName)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
     }
 }
 

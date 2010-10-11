@@ -2,7 +2,7 @@
 
 namespace SharpLua.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class LuaFunctionAttribute : Attribute
     {
         public string FunctionName = "";

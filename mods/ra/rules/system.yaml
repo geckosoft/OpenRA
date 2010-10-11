@@ -105,7 +105,7 @@ Player:
 	LuaBot:
 		InternalName: Lua Bot (1)
 		InternalIdenfitier: LUA_BOT_1
-		Script: mods/ra/bots/luabot/main.lua
+		Script: mods/ra/bots/gecko/bot.lua
 
 World:
 	OpenWidgetAtGameStart:

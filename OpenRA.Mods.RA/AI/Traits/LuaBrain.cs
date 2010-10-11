@@ -63,103 +63,91 @@ namespace OpenRA.Mods.RA.AI.Traits
             Info = (LuaBrainInfo)info;
         }
 
+        public void TriggerEvent(string func, object[] args)
+        {
+            string fullPath = BrainObject + "." + func;
+
+            if (Bot.VM.HasFunction(fullPath))
+            {
+                var newArgs = new List<Object>();
+                newArgs.Add(BrainObject);
+                newArgs.Add(func);
+                newArgs.AddRange(args);
+
+                Bot.VM.CallFunction("botlib.callObject", newArgs.ToArray(), typeof (bool));
+            }
+        }
+
         public virtual void Tick(Actor self)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnTick"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnTick", new[] {Bot.Proxy.Get(self)}, typeof (bool));
-                }
+                TriggerEvent("OnTick", new[] {Bot.Proxy.GetVar(self)});
             }
         }
 
         public virtual void Selling(Actor self)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnSelling"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnSelling", new[] { Bot.Proxy.Get(self) }, typeof(bool));
-                }
+                TriggerEvent("OnSelling", new[] { Bot.Proxy.GetVar(self) });
             }
         }
 
         public virtual void Sold(Actor self)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnSold"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnSold", new[] { Bot.Proxy.Get(self) }, typeof(bool));
-                }
+                TriggerEvent("OnSold", new[] { Bot.Proxy.GetVar(self) });
             }
         }
 
         public virtual void Attacking(Actor self)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnAttacking"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnAttacking", new[] { Bot.Proxy.Get(self) }, typeof(bool));
-                }
+                TriggerEvent("OnAttacking", new[] { Bot.Proxy.GetVar(self) });
             }
 
         }
 
         public virtual void BuildingComplete(Actor self)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnBuildingComplete"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnBuildingComplete", new[] { Bot.Proxy.Get(self) }, typeof(bool));
-                }
+                TriggerEvent("OnBuildingComplete", new[] { Bot.Proxy.GetVar(self) });
             }
         }
 
         public virtual void OnCapture(Actor self, Actor captor, Player oldOwner, Player newOwner)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnCapture"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnCapture", new[] { Bot.Proxy.Get(self), Bot.Proxy.Get(captor), Bot.Proxy.Get(oldOwner), Bot.Proxy.Get(newOwner) }, typeof(bool));
-                }
+                TriggerEvent("OnCapture", new[] { Bot.Proxy.GetVar(self), Bot.Proxy.GetVar(captor), Bot.Proxy.GetVar(oldOwner), Bot.Proxy.GetVar(newOwner) });
             }
         }
 
         public virtual void Damaged(Actor self, AttackInfo e)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnDamaged"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnDamaged", new[] { Bot.Proxy.Get(self), Bot.Proxy.Get(e) }, typeof(bool));
-                }
+                TriggerEvent("OnDamaged", new[] { Bot.Proxy.GetVar(self), Bot.Proxy.GetVar(e) });
             }
         }
 
         public virtual void Idle(Actor self)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnIdle"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnIdle", new[] { Bot.Proxy.Get(self) }, typeof(bool));
-                }
+                TriggerEvent("OnIdle", new[] { Bot.Proxy.GetVar(self) });
             }
         }
 
         public virtual void UnitProduced(Actor self, Actor other, int2 exit)
         {
-            if (BrainObject != null && Bot != null)
+            if (BrainObject != null && Bot != null && self == Self)
             {
-                if (Bot.VM.HasFunction(BrainObject + ".OnUnitProduced"))
-                {
-                    Bot.VM.CallFunction(BrainObject + ".OnUnitProduced", new[] { Bot.Proxy.Get(self), Bot.Proxy.Get(other), Bot.Proxy.Get(exit) }, typeof(bool));
-                }
+                TriggerEvent("OnUnitProduced", new[] { Bot.Proxy.GetVar(self), Bot.Proxy.GetVar(other), Bot.Proxy.GetVar(exit) });
             }
         }
     }

@@ -90,6 +90,7 @@ namespace OpenRA.Mods.RA.AI
             {
                 VM.CallFunction("Events.OnActorDestroyed", new[] { Proxy.GetVar(actor) }, typeof(bool));
             }
+
             return true; // Needed?
         }
 
@@ -192,6 +193,14 @@ namespace OpenRA.Mods.RA.AI
             return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
                 .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type && a.Trait.CurrentItem() == null)
                 .Select(a => a.Trait).ToArray();
+        }
+
+        public ProductionQueue[] GetQueues()
+        {
+            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+                .Where(a => a.Actor.Owner == Player)
+                .Select(a => a.Trait)
+                .ToArray();
         }
 
         public ProductionQueue[] GetQueues(string type)
@@ -372,6 +381,11 @@ namespace OpenRA.Mods.RA.AI
                         if (!OnPlaceBuilding(queue, currentUnitBeingBuild))
                             Game.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
                     }
+                    else if (buildType == "Defense")
+                    {
+                        if (!OnPlaceBuilding(queue, currentUnitBeingBuild))
+                            Game.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
+                    }
                 }
             }
 
@@ -390,7 +404,7 @@ namespace OpenRA.Mods.RA.AI
                 // baseCenter = mcv.Location;
                 Game.IssueOrder(new Order("DeployTransform", mcv));
 
-                Debug("Deploying MCV.");
+                //Debug("Deploying MCV.");
             }
             else
                 Debug("Can't find the MCV.");
@@ -440,7 +454,8 @@ namespace OpenRA.Mods.RA.AI
             VM.RegisterObject(typeof(PlayerProxy)); /* Player */
             VM.RegisterObject(typeof(Int2Proxy)); /* int2 */
             VM.RegisterObject(typeof(ProductionItemProxy)); /* ProductionItem */
-            VM.RegisterObject(typeof(AttackInfoProxy));
+            VM.RegisterObject(typeof(AttackInfoProxy)); /* AttackInfo */
+            VM.RegisterObject(typeof(MiniYamlProxy)); /* MiniYaml */
 
             int s = VM.Run(Path.GetFullPath(MyInfo.Script));
 
@@ -460,26 +475,26 @@ namespace OpenRA.Mods.RA.AI
         {
             Actors["NewActors"].AddRange(self.World.Queries.OwnedBy[Player]
                                              .Where(
-                                                 a => !Actors["NewActors"].Contains(a) && !Actors["Actors"].Contains(a))
+                                                 a => a != Player.PlayerActor &&  !Actors["NewActors"].Contains(a) && !Actors["Actors"].Contains(a))
                                              .ToList());
 
             // Update known units (actors that can IMove)
             Actors["NewUnits"].AddRange(self.World.Queries.OwnedBy[Player]
                                             .Where(
-                                                a =>
+                                                a => a != Player.PlayerActor &&  
                                                 a.HasTrait<IMove>() && !Actors["Units"].Contains(a) &&
                                                 !Actors["NewUnits"].Contains(a)).ToList());
 
 
             Actors["NewBuildings"].AddRange(self.World.Queries.OwnedBy[Player]
                                             .Where(
-                                                a =>
-                                                !a.HasTrait<IMove>() && !Actors["Buildings"].Contains(a) &&
+                                                a => a != Player.PlayerActor &&   !a.HasTrait<IMove>() && 
+                                                a.HasTrait<Buildable>() && !Actors["Buildings"].Contains(a) &&
                                                 !Actors["NewBuildings"].Contains(a)).ToList());
 
 
             Actors["NewFactories"].AddRange(self.World.Queries.OwnedBy[Player]
-                                                .Where(a => (a.TraitOrDefault<RallyPoint>() != null
+                                                .Where(a => (a != Player.PlayerActor &&  a.TraitOrDefault<Production>() != null
                                                              && !Actors["Factories"].Contains(a) &&
                                                              !Actors["NewFactories"].Contains(a))).ToList());
 
@@ -514,6 +529,7 @@ namespace OpenRA.Mods.RA.AI
         private void GenerateBuildTicks()
         {
             BuildTicks.Add("Building".ToUpper(), 0);
+            BuildTicks.Add("Defense".ToUpper(), 0);
             BuildTicks.Add("Infantry".ToUpper(), 0);
             BuildTicks.Add("Plane".ToUpper(), 0);
             BuildTicks.Add("Vehicle".ToUpper(), 0);
@@ -577,6 +593,12 @@ namespace OpenRA.Mods.RA.AI
             while (BuildNext("Vehicle")) { }
             while (BuildNext("Plane")) { }
             while (BuildNext("Ship")) { }
+            while (BuildNext("Defense")) { }
+
+            if (VM.HasFunction("Events.OnUpdate"))
+            {
+                VM.CallFunction("Events.OnUpdate", new[] { Proxy.GetVar(self) }, typeof(bool));
+            }
         }
 
         private void OnStructureCreated(Actor actor)
@@ -628,5 +650,10 @@ namespace OpenRA.Mods.RA.AI
         }
 
         #endregion
+
+        public int GetMoney()
+        {
+            return Resources.Cash;
+        }
     }
 }

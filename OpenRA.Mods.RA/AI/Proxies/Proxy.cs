@@ -1,4 +1,5 @@
-﻿using OpenRA.Traits;
+﻿using OpenRA.FileFormats;
+using OpenRA.Traits;
 using SharpLua;
 
 namespace OpenRA.Mods.RA.AI.Proxies
@@ -32,7 +33,11 @@ namespace OpenRA.Mods.RA.AI.Proxies
             if (obj as AttackInfo != null)
                 return new AttackInfoProxy((AttackInfo)obj);
 
-            return null;
+
+            if (obj as MiniYaml != null)
+                return new MiniYamlProxy((MiniYaml)obj);
+
+            return obj;
         }
 
         public LuaUserData GetVar(object obj)

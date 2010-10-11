@@ -83,6 +83,7 @@
     <Compile Include="AI\Module\Engine.cs" />
     <Compile Include="AI\Proxies\ActorProxy.cs" />
     <Compile Include="AI\Proxies\AttackInfoProxy.cs" />
+    <Compile Include="AI\Proxies\MiniYamlProxy.cs" />
     <Compile Include="AI\Proxies\ProductionItemProxy.cs" />
     <Compile Include="AI\Proxies\PlayerProxy.cs" />
     <Compile Include="AI\Proxies\Int2Proxy.cs" />
@@ -296,15 +297,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\mods\ra\bots\luabot\botlib.lua">
-      <Link>AI\Scripts\Lib\botlib.lua</Link>
-    </None>
-    <None Include="..\mods\ra\bots\luabot\events.lua">
-      <Link>AI\Scripts\LuaBot\events.lua</Link>
-    </None>
-    <None Include="..\mods\ra\bots\luabot\main.lua">
-      <Link>AI\Scripts\LuaBot\main.lua</Link>
-    </None>
+    <Folder Include="AI\Scripts\gecko\" />
+    <Folder Include="AI\Scripts\Lib\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

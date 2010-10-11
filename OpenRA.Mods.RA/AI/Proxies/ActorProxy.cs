@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenRA.Traits;
 using SharpLua.Attributes;
 
 namespace OpenRA.Mods.RA.AI.Proxies
@@ -14,10 +15,40 @@ namespace OpenRA.Mods.RA.AI.Proxies
             Field = actor;
         }
 
+        [LuaFunction("getCost", RequireObject = false)]
+        public static int GetCost(string actorName)
+        {
+            if (!Rules.Info.ContainsKey(actorName))
+                return 0;
+
+            return Rules.Info[actorName].Traits.Contains<ValuedInfo>()
+                       ? Rules.Info[actorName].Traits.Get<ValuedInfo>().Cost
+                       : 0;
+        }
+
+        [LuaFunction("getCost", RequireObject = true)]
+        public static int GetCost(ActorProxy self)
+        {
+            var actorName = self.ToString();
+            if (!Rules.Info.ContainsKey(actorName))
+                return 0;
+
+            return Rules.Info[actorName].Traits.Contains<ValuedInfo>()
+                       ? Rules.Info[actorName].Traits.Get<ValuedInfo>().Cost
+                       : 0;
+
+        }
+
         [LuaFunction("getName", RequireObject = true)]
         public static string GetName(ActorProxy self)
         {
             return self.Field.Info.Name;
+        }
+
+        [LuaFunction("isBuilding", RequireObject = true)]
+        public static bool IsBuilding(ActorProxy self)
+        {
+            return self.Field.HasTrait<Buildable>();
         }
 
         [LuaFunction("getLocation", RequireObject = true)]

@@ -18,6 +18,11 @@ namespace OpenRA.Mods.RA.AI.Proxies
         {
             return self.Field.Item;
         }
+        [LuaFunction("getName", RequireObject = true)]
+        public static string GetName2(ProductionItemProxy self)
+        {
+            return GetName(self);
+        }
 
         public static implicit operator ProductionItem(ProductionItemProxy d)
         {
