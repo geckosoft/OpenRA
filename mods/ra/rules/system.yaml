@@ -103,7 +103,7 @@ Player:
 		InternalName: Hacky AI
 		InternalIdentifier: HACKY_AI
 	LuaBot:
-		InternalName: Lua Bot (1)
+		InternalName: Gecko
 		InternalIdenfitier: LUA_BOT_1
 		Script: mods/ra/bots/gecko/bot.lua
 

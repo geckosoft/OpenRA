@@ -4,6 +4,7 @@ using System.Linq;
 using OpenRA.Mods.RA.AI.Proxies;
 using OpenRA.Mods.RA.AI.Traits;
 using OpenRA.Traits;
+using SharpLua;
 using SharpLua.Attributes;
 
 namespace OpenRA.Mods.RA.AI.Module
@@ -91,9 +92,9 @@ namespace OpenRA.Mods.RA.AI.Module
             IEnumerable<Actor> myBuildings;
 
             if (optionalType == null)
-                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && a.Owner == Bot.Player && (a.HasTrait<BaseBuilding>() || a.HasTrait<Buildable>()));
+                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && a.Owner == Bot.Player && (a.Info.Name == "fact" || (a.HasTrait<BuildableInfo>() && a.TraitOrDefault<BuildableInfo>().Queue.Trim() == "Building")));
             else
-                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && Bot.GetBuildableType(a.Info) == optionalType && a.Owner == Bot.Player && (a.HasTrait<BaseBuilding>() || a.HasTrait<Buildable>()));
+                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && Bot.GetBuildableType(a.Info) == optionalType && a.Owner == Bot.Player && (a.Info.Name == "fact" || (a.HasTrait<BuildableInfo>() && a.TraitOrDefault<BuildableInfo>().Queue.Trim() == "Building")));
 
             var actors = myBuildings.ToArray();
 
@@ -159,9 +160,9 @@ namespace OpenRA.Mods.RA.AI.Module
             IEnumerable<Actor> myBuildings;
 
             if (optionalType == null)
-                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && a.Owner == Bot.Player && (a.HasTrait<BaseBuilding>() || a.HasTrait<Buildable>()));
+                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && a.Owner == Bot.Player && (a.Info.Name == "fact" || (a.HasTrait<BuildableInfo>() && a.TraitOrDefault<BuildableInfo>().Queue.Trim() == "Building")));
             else
-                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && Bot.GetBuildableType(a.Info) == optionalType && a.Owner == Bot.Player && (a.HasTrait<BaseBuilding>() || a.HasTrait<Buildable>()));
+                myBuildings = Bot.Player.World.Actors.Where(a => a != Bot.Player.PlayerActor && Bot.GetBuildableType(a.Info) == optionalType && a.Owner == Bot.Player && (a.Info.Name == "fact" || (a.HasTrait<BuildableInfo>() && a.TraitOrDefault<BuildableInfo>().Queue.Trim() == "Building")));
 
             var actors = myBuildings.ToArray();
 
@@ -249,6 +250,24 @@ namespace OpenRA.Mods.RA.AI.Module
             return Bot.QueueProduction(actor);
         }
 
+        [LuaFunction("getLuaPointer")]
+        public int GetLuaPointer(IntPtr L)
+        {
+            return Bot.VM.L.ToInt32();
+        }
+
+
+        [LuaFunction("endCoroutine")]
+        public void EndCoRoutine(IntPtr L)
+        {
+            LuaVM.RemoveInstance(L);
+        }
+
+        [LuaFunction("beginCoroutine")]
+        public void BeginCoRoutine(IntPtr L)
+        {
+            LuaVM.LinkInstance(Bot.VM.L, L);
+        }
 
         [LuaFunction("countPendingQueue")]
         public int GetPendingQueue(string buildType)

@@ -88,7 +88,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnActorDestroyed"))
             {
-                VM.CallFunction("Events.OnActorDestroyed", new[] { Proxy.GetVar(actor) }, typeof(bool));
+                CallFunction("Events.OnActorDestroyed", new[] { Proxy.GetVar(actor) }, typeof(bool));
             }
 
             return true; // Needed?
@@ -139,7 +139,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnFirstRun"))
             {
-                VM.CallFunction("Events.OnFirstRun", new[] { Proxy.GetVar(self) }, typeof(bool));
+                CallFunction("Events.OnFirstRun", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
         }
 
@@ -147,7 +147,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnRun"))
             {
-                VM.CallFunction("Events.OnRun", new[] { Proxy.GetVar(self) }, typeof(bool));
+                CallFunction("Events.OnRun", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
         }
 
@@ -155,8 +155,25 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnCheck"))
             {
-                VM.CallFunction("Events.OnCheck", new[] { Proxy.GetVar(self) }, typeof(bool));
+                CallFunction("Events.OnCheck", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
+        }
+
+        protected object CallFunction(string func, object[] args, Type returnType)
+        {
+            try
+            {
+                if (VM.HasFunction(func))
+                {
+                    return VM.CallFunction(func, args, returnType);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug("Lua error: " + ex.Message);
+            }
+
+            return null;
         }
 
         #endregion
@@ -255,7 +272,7 @@ namespace OpenRA.Mods.RA.AI
 
             if (VM.HasFunction("Events.OnBuildingFinished"))
             {
-                if (!(bool)VM.CallFunction("Events.OnBuildingFinished", new[] { Proxy.GetVar(currentBuilding) }, typeof(bool)))
+                if (!(bool)CallFunction("Events.OnBuildingFinished", new[] { Proxy.GetVar(currentBuilding) }, typeof(bool)))
                     return false;
             }else
             {
@@ -428,7 +445,7 @@ namespace OpenRA.Mods.RA.AI
 
                 if (VM.HasFunction("Events.OnActivate"))
                 {
-                    VM.CallFunction("Events.OnActivate", new[] { Proxy.GetVar(player) }, typeof(bool));
+                    CallFunction("Events.OnActivate", new[] { Proxy.GetVar(player) }, typeof(bool));
                 }
             }else
             {
@@ -500,7 +517,7 @@ namespace OpenRA.Mods.RA.AI
 
             if (VM.HasFunction("Events.OnPreRun"))
             {
-                VM.CallFunction("Events.OnPreRun", new[] { Proxy.GetVar(self) }, typeof(bool));
+                CallFunction("Events.OnPreRun", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
         }
 
@@ -597,7 +614,7 @@ namespace OpenRA.Mods.RA.AI
 
             if (VM.HasFunction("Events.OnUpdate"))
             {
-                VM.CallFunction("Events.OnUpdate", new[] { Proxy.GetVar(self) }, typeof(bool));
+                CallFunction("Events.OnUpdate", new[] { Proxy.GetVar(self) }, typeof(bool));
             }
         }
 
@@ -605,7 +622,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnStructureCreated"))
             {
-                VM.CallFunction("Events.OnStructureCreated", new[] { Proxy.GetVar(actor) }, typeof(bool));
+                CallFunction("Events.OnStructureCreated", new[] { Proxy.GetVar(actor) }, typeof(bool));
             }
         }
 
@@ -625,7 +642,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnActorCreated"))
             {
-                VM.CallFunction("Events.OnActorCreated", new[] { Proxy.GetVar(actor) }, typeof(bool));
+                CallFunction("Events.OnActorCreated", new[] { Proxy.GetVar(actor) }, typeof(bool));
             }
         }
 
@@ -637,7 +654,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnUnitCreated"))
             {
-                VM.CallFunction("Events.OnUnitCreated", new[] { Proxy.GetVar(unit) }, typeof(bool));
+                CallFunction("Events.OnUnitCreated", new[] { Proxy.GetVar(unit) }, typeof(bool));
             }
         }
 
@@ -645,7 +662,7 @@ namespace OpenRA.Mods.RA.AI
         {
             if (VM.HasFunction("Events.OnFactoryCreated"))
             {
-                VM.CallFunction("Events.OnFactoryCreated", new[] { Proxy.GetVar(factory) }, typeof(bool));
+                CallFunction("Events.OnFactoryCreated", new[] { Proxy.GetVar(factory) }, typeof(bool));
             }
         }
 

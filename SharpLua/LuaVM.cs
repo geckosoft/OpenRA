@@ -363,25 +363,53 @@ namespace SharpLua
             }
         }
 
-        private static Dictionary<IntPtr, LuaVM> Instances = new Dictionary<IntPtr, LuaVM>();
+        private static Dictionary<Int32, LuaVM> Instances = new Dictionary<Int32, LuaVM>();
 
         public void Open()
         {
             lock (Instances)
             {
                 L = Lua.luaL_newstate();
-                if (Instances.ContainsKey(L))
-                    Instances.Remove(L);
+                if (Instances.ContainsKey(L.ToInt32()))
+                    Instances.Remove(L.ToInt32());
 
                 CallbackReferences.Clear();
 
                 UserData = new LuaUserDataManager(this);
 
-                Instances.Add(L, this);
+                Instances.Add(L.ToInt32(), this);
             }
         }
 
         public static LuaVM GetInstance(IntPtr L)
+        {
+            lock (Instances)
+            {
+                if (!Instances.ContainsKey(L.ToInt32()))
+                    return null;
+                return Instances[L.ToInt32()];
+            }
+        }
+
+
+
+        public static LuaVM LinkInstance(IntPtr L, IntPtr newL)
+        {
+            lock (Instances)
+            {
+                if (!Instances.ContainsKey(L.ToInt32()))
+                    return null;
+
+                if (Instances.ContainsKey(newL.ToInt32()))
+                    return null;
+
+                Instances.Add(newL.ToInt32(), Instances[L.ToInt32()]); // Link them together
+
+                return Instances[L.ToInt32()];
+            }
+        }
+
+        public static LuaVM GetInstance(int L)
         {
             lock (Instances)
             {
@@ -406,11 +434,16 @@ namespace SharpLua
                 Lua.lua_close(L);
                 UserData.Clear();
                 CallbackReferences.Clear();
-                if (Instances.ContainsKey(L))
-                    Instances.Remove(L);
+                if (Instances.ContainsKey(L.ToInt32()))
+                    Instances.Remove(L.ToInt32());
             }
         }
 
+        public static void RemoveInstance(IntPtr L)
+        {
+            if (Instances.ContainsKey(L.ToInt32()))
+                Instances.Remove(L.ToInt32());
+        }
         protected static int echo(IntPtr L)
         {
             int argc = Lua.lua_gettop(L);

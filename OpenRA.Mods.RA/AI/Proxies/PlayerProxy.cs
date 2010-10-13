@@ -1,4 +1,5 @@
-﻿using SharpLua.Attributes;
+﻿using System.Linq;
+using SharpLua.Attributes;
 
 namespace OpenRA.Mods.RA.AI.Proxies
 {
@@ -19,6 +20,12 @@ namespace OpenRA.Mods.RA.AI.Proxies
             return self.Field.PlayerName;
         }
 
+        [LuaFunction("getId", RequireObject = true)]
+        public static int GetId(PlayerProxy self)
+        {
+            return self.Field.ClientIndex;
+        }
+
 
         [LuaFunction("getActor", RequireObject = true)]
         public static Actor GetActor(PlayerProxy self)
@@ -26,6 +33,14 @@ namespace OpenRA.Mods.RA.AI.Proxies
             return self.Field.PlayerActor;
         }
 
+        [LuaFunction("countActors", RequireObject = true)]
+        public static int CountActors(PlayerProxy self, string actorName)
+        {
+            if (actorName == null)
+                return self.Field.World.Queries.OwnedBy[self.Field].ToArray().Length;
+
+            return self.Field.World.Queries.OwnedBy[self.Field].Where(a => a.Info.Name == actorName).ToArray().Length;
+        }
 
         [LuaFunction("order", RequireObject = true)]
         public static void Order(PlayerProxy self, string command, object arg1, object arg2)

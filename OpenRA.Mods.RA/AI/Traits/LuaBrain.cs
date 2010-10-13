@@ -65,16 +65,19 @@ namespace OpenRA.Mods.RA.AI.Traits
 
         public void TriggerEvent(string func, object[] args)
         {
-            string fullPath = BrainObject + "." + func;
-
-            if (Bot.VM.HasFunction(fullPath))
+            if (BrainObject != null && Bot != null)
             {
-                var newArgs = new List<Object>();
-                newArgs.Add(BrainObject);
-                newArgs.Add(func);
-                newArgs.AddRange(args);
+                string fullPath = BrainObject + "." + func;
 
-                Bot.VM.CallFunction("botlib.callObject", newArgs.ToArray(), typeof (bool));
+                if (Bot.VM.HasFunction(fullPath))
+                {
+                    var newArgs = new List<Object>();
+                    newArgs.Add(BrainObject);
+                    newArgs.Add(func);
+                    newArgs.AddRange(args);
+
+                    Bot.VM.CallFunction("botlib.callObject", newArgs.ToArray(), typeof (bool));
+                }
             }
         }
 

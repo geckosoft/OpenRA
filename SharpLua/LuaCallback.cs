@@ -56,99 +56,125 @@ namespace SharpLua
         protected int OnCall(IntPtr L)
         {
             var VM = LuaVM.GetInstance(L);
+            IntPtr realL = L;
+            if (VM != null)
+                realL = VM.L;
 
-            int argc = Lua.lua_gettop(L);
-            var pars = Method.GetParameters();
-
-            if (argc > pars.Length)
-                throw new Exception("Invalid parameter count. Got " + argc + " expected max " + pars.Length);
-
-            var callingParams = new List<object>();
-
-            int n = 1;
-
-            foreach (var par in pars)
+            try
             {
+                if (VM != null)
+                    VM.L = L; /* work around coroutines */   
+                int argc = Lua.lua_gettop(L);
+                var pars = Method.GetParameters();
 
-                // Special case - if it expects a LuaVM, hack in the param ;)
-                // Cannot be specified from lua !
-                if (par.ParameterType == typeof(LuaVM))
+                if (argc > pars.Length)
+                    throw new Exception("Invalid parameter count. Got " + argc + " expected max " + pars.Length);
+
+                var callingParams = new List<object>();
+
+                int n = 1;
+
+                foreach (var par in pars)
                 {
-                    callingParams.Add(VM);
-                    continue;
+
+                    // Special case - if it expects a LuaVM, hack in the param ;)
+                    // Cannot be specified from lua !
+                    if (par.ParameterType == typeof (LuaVM))
+                    {
+                        callingParams.Add(VM);
+                        continue;
+                    }
+
+                    if (par.ParameterType == typeof (IntPtr)) // Assume this function wants the Lua pointer
+                    {
+                        callingParams.Add(L);
+                        continue;
+                    }
+
+
+                    if (n == argc + 1)
+                    {
+                        // Skip additional ones
+                        callingParams.Add(null);
+                        continue;
+                    }
+                    if (Lua.lua_isnil(L, n))
+                    {
+                        callingParams.Add(null);
+                    }
+                    else if (par.ParameterType == typeof (string))
+                    {
+                        callingParams.Add(Lua.lua_tostring(L, n));
+                    }
+                    else if (par.ParameterType == typeof (int))
+                    {
+                        callingParams.Add(Lua.lua_tointeger(L, n));
+                    }
+                    else if (par.ParameterType == typeof (double))
+                    {
+                        callingParams.Add(Lua.lua_tonumber(L, n));
+                    }
+                    else if (par.ParameterType == typeof (float))
+                    {
+                        callingParams.Add((float) Lua.lua_tonumber(L, n));
+                    }
+                    else if (par.ParameterType == typeof (bool))
+                    {
+                        callingParams.Add((float) Lua.lua_toboolean(L, n));
+                    }
+                    else if (par.ParameterType == typeof (LuaUserData))
+                    {
+                        callingParams.Add(VM.UserData.GetEntry(n));
+                    }
+                    else if (par.ParameterType is object) /* final chance */
+                    {
+                        callingParams.Add(VM.UserData.GetObject(n));
+                    }
+                    else
+                    {
+                        callingParams.Add(Lua.lua_tostring(L, n)); // Shall return null
+                    }
+
+                    n++;
                 }
 
-                if (n == argc + 1)
+                var result = Method.Invoke(Instance, callingParams.ToArray());
+                int resCount = 0;
+
+                if (result != null && result.GetType().IsArray)
                 {
-                    // Skip additional ones
-                    callingParams.Add(null);
-                    continue;
-                }
-                if (Lua.lua_isnil(L, n))
-                {
-                    callingParams.Add(null);
-                }else if (par.ParameterType == typeof(string))
-                {
-                    callingParams.Add(Lua.lua_tostring(L, n));
-                }
-                else if (par.ParameterType == typeof(int))
-                {
-                    callingParams.Add(Lua.lua_tointeger(L, n));
-                }
-                else if (par.ParameterType == typeof(double))
-                {
-                    callingParams.Add(Lua.lua_tonumber(L, n));
-                }
-                else if (par.ParameterType == typeof(float))
-                {
-                    callingParams.Add((float)Lua.lua_tonumber(L, n));
-                }
-                else if (par.ParameterType == typeof(bool))
-                {
-                    callingParams.Add((float)Lua.lua_toboolean(L, n));
-                }
-                else if (par.ParameterType == typeof(LuaUserData))
-                {
-                    callingParams.Add(VM.UserData.GetEntry(n));
-                }
-                else if (par.ParameterType is object) /* final chance */
-                {
-                    callingParams.Add(VM.UserData.GetObject(n));
+                    var a = (Array) result;
+                    /* push a table */
+                    Lua.lua_newtable(L);
+
+                    for (int i = 0; i < a.GetLength(0); i++)
+                    {
+                        var r = a.GetValue(i);
+                        Lua.lua_pushinteger(L, i + 1); /* add the index */
+                        PushResult(VM, r); /* add the value */
+                        Lua.lua_settable(L, -3);
+                    }
+                    resCount++;
                 }
                 else
                 {
-                    callingParams.Add(Lua.lua_tostring(L, n)); // Shall return null
+                    PushResult(VM, result);
+                    resCount++;
                 }
 
-                n++;
-            }
+                if (VM != null)
+                    VM.L = realL;
 
-            var result = Method.Invoke(Instance, callingParams.ToArray());
-            int resCount = 0;
-
-            if (result != null && result.GetType().IsArray)
+                return resCount; // number of return values
+                /* @todo Add support for custom userdata (already possible now - just make sure to implement ILuaObjectProxy so we know what 'type' it is! )*/
+            }catch
             {
-                var a = (Array) result;
-                /* push a table */
-                Lua.lua_newtable(L);
 
-                for (int i = 0; i < a.GetLength(0); i++)
-                {
-                    var r = a.GetValue(i);
-                    Lua.lua_pushinteger(L, i+1); /* add the index */
-                    PushResult(VM, r); /* add the value */
-                    Lua.lua_settable(L, -3);
-                }
-                resCount++;
-            }else
-            {
-                PushResult(VM, result);
-                resCount++;
             }
+            if (VM != null)
+                VM.L = realL;
 
-            /* @todo Add support for custom userdata (already possible now - just make sure to implement ILuaObjectProxy so we know what 'type' it is! )*/
-
-            return resCount; // number of return values
+            return 0;
         }
 
         protected void PushResult(LuaVM L, object result)
