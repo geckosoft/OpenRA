@@ -89,6 +89,7 @@
     <Compile Include="AI\Proxies\Int2Proxy.cs" />
     <Compile Include="AI\Proxies\IProxy.cs" />
     <Compile Include="AI\Proxies\Proxy.cs" />
+    <Compile Include="AI\Traits\LuaTaskForce.cs" />
     <Compile Include="AI\Traits\LuaBrain.cs" />
     <Compile Include="AttackBase.cs" />
     <Compile Include="AttackMove.cs" />

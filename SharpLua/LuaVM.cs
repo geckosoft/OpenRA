@@ -47,7 +47,8 @@ namespace SharpLua
             {
                 var entry = vm.UserData.GetEntry(1);
 
-                vm.UserData.Remove(entry.Index);
+                if (entry != null) // can be null in coroutines - is this correct usage??
+                    vm.UserData.Remove(entry.Index);
             }
 
             return 0;

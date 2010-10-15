@@ -26,6 +26,12 @@ namespace OpenRA.Mods.RA.AI.Proxies
             Field = new int2(x, y);
         }
 
+        [LuaFunction("isValid", RequireObject = true)]
+        public static bool Valid(Int2Proxy self)
+        {
+            return self.Field != null;
+        }
+
         [LuaFunction("new", RequireObject = false)]
         public static LuaUserData CreateObject(LuaVM vm, int x, int y)
         {

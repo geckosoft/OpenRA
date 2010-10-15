@@ -58,6 +58,11 @@ namespace OpenRA.Mods.RA.AI.Module
             return Bot.GetMoney();
         }
 
+        [LuaFunction("getStartLocation")]
+        public Int2Proxy GetStartLocation(PlayerProxy player)
+        {
+            return Bot.GetStartLocation(player);
+        }
 
         [LuaFunction("getPowerAvailable")]
         public int GetPowerAvailable()
@@ -284,6 +289,17 @@ namespace OpenRA.Mods.RA.AI.Module
                 return false;
             b.Assign(Bot, "Brains." + brain);
             return true;
+        }
+
+        [LuaFunction("getBrain")]
+        public string GetBrain(ActorProxy actor)
+        {
+            var b = actor.Get().TraitOrDefault<LuaBrain>();
+
+            if (b == null)
+                return "";
+
+            return b.BrainObject;
         }
     }
 }

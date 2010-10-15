@@ -50,6 +50,8 @@ namespace OpenRA.Mods.RA.AI.Traits
         public LuaBot Bot = null;
 
         public string BrainObject = null;
+        public string BrainState = ""; // Actually a 'tag' field :P
+        public bool IsUsed = false; // For the lua bot. False means its available for 'use' by other task forces!
 
         public void Assign(LuaBot bot,  string brainObject)
         {

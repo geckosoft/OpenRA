@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OpenRA.GameRules;
 using OpenRA.Mods.RA.AI.Module;
 using OpenRA.Mods.RA.AI.Proxies;
 using OpenRA.Traits;
 using SharpLua;
+using XRandom = OpenRA.Thirdparty.Random;
 
 namespace OpenRA.Mods.RA.AI
 {
@@ -16,7 +18,7 @@ namespace OpenRA.Mods.RA.AI
 
         public bool Enabled;
         public Player Player;
-        public Random Random = new Random();
+        public XRandom Random = new XRandom();
         protected PowerManager Power;
         protected ulong Ticks;
         protected ulong TicksPerCheck = 60;
@@ -48,6 +50,26 @@ namespace OpenRA.Mods.RA.AI
             {
 
             }
+        }
+
+        public bool TryToMove(Actor a, int2 desiredMoveTarget)
+        {
+            if (!a.HasTrait<IMove>())
+                return false;
+
+            int2 xy;
+            int loopCount = 0; //avoid infinite loops.
+            int range = 2;
+            do
+            {
+                //loop until we find a valid move location
+                xy = new int2(desiredMoveTarget.X + Random.Next(-range, range), desiredMoveTarget.Y + Random.Next(-range, range));
+                loopCount++;
+                range = Math.Max(range, loopCount / 2);
+                if (loopCount > 100) return false;
+            } while (!a.Trait<IMove>().CanEnterCell(xy) && xy != a.Location);
+            Game.IssueOrder(new Order("Move", a, xy));
+            return true;
         }
 
         public LuaBot(ActorInitializer init, IBotInfo info)
@@ -242,12 +264,13 @@ namespace OpenRA.Mods.RA.AI
                 return null;
 
             var bi = Rules.Info[item.Item].Traits.Get<BuildingInfo>();
+            // Footprint.AdjustForBuildingSize( BuildingInfo )
 
             for (int k = 0; k < maxBaseDistance; k++)
                 foreach (int2 t in Game.world.FindTilesInCircle((int2)baseCenter, k))
-                    if (Game.world.CanPlaceBuilding(item.Item, bi, t, null))
-                        if (Game.world.IsCloseEnoughToBase(Player, item.Item, bi, t))
-                            return t;
+                    if (Game.world.CanPlaceBuilding(item.Item, bi, t - Footprint.AdjustForBuildingSize(bi), null))
+                        if (Game.world.IsCloseEnoughToBase(Player, item.Item, bi, t - Footprint.AdjustForBuildingSize(bi)))
+                            return t - Footprint.AdjustForBuildingSize(bi);
 
             return null; // i don't know where to put it.
         }
@@ -456,6 +479,14 @@ namespace OpenRA.Mods.RA.AI
 
         }
 
+        public int2? GetStartLocation(Player player)
+        {
+            var possibleTargets = Player.World.WorldActor.Trait<MPStartLocations>().Start
+                    .Where(kv => kv.Key == player)
+                    .Select(kv => kv.Value);
+
+            return possibleTargets.Any() ? possibleTargets.Random(this.Random) : (int2?)null;
+        }
         protected virtual bool LoadAI(object source)
         {
             VM = new LuaVM();
@@ -467,7 +498,7 @@ namespace OpenRA.Mods.RA.AI
             VM.RegisterObject(new ModEngine(this));
 
             /* Register lua object proxies */
-            VM.RegisterObject(typeof(ActorProxy)); /* Actor */
+            VM.RegisterObject(new ActorProxy(this)); /* Actor */
             VM.RegisterObject(typeof(PlayerProxy)); /* Player */
             VM.RegisterObject(typeof(Int2Proxy)); /* int2 */
             VM.RegisterObject(typeof(ProductionItemProxy)); /* ProductionItem */

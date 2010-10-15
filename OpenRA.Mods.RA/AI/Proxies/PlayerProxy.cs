@@ -23,7 +23,7 @@ namespace OpenRA.Mods.RA.AI.Proxies
         [LuaFunction("getId", RequireObject = true)]
         public static int GetId(PlayerProxy self)
         {
-            return self.Field.ClientIndex;
+            return self.Field.Index;
         }
 
 
@@ -40,6 +40,25 @@ namespace OpenRA.Mods.RA.AI.Proxies
                 return self.Field.World.Queries.OwnedBy[self.Field].ToArray().Length;
 
             return self.Field.World.Queries.OwnedBy[self.Field].Where(a => a.Info.Name == actorName).ToArray().Length;
+        }
+
+        [LuaFunction("countDefenses", RequireObject = true)]
+        public static int CountDefenses(PlayerProxy self)
+        {
+
+            var p1 = self.Field.World.Queries.OwnedBy[self.Field];
+            var p3 = p1.Where(a => a.Info != null && a.Info.Traits.GetOrDefault<BuildableInfo>() != null && a.Info.Traits.GetOrDefault<BuildableInfo>().Queue == "Defense");
+
+            return p3.ToArray().Length;
+        }
+
+        [LuaFunction("countBuildings", RequireObject = true)]
+        public static int CountBuildings(PlayerProxy self)
+        {
+            var p1 = self.Field.World.Queries.OwnedBy[self.Field];
+            var p3 = p1.Where(a =>  a.Info != null &&  a.Info.Traits.GetOrDefault<BuildableInfo>() != null && a.Info.Traits.GetOrDefault<BuildableInfo>() .Queue == "Building");
+
+            return p3.ToArray().Length;
         }
 
         [LuaFunction("order", RequireObject = true)]
