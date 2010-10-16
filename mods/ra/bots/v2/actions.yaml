@@ -1,0 +1,78 @@
+CORE_BUILD_POWER:
+	Name: Applies the Settings.PowerSurplus option
+	Max: 1
+	Script1: DEBUG
+		Making sure that we have sufficient power
+	Script2: CORE_BUILD_POWER		
+CORE_EXPAND_BASE:
+	Name: Build (extends) the base
+	Max: 1
+	Script1: CORE_EXPAND_BASE				
+BUILD_DEFENSES_1: 
+	Name: An enemy placed their MCV
+	TaskForce: 1ENGINEER
+	Script1: DEBUG
+		Someone placed a mcv! Building an engineer to take over their base!
+	Script2: BUILD_TASK_FORCE
+	Script3: AssignBrain
+		AutoCapture
+	Script4: AttackPlayer	
+GAME_STARTED:
+	Name: Say 'hi'
+	Script1: DEBUG
+		Hello everyone. Get ready to get pwnd!
+	Script2: DEPLOY_MCV			
+#SAY_DEPLOYED:
+#	Name:
+#	Script1: DEBUG
+#		Someone deployed their emmceeeveee! :D
+		
+DEPLOY_MCV:
+	Name: Deploy our MCV
+	Script1: DEBUG
+		Deploying MCV
+	Script2: DEPLOY_MCV	
+	
+S_DEFEND_AGAINST_ENGINEERS:
+	Name: (Soviet) Build an army to protect our base against Engineers
+	TaskForce: S_DEF_ENGINEERS
+	Max: 1
+	Script1: DEBUG
+		Someone built engineers - Defend our ore refineries!
+	Script2: BUILD_TASKFORCE
+	Script3: ASSIGN_BRAIN
+		DefendBase
+#	Script4: ATTACK_PLAYER	
+	
+A_DEFEND_AGAINST_ENGINEERS:
+	Name: (Allies) Build an army to protect our base against Engineers
+	TaskForce: A_DEF_ENGINEERS
+	Max: 1
+	Script1: DEBUG
+		Someone built engineers - Defend our ore refineries!
+	Script2: BUILD_TASKFORCE
+	Script3: ASSIGN_BRAIN
+		DefendBase
+#	Script4: ATTACK_PLAYER
+	
+A_INF_ATTACK_1:
+	Name: (Allies) Perform an infantry assault on target player
+	TaskForce: A_INF_ATTACK_1
+	Max: 1
+	Script1: DEBUG
+		Preparing an infantry assault
+	Script2: BUILD_TASKFORCE
+	Script3: ATTACK_PLAYER
+	
+S_INF_ATTACK_1:
+	Name: (Soviet) Perform an infantry assault on target player
+	TaskForce: S_INF_ATTACK_1
+	Max: 1
+	Script1: DEBUG
+		Preparing an infantry assault
+	Script2: BUILD_TASKFORCE
+	Script3: ATTACK_PLAYER
+	
+	
+	
+	

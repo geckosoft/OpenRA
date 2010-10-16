@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>actions.lua</filename>
+  </file>
+  <file>
+    <filename>bot.lua</filename>
+  </file>
+  <file>
+    <filename>botlib.lua</filename>
+  </file>
+  <file>
+    <filename>brains.lua</filename>
+  </file>
+  <file>
+    <filename>conditions.lua</filename>
+  </file>
+  <file>
+    <filename>events.lua</filename>
+  </file>
+  <file>
+    <filename>scripts.lua</filename>
+  </file>
+  <file>
+    <filename>taskforces.lua</filename>
+  </file>
+  <file>
+    <filename>triggerconditions.lua</filename>
+  </file>
+  <file>
+    <filename>triggers.lua</filename>
+  </file>
+</project>

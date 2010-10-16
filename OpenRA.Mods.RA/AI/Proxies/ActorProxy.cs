@@ -101,6 +101,15 @@ namespace OpenRA.Mods.RA.AI.Proxies
             return Bot.TryToMove(self, target);
         }
 
+
+        [LuaFunction("attackMove", RequireObject = true)]
+        public bool AttackMove(ActorProxy self, Int2Proxy target)
+        {
+            if (target == null)
+                return false;
+            return Bot.TryToAttackMove(self, target);
+        }
+
         [LuaFunction("isBuilding", RequireObject = true)]
         public static bool IsBuilding(ActorProxy self)
         {
@@ -200,7 +209,7 @@ namespace OpenRA.Mods.RA.AI.Proxies
         }
 
         [LuaFunction("order", RequireObject = true)]
-        public static void Order(ActorProxy self, string command, object arg1, object arg2)
+        public void Order(ActorProxy self, string command, object arg1, object arg2)
         {
             Order order = null;
 
@@ -225,8 +234,9 @@ namespace OpenRA.Mods.RA.AI.Proxies
                 return;
             }
 
-            Game.IssueOrder(order);
+            Bot.World.IssueOrder(order);
         }
+
         public static implicit operator Actor(ActorProxy d)
         {
             return d.Field;

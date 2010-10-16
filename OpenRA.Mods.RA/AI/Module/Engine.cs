@@ -22,7 +22,7 @@ namespace OpenRA.Mods.RA.AI.Module
         public void Exception(string text)
         {
             text = text;
-            //throw new Exception(text);
+            throw new Exception(text);
 
             return;
         }
@@ -80,6 +80,12 @@ namespace OpenRA.Mods.RA.AI.Module
         public int GetTotalPower()
         {
             return Bot.GetPowerProvided();
+        }
+
+        [LuaFunction("getRace")]
+        public string GetRace()
+        {
+            return Bot.Player.Country.Race.ToLower();
         }
 
         [LuaFunction("getProductionType")]
@@ -201,7 +207,7 @@ namespace OpenRA.Mods.RA.AI.Module
 
             Bot.Debug("Placing {0}".F(((ProductionItem)currentBuilding).Item));
 
-            Game.IssueOrder(new Order("PlaceBuilding", Bot.Player.PlayerActor, (int2)location,
+            Bot.World.IssueOrder(new Order("PlaceBuilding", Bot.Player.PlayerActor, (int2)location,
                                       ((ProductionItem)currentBuilding).Item));
             return true;
         }

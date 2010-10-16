@@ -51,6 +51,25 @@ namespace OpenRA.Mods.RA.AI
 
             }
         }
+        public bool TryToAttackMove(Actor a, int2 desiredMoveTarget)
+        {
+            if (!a.HasTrait<IMove>())
+                return false;
+
+            int2 xy;
+            int loopCount = 0; //avoid infinite loops.
+            int range = 2;
+            do
+            {
+                //loop until we find a valid move location
+                xy = new int2(desiredMoveTarget.X + Random.Next(-range, range), desiredMoveTarget.Y + Random.Next(-range, range));
+                loopCount++;
+                range = Math.Max(range, loopCount / 2);
+                if (loopCount > 100) return false;
+            } while (!a.Trait<IMove>().CanEnterCell(xy) && xy != a.Location);
+            World.IssueOrder(new Order("AttackMove", a, xy));
+            return true;
+        }
 
         public bool TryToMove(Actor a, int2 desiredMoveTarget)
         {
@@ -68,7 +87,7 @@ namespace OpenRA.Mods.RA.AI
                 range = Math.Max(range, loopCount / 2);
                 if (loopCount > 100) return false;
             } while (!a.Trait<IMove>().CanEnterCell(xy) && xy != a.Location);
-            Game.IssueOrder(new Order("Move", a, xy));
+            World.IssueOrder(new Order("Move", a, xy));
             return true;
         }
 
@@ -222,21 +241,21 @@ namespace OpenRA.Mods.RA.AI
 
         public ProductionQueue GetAvailableQueue(string type)
         {
-            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+            return World.Queries.WithTraitMultiple<ProductionQueue>()
                 .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type && a.Trait.CurrentItem() == null)
                 .Select(a => a.Trait).FirstOrDefault();
         }
 
         public ProductionQueue[] GetAvailableQueues(string type)
         {
-            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+            return World.Queries.WithTraitMultiple<ProductionQueue>()
                 .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type && a.Trait.CurrentItem() == null)
                 .Select(a => a.Trait).ToArray();
         }
 
         public ProductionQueue[] GetQueues()
         {
-            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+            return World.Queries.WithTraitMultiple<ProductionQueue>()
                 .Where(a => a.Actor.Owner == Player)
                 .Select(a => a.Trait)
                 .ToArray();
@@ -244,7 +263,7 @@ namespace OpenRA.Mods.RA.AI
 
         public ProductionQueue[] GetQueues(string type)
         {
-            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+            return World.Queries.WithTraitMultiple<ProductionQueue>()
                 .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type)
                 .Select(a => a.Trait)
                 .ToArray();
@@ -252,7 +271,7 @@ namespace OpenRA.Mods.RA.AI
 
         public ProductionQueue GetQueue(string type)
         {
-            return Game.world.Queries.WithTraitMultiple<ProductionQueue>()
+            return World.Queries.WithTraitMultiple<ProductionQueue>()
                 .Where(a => a.Actor.Owner == Player && a.Trait.Info.Type == type)
                 .Select(a => a.Trait)
                 .FirstOrDefault();
@@ -267,9 +286,9 @@ namespace OpenRA.Mods.RA.AI
             // Footprint.AdjustForBuildingSize( BuildingInfo )
 
             for (int k = 0; k < maxBaseDistance; k++)
-                foreach (int2 t in Game.world.FindTilesInCircle((int2)baseCenter, k))
-                    if (Game.world.CanPlaceBuilding(item.Item, bi, t - Footprint.AdjustForBuildingSize(bi), null))
-                        if (Game.world.IsCloseEnoughToBase(Player, item.Item, bi, t - Footprint.AdjustForBuildingSize(bi)))
+                foreach (int2 t in World.FindTilesInCircle((int2)baseCenter, k))
+                    if (World.CanPlaceBuilding(item.Item, bi, t - Footprint.AdjustForBuildingSize(bi), null))
+                        if (World.IsCloseEnoughToBase(Player, item.Item, bi, t - Footprint.AdjustForBuildingSize(bi)))
                             return t - Footprint.AdjustForBuildingSize(bi);
 
             return null; // i don't know where to put it.
@@ -318,7 +337,7 @@ namespace OpenRA.Mods.RA.AI
 
             Debug("Placing {0}".F(currentBuilding.Item));
 
-            Game.IssueOrder(new Order("PlaceBuilding", Player.PlayerActor, location.Value,
+            World.IssueOrder(new Order("PlaceBuilding", Player.PlayerActor, location.Value,
                                       currentBuilding.Item));
             return true;
         }
@@ -375,7 +394,7 @@ namespace OpenRA.Mods.RA.AI
                         Debug("Building unit {0}".F(item.ActorName));
 
                         // Issue the build order
-                        Game.IssueOrder(Order.StartProduction(queue.self, item.ActorName, 1));
+                        World.IssueOrder(Order.StartProduction(queue.self, item.ActorName, 1));
                         buildSomething = true;
                     }
                 }
@@ -405,12 +424,12 @@ namespace OpenRA.Mods.RA.AI
                     Debug("Building unit {0}".F(item.ActorName));
 
                     // Issue the build order
-                    Game.IssueOrder(Order.StartProduction(queue.self, item.ActorName, 1));
+                    World.IssueOrder(Order.StartProduction(queue.self, item.ActorName, 1));
 
                     return true;
                 }
                 else if (currentUnitBeingBuild.Paused)
-                    Game.IssueOrder(Order.PauseProduction(queue.self, currentUnitBeingBuild.Item, false)); // Resume
+                    World.IssueOrder(Order.PauseProduction(queue.self, currentUnitBeingBuild.Item, false)); // Resume
                 else if (currentUnitBeingBuild.Done) /* Done! */
                 {
                     // Place it, since building is done
@@ -419,12 +438,12 @@ namespace OpenRA.Mods.RA.AI
                     if (buildType == "Building")
                     {
                         if (!OnPlaceBuilding(queue, currentUnitBeingBuild))
-                            Game.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
+                            World.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
                     }
                     else if (buildType == "Defense")
                     {
                         if (!OnPlaceBuilding(queue, currentUnitBeingBuild))
-                            Game.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
+                            World.IssueOrder(Order.CancelProduction(queue.self, currentUnitBeingBuild.Item, 1));
                     }
                 }
             }
@@ -442,7 +461,7 @@ namespace OpenRA.Mods.RA.AI
             if (mcv != null)
             {
                 // baseCenter = mcv.Location;
-                Game.IssueOrder(new Order("DeployTransform", mcv));
+                World.IssueOrder(new Order("DeployTransform", mcv));
 
                 //Debug("Deploying MCV.");
             }
@@ -499,7 +518,7 @@ namespace OpenRA.Mods.RA.AI
 
             /* Register lua object proxies */
             VM.RegisterObject(new ActorProxy(this)); /* Actor */
-            VM.RegisterObject(typeof(PlayerProxy)); /* Player */
+            VM.RegisterObject(new PlayerProxy(this)); /* Player */
             VM.RegisterObject(typeof(Int2Proxy)); /* int2 */
             VM.RegisterObject(typeof(ProductionItemProxy)); /* ProductionItem */
             VM.RegisterObject(typeof(AttackInfoProxy)); /* AttackInfo */
@@ -569,7 +588,7 @@ namespace OpenRA.Mods.RA.AI
                 range = Math.Max(range, loopCount/2);
                 if (loopCount > 10) return false;
             } while (!a.Trait<IMove>().CanEnterCell(xy) && xy != a.Location);
-            Game.IssueOrder(new Order("Move", a, xy));
+            World.IssueOrder(new Order("Move", a, xy));
 
             return true;
         }
@@ -589,9 +608,9 @@ namespace OpenRA.Mods.RA.AI
         /// </summary>
         public int2 ChooseRallyLocationNear(int2 startPos)
         {
-            foreach (int2 t in Game.world.FindTilesInCircle(startPos, 6))
+            foreach (int2 t in Player.World.FindTilesInCircle(startPos, 6))
             {
-                if (Game.world.IsCellBuildable(t, false) && t != startPos)
+                if (Player.World.IsCellBuildable(t, false) && t != startPos)
                 {
                     return t;
                 }
@@ -599,6 +618,10 @@ namespace OpenRA.Mods.RA.AI
             return startPos; // i don't know where to put it.
         }
 
+        public World World
+        {
+            get { return Player.World; }
+        }
 
         protected virtual void OnUpdate(Actor self)
         {

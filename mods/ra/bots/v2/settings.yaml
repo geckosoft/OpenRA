@@ -1,0 +1,44 @@
+PatrolScan: 10
+PowerSurplus: 100
+BaseSizeAdd: 5
+#RepairReserve: 100
+#PowerEmergency: 0.50
+#BaseSpacing: 2
+DefenseRatio: 0.1
+DefenseLimit: 30
+AdvDefenseRatio: 0.1
+AdvDefenseLimit: 10
+AADefenseRatio: 0.1
+AADefenseLimit: 10 
+Buildings:
+	proc: 0.3
+	tent: 0.15
+	barr: 0.15
+	weap: 0.10
+	afld: 0.10
+	dome: 0.05
+	hpad: 0.05
+	atek: 0.05
+	stek: 0.05
+	fix: 0.05
+BuildingLimits:
+	proc: 4
+	weap: 2
+	tent: 2
+	barr: 2	
+	afld: 0	
+	dome: 1
+	hpad: 2
+	atek: 1
+	stek: 1
+	fix: 1
+Defenses:
+	pbox: 1
+	ftur: 0.5
+	gun: 0.5
+AdvDefenses:
+	tsla: 1
+	hbox: 1
+AADefenses:
+	agun: 1
+	sam: 1

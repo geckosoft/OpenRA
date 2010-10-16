@@ -8,6 +8,12 @@ namespace OpenRA.Mods.RA.AI.Proxies
     {
         protected Player Field = null;
         public string ObjectType { get { return "Player"; } }
+        
+        public LuaBot Bot = null;
+        public PlayerProxy(LuaBot bot)
+        {
+            Bot = bot;
+        }
 
         public PlayerProxy(Player field)
         {
@@ -62,7 +68,7 @@ namespace OpenRA.Mods.RA.AI.Proxies
         }
 
         [LuaFunction("order", RequireObject = true)]
-        public static void Order(PlayerProxy self, string command, object arg1, object arg2)
+        public void Order(PlayerProxy self, string command, object arg1, object arg2)
         {
             Order order = null;
 
@@ -77,7 +83,7 @@ namespace OpenRA.Mods.RA.AI.Proxies
                 return;
             }
 
-            Game.IssueOrder(order);
+            Bot.World.IssueOrder(order);
         }
 
         public static implicit operator Player(PlayerProxy d)

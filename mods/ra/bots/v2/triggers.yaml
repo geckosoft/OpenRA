@@ -1,0 +1,87 @@
+ENEMY_DEPLOYED_MCV:
+	LoopEnemyPlayers: yes
+	MaxPerPlayer: 1
+	Max: 8
+	Requirements:
+		ENEMY_HAS_NO_MCV
+	Action: SAY_DEPLOYED
+	Weight: 100
+	MaxWeight: 100
+	MinWeight: 100		
+		
+GAME_START:
+	Max: 1
+	Action: GAME_STARTED
+		
+-AN_ENEMY_DEPLOYED_MCV:
+	Max: 1
+	Requirements:
+		ENEMY_HAS_NO_MCV
+	Action: DEPLOY_MCV
+	Weight: 100
+	MaxWeight: 100
+	MinWeight: 100
+
+CORE_BUILD_MORE_POWER:
+	Delay: 30
+	Action: CORE_BUILD_POWER	
+	Requirements:
+		CORE_HAS_CYARD
+		CORE_NEEDS_POWER		
+		
+CORE_EXPAND_BASE:
+	Delay: 30
+	Action: CORE_EXPAND_BASE	
+	Requirements:
+		CORE_HAS_CYARD
+		CORE_SUFFICIENT_POWER
+		
+S_DEFEND_AGAINST_ENGINEERS:
+	Delay: 10
+	Action: S_DEFEND_AGAINST_ENGINEERS
+	Max: 2
+	MaxPerPlayer: 1
+	LoopEnemyPlayers: yes
+	Requirements:
+		PLAYER_IS_SOVIET
+		PLAYER_HAS_BARRACKS
+		ENEMY_HAS_ENGINEERS
+		
+A_DEFEND_AGAINST_ENGINEERS:
+	Delay: 10
+	Action: A_DEFEND_AGAINST_ENGINEERS
+	Max: 2
+	MaxPerPlayer: 1
+	LoopEnemyPlayers: yes
+	Requirements:
+		PLAYER_IS_ALLIES
+		PLAYER_HAS_BARRACKS
+		ENEMY_HAS_ENGINEERS	
+
+A_INF_ATTACK_1:
+	Delay: 10
+	InitialDelay: 60
+	Action: A_INF_ATTACK_1
+	Max: 2
+	MaxPerPlayer: 1
+	LoopEnemyPlayers: yes
+	Requirements:
+		PLAYER_IS_ALLIES
+		PLAYER_HAS_PROC
+		PLAYER_HAS_BARRACKS
+		ENEMY_HAS_CYARD
+		ENEMY_HAS_PROC
+		
+S_INF_ATTACK_1:
+	Delay: 10
+	InitialDelay: 60
+	Action: S_INF_ATTACK_1
+	Max: 2
+	MaxPerPlayer: 1
+	LoopEnemyPlayers: yes
+	Requirements:
+		PLAYER_IS_SOVIET
+		PLAYER_HAS_PROC
+		PLAYER_HAS_BARRACKS
+		ENEMY_HAS_CYARD
+		ENEMY_HAS_PROC

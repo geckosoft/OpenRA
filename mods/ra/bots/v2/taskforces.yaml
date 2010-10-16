@@ -1,0 +1,16 @@
+1ENGINEER:
+	e3: 1	
+S_DEF_ENGINEERS:
+	e1: 3
+	dog: 2		
+A_DEF_ENGINEERS:
+	e1: 5
+A_INF_ATTACK_1:
+	e1: 5
+	e3: 5
+	e6: 2
+S_INF_ATTACK_1:
+	e1: 5
+	e3: 2
+	e2: 3
+	e6: 2
