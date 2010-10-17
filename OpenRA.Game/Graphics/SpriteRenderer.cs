@@ -56,7 +56,7 @@ namespace OpenRA.Graphics
 				
 		public void DrawSprite(Sprite s, float2 location, WorldRenderer wr, string palette)
 		{
-			DrawSprite(s, location, wr.GetPaletteIndex(palette), s.size);
+            DrawSprite(s, location, wr.GetPaletteIndex(palette), s.size);
 		}
 		
 		public void DrawSprite(Sprite s, float2 location, WorldRenderer wr, string palette, float2 size)
@@ -77,7 +77,7 @@ namespace OpenRA.Graphics
 				Flush();
 
 			currentSheet = s.sheet;
-			Util.FastCreateQuad(vertices, indices, location.ToInt2(), s, paletteIndex, nv, ni, size);
+            Util.FastCreateQuad(vertices, indices, location.ToInt2(), s, paletteIndex, nv, ni, size);
 			nv += 4; ni += 6;
 		}
 		

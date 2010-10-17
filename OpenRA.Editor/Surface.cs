@@ -98,7 +98,7 @@ namespace OpenRA.Editor
 
 			if (Map == null) return;
 
-			Zoom *= e.Delta > 0 ? 4.0f / 3.0f : .75f;
+			Zoom *= e.Delta > 0 ? 4.0f / 3.0f : .75f; /* todo Implement proper zoom */
 
 			Invalidate();
 		}

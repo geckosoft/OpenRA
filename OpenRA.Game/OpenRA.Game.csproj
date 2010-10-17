@@ -139,6 +139,8 @@
     <Compile Include="Graphics\SequenceProvider.cs" />
     <Compile Include="Graphics\SheetBuilder.cs" />
     <Compile Include="Graphics\HardwarePalette.cs" />
+    <Compile Include="MainWindow.cs">
+    </Compile>
     <Compile Include="Support\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Graphics\Renderer.cs" />
@@ -211,7 +213,6 @@
     </ProjectReference>
     <Compile Include="ActorInitializer.cs" />
     <Compile Include="ActorReference.cs" />
-    <Compile Include="InputHandler.cs" />
     <Compile Include="ModData.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Network\FrameData.cs" />
@@ -219,8 +220,6 @@
     <Compile Include="Network\Session.cs" />
     <Compile Include="ObjectCreator.cs" />
     <Compile Include="Network\SyncReport.cs" />
-    <Compile Include="Server\IServerExtension.cs" />
-    <Compile Include="Server\NullServerExtension.cs" />
     <Compile Include="Traits\ValidateOrder.cs" />
     <Compile Include="Traits\Scale.cs" />
     <Compile Include="TraitDictionary.cs" />

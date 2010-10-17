@@ -27,17 +27,17 @@ namespace OpenRA.TilesetBuilder
 
 		public Form1( string src, int size )
 		{
-			srcfile = src;
-			this.size = size;
-			InitializeComponent();
-			surface1.TileSize = size;
-			surface1.Image = (Bitmap)Image.FromFile(src);
-			surface1.Image.SetResolution(96, 96);	// people keep being noobs about DPI, and GDI+ cares.
-			surface1.TerrainTypes = new int[surface1.Image.Width / size, surface1.Image.Height / size];		/* all passable by default */
-			surface1.Templates = new List<Template>();
-			surface1.Size = surface1.Image.Size;
-
-			Load();
+            srcfile = src;
+            this.size = size;
+            InitializeComponent();
+            surface1.TileSize = size;
+            surface1.Image = (Bitmap) Image.FromFile(src);
+            surface1.Image.SetResolution(96, 96); // people keep being noobs about DPI, and GDI+ cares.
+            surface1.TerrainTypes = new int[surface1.Image.Width/size,surface1.Image.Height/size];
+                /* all passable by default */
+            surface1.Templates = new List<Template>();
+            surface1.Size = surface1.Image.Size;
+		    Load();
 		}
 
 		public new void Load()

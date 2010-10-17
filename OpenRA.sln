@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRA.Utility", "OpenRA.Ut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRA.Renderer.Null", "OpenRA.Renderer.Null\OpenRA.Renderer.Null.csproj", "{0C4AEC1A-E7D5-4114-8CCD-3EEC82872981}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRA.Mods.Rg", "OpenRA.Mods.RG\OpenRA.Mods.Rg.csproj", "{93ACBFFA-8587-414D-8E57-8C7D4954B99F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -134,6 +136,14 @@ Global
 		{0C4AEC1A-E7D5-4114-8CCD-3EEC82872981}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0C4AEC1A-E7D5-4114-8CCD-3EEC82872981}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0C4AEC1A-E7D5-4114-8CCD-3EEC82872981}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{93ACBFFA-8587-414D-8E57-8C7D4954B99F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
