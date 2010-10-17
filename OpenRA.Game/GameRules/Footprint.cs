@@ -59,7 +59,7 @@ namespace OpenRA.GameRules
 		public static int2 AdjustForBuildingSize( BuildingInfo buildingInfo )
 		{
 			var dim = buildingInfo.Dimensions;
-			return new int2( dim.X / 2, dim.Y > 1 ? ( dim.Y  ) / 2 : 0 );
+			return new int2( dim.X / 2, dim.Y > 1 ? ( dim.Y + 1 ) / 2 : 0 );
 		}
 	}
 }
