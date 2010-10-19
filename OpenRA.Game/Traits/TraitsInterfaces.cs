@@ -13,6 +13,7 @@ using System.Drawing;
 using OpenRA.FileFormats;
 using OpenRA.GameRules;
 using OpenRA.Graphics;
+using OpenRA.Network;
 
 namespace OpenRA.Traits
 {
@@ -44,11 +45,13 @@ namespace OpenRA.Traits
 		int OrderPriority { get; }
 		bool CanTargetUnit( Actor self, Actor target, bool forceAttack, bool forceMove, ref string cursor );
 		bool CanTargetLocation( Actor self, int2 location, List<Actor> actorsAtLocation, bool forceAttack, bool forceMove, ref string cursor );
-	}
-	public interface IResolveOrder { void ResolveOrder(Actor self, Order order); }
+    }
+    public interface IResolveOrder { void ResolveOrder(Actor self, Order order); }
+    public interface IValidateOrder { bool OrderValidation(OrderManager orderManager, World world, int clientId, Order order);
+    }
 	public interface IOrderCursor { string CursorForOrder(Actor self, Order order); }
 	public interface IOrderVoice { string VoicePhraseForOrder(Actor self, Order order); }
-
+    public interface ICustomOrderGenerator : IOrderGenerator {};
 	public interface INotifySold { void Selling( Actor self );  void Sold( Actor self ); }
 	public interface INotifyDamage { void Damaged(Actor self, AttackInfo e); }
 	public interface INotifyBuildComplete { void BuildingComplete(Actor self); }

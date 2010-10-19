@@ -62,7 +62,7 @@ namespace OpenRA
 				// auto size from render
 				var firstSprite = TraitsImplementing<IRender>().SelectMany(x => x.Render(this)).FirstOrDefault();
 				if (firstSprite.Sprite == null) return float2.Zero;
-				return firstSprite.Sprite.size;
+                return firstSprite.Sprite.size * firstSprite.Scale;
 			});
 		}
 

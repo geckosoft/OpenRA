@@ -27,14 +27,26 @@ namespace OpenRA.Network
 
 		public static void ProcessOrder( OrderManager orderManager, World world, int clientId, Order order )
 		{
-			// Drop exploiting orders
-			if (order.Subject != null && order.Subject.Owner.ClientIndex != clientId)
-			{
-				Game.Debug("Detected exploit order from {0}: {1}".F(clientId, order.OrderString));
-				return;
-			}
-			
-			switch( order.OrderString )
+            if (world != null)
+            {
+                var validateOrders = world.WorldActor.TraitsImplementing<IValidateOrder>();
+
+                foreach (var validator in validateOrders)
+                {
+                    if (!validator.OrderValidation(orderManager, world, clientId, order))
+                        return; /* Invalid order */
+                }
+            }else /* @todo how can we access the IValidateOrder traits without a world? */
+            {            
+                // Drop exploiting orders
+                if (order.Subject != null && order.Subject.Owner.ClientIndex != clientId)
+                {
+                    Game.Debug("Detected exploit order from {0}: {1}".F(clientId, order.OrderString));
+                    return;
+                }
+            }
+
+		    switch( order.OrderString )
 			{
 			case "Chat":
 				{
