@@ -19,7 +19,7 @@ namespace OpenRA.Orders
 	{
 		public IEnumerable<Order> Order( World world, int2 xy, MouseInput mi )
 		{
-		    var custom = world.WorldActor.TraitOrDefault<ICustomOrderGenerator>();
+		    var custom = world.WorldActor.TraitOrDefault<ICustomUnitOrderGenerator>();
             if (custom != null)
             {
                 var customOrders = custom.Order(world, xy, mi);
@@ -56,7 +56,7 @@ namespace OpenRA.Orders
 
 		public void Tick( World world )
         {
-            var custom = world.WorldActor.TraitOrDefault<ICustomOrderGenerator>();
+            var custom = world.WorldActor.TraitOrDefault<ICustomUnitOrderGenerator>();
             if (custom != null)
             {
                 custom.Tick(world);
@@ -65,7 +65,7 @@ namespace OpenRA.Orders
 
 		public void RenderBeforeWorld( WorldRenderer wr, World world )
         {
-            var custom = world.WorldActor.TraitOrDefault<ICustomOrderGenerator>();
+            var custom = world.WorldActor.TraitOrDefault<ICustomUnitOrderGenerator>();
             if (custom != null)
             {
                 custom.RenderBeforeWorld(wr, world);
@@ -82,7 +82,7 @@ namespace OpenRA.Orders
 
 		public void RenderAfterWorld( WorldRenderer wr, World world )
         {
-            var custom = world.WorldActor.TraitOrDefault<ICustomOrderGenerator>();
+            var custom = world.WorldActor.TraitOrDefault<ICustomUnitOrderGenerator>();
             if (custom != null)
             {
                 custom.RenderAfterWorld(wr, world);
@@ -99,7 +99,7 @@ namespace OpenRA.Orders
 
 		public string GetCursor( World world, int2 xy, MouseInput mi )
         {
-            var custom = world.WorldActor.TraitOrDefault<ICustomOrderGenerator>();
+            var custom = world.WorldActor.TraitOrDefault<ICustomUnitOrderGenerator>();
             if (custom != null)
             {
                return custom.GetCursor(world, xy, mi);
