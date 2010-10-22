@@ -1,0 +1,102 @@
+Metadata:
+	Title: OpenRA : Renegade (mod)
+	Description: A mix of Renegade and Sole Survivor
+	Version: a0001
+
+Folders:
+	.
+	mods/rg
+	mods/rg/bits
+	mods/rg/uibits
+	mods/rg/packages
+	mods/cnc
+	mods/cnc/bits
+	mods/cnc/uibits
+	mods/cnc/packages
+	mods/ra
+	mods/ra/bits
+	mods/ra/uibits
+	mods/ra/packages
+
+Packages:
+	overrides.mix
+	bluetib.mix
+	snow.mix
+	speech.mix
+	conquer.mix
+	sounds.mix
+	tempicnh.mix
+	updatec.mix
+	temperat.mix
+	winter.mix
+	desert.mix
+	~movies-gdi.mix
+	~movies-nod.mix
+	~movies.mix
+	~scores.mix
+	~main.mix
+	redalert.mix
+	hires.mix
+	local.mix
+	allies.mix
+	russian.mix
+	interior.mix
+	ra-sounds.mix
+
+Rules:
+	mods/rg/rules/defaults.yaml
+	mods/rg/rules/system.yaml
+	mods/rg/rules/structures.yaml
+	mods/rg/rules/infantry.yaml
+	mods/rg/rules/vehicles.yaml
+	mods/rg/rules/trees.yaml
+	mods/rg/rules/civilian.yaml
+	mods/rg/rules/tech.yaml
+
+Sequences:
+	mods/rg/sequences/structures.yaml
+	mods/rg/sequences/vehicles.yaml
+	mods/rg/sequences/infantry.yaml
+	mods/rg/sequences/map.yaml
+	mods/rg/sequences/misc.yaml
+
+Cursors:
+	mods/rg/cursors.xml
+
+Chrome:
+	mods/rg/chrome.xml
+	
+Assemblies:
+	mods/ra/OpenRA.Mods.RA.dll
+	mods/cnc/OpenRA.Mods.Cnc.dll
+	mods/rg/OpenRA.Mods.Rg.dll
+
+ChromeLayout:
+	mods/rg/chrome/ingame.yaml
+	mods/rg/chrome/mainmenu.yaml
+	mods/rg/chrome/videoplayer.yaml
+	mods/rg/chrome/settings.yaml
+	mods/rg/chrome/gamelobby.yaml
+	mods/rg/chrome/serverbrowser.yaml
+
+Weapons:
+	mods/rg/weapons.yaml
+
+#Movies:
+#	mods/rg/movies-gdi.yaml
+#	mods/rg/movies-nod.yaml
+	
+Voices:
+	mods/rg/voices.yaml
+
+#Music:
+#	mods/rg/music.yaml
+
+TileSets:
+	mods/rg/tilesets/desert.yaml
+	mods/rg/tilesets/winter.yaml
+	mods/rg/tilesets/temperat.yaml
+	mods/rg/tilesets/snow.yaml
+
+LoadScreen: RgLoadScreen
+ShellmapUid:e7b9badb3b7d49ccc773a7aa086c0ff9a1136b77

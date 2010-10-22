@@ -1,0 +1,344 @@
+^Vehicle:
+	AppearsOnRadar:
+	Mobile:
+		Crushes: crate
+		TerrainSpeeds:
+			Clear: 60
+			Rough: 40
+			Road: 100
+			Tiberium: 40
+			BlueTiberium: 40
+			Beach: 40
+		ROT: 5
+	Selectable: 
+		Voice: VehicleVoice
+	Targetable:
+		TargetTypes: Ground
+	Buildable:
+		Queue: Vehicle
+	Repairable: 
+	Chronoshiftable: 
+	Passenger: 
+		CargoType: Vehicle
+	IronCurtainable: 
+	HiddenUnderFog:
+	GainsExperience:
+	GivesExperience:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+	AttackMove:
+
+^Tank:
+	AppearsOnRadar:
+	Mobile:
+		Crushes: wall, crate
+		TerrainSpeeds:
+			Clear: 80
+			Rough: 70
+			Road: 100
+			Tiberium: 70
+			BlueTiberium: 70
+			Beach: 70
+		ROT: 5
+	Selectable: 
+		Voice: VehicleVoice
+	Targetable:
+		TargetTypes: Ground
+	Buildable:
+		Queue: Vehicle
+	Repairable: 
+	Chronoshiftable: 
+	Passenger: 
+		CargoType: Vehicle
+	IronCurtainable: 
+	HiddenUnderFog:
+	GainsExperience:
+	GivesExperience:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+	AttackMove:
+
+^SteerableTank:
+	AppearsOnRadar:
+	Mobile:
+		Crushes: wall, crate
+		TerrainSpeeds:
+			Clear: 80
+			Rough: 70
+			Road: 100
+			Tiberium: 70
+			BlueTiberium: 70
+			Beach: 70
+		ROT: 5
+	Selectable: 
+		Voice: VehicleVoice
+	Targetable:
+		TargetTypes: Ground
+	Buildable:
+		Queue: Vehicle
+	Repairable: 
+	Chronoshiftable: 
+	Passenger: 
+		CargoType: Vehicle
+	IronCurtainable: 
+	HiddenUnderFog:
+	GainsExperience:
+	GivesExperience:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+#	AttackMove:
+	RgSteerable:
+		Types: Infantry
+		Passengers: 1
+		UnloadFacing: 220
+	
+^Helicopter:
+	AppearsOnRadar:
+		UseLocation: yes
+	Targetable:
+		TargetTypes: Air
+	Selectable:
+		Voice: VehicleVoice
+	Helicopter:
+		RepairBuildings: hpad
+		RearmBuildings:
+		LandWhenIdle: false
+	Buildable:
+		Queue: Plane
+	HiddenUnderFog:
+	GainsExperience:
+	GivesExperience:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+
+^Infantry:
+	AppearsOnRadar:
+	Health:
+	Armor:
+		Type: None
+	RevealsShroud:
+		Range: 8
+	Mobile:
+		Crushes: crate
+		TerrainSpeeds:
+			Clear: 90
+			Rough: 80
+			Road: 100
+			Tiberium: 70
+				PathingCost: 200
+			BlueTiberium: 70
+				PathingCost: 200
+			Beach: 80
+	Selectable:
+		Voice: GenericVoice
+	Targetable:
+		TargetTypes: Ground
+	Buildable:
+		Queue: Infantry
+	RenderInfantry:
+#	AutoTarget:
+#	AttackMove:
+	Passenger:
+		CargoType: Infantry
+	RgPassenger:
+		CargoType: Infantry
+	HiddenUnderFog:
+	PoisonedByTiberium:
+	GainsExperience:
+	GivesExperience:
+#	SharesCell:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+	RgSuperPowerLauncher:
+
+^CivInfantry:
+	Inherits: ^Infantry
+	-Buildable:
+	AppearsOnRadar:
+	Selectable:
+		Voice: CivilianMaleVoice
+		Bounds: 12,17,0,-9
+	Valued:
+		Cost: 70
+	Tooltip:
+		Name: Civilian
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 20
+	RevealsShroud:
+		Range: 2
+	AttackBase:
+		PrimaryWeapon: Pistol
+#	ActorLostNotification:
+#		Notification: civdead1.aud
+#		NotifyAll: true
+
+^Plane:
+	AppearsOnRadar:
+		UseLocation: yes
+	Selectable:
+		Voice: GenericVoice
+	Targetable:
+		TargetTypes: Air
+	HiddenUnderFog:
+	GainsExperience:
+	GivesExperience:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+
+^Ship:
+	AppearsOnRadar:
+	Mobile:
+		Crushes: crate
+		TerrainSpeeds:
+			Water: 100
+	Selectable:
+		Voice: GenericVoice
+	Targetable:
+		TargetTypes: Ground, Water
+	HiddenUnderFog:
+	GainsExperience:
+	GivesExperience:
+	DrawLineToTarget:
+	ActorLostNotification:
+		Notification: unitlost.aud
+	AttackMove:
+
+^Building:
+	AppearsOnRadar:
+	Selectable:
+		Priority: 3
+	Targetable:
+		TargetTypes: Ground
+	Armor:
+		Type: Wood
+	RepairableBuilding:
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+		BuildSounds: constru2.aud, hvydoor1.aud
+		SellSounds: cashturn.aud
+		DamagedSound: xplos.aud
+		DestroyedSound: xplobig4.aud
+	Buildable:
+		Queue: Building
+	RenderBuilding:
+	DeadBuildingState:
+	EmitInfantryOnSell:
+		ActorTypes: c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,e1,e1,e1,e1,e1,e1,e1
+	MustBeDestroyed:
+	GivesExperience:
+	CaptureNotification@GDI:
+		Race: gdi
+		Notification: gdicapt1.aud
+	CaptureNotification@NOD:
+		Race: nod
+		Notification: nodcapt1.aud
+	ActorLostNotification:
+		Notification: strclost.aud
+	RgBeaconTarget:
+
+^CivBuilding:
+	Inherits: ^Building
+	-Buildable:
+	DeadBuildingState:
+		Zombie: true
+	Health:
+		HP: 400
+	Armor: 
+		Type: Wood
+	Building:
+	-RepairableBuilding:
+	Tooltip:
+		Name: Civilian Building
+
+^CivField:
+	Inherits: ^CivBuilding
+	-Selectable:
+	DeadBuildingState:
+		Zombie: true
+	Tooltip:
+		Name: Field
+	RenderBuilding:
+		OverrideTheater: DESERT
+		OverrideImage: v23
+
+^Wall:
+	AppearsOnRadar:
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+		BuildSounds: hvydoor1.aud
+		Capturable: false
+		BaseNormal: no
+		DamagedSound: xplos.aud
+		DestroyedSound: xplobig4.aud
+		Adjacent: 7
+	Targetable:
+		TargetTypes: Ground
+	Wall:
+		CrushClasses: wall
+	LineBuild:
+		Range: 8
+	Selectable:
+		Priority: 1
+	RenderBuildingWall:
+		HasMakeAnimation: false
+		Palette: terrain
+	GivesExperience:
+
+^Tree:
+	Tooltip:
+		Name: Tree
+	RenderBuilding:
+		Palette: terrain
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	AppearsOnRadar:
+	RadarColorFromTerrain:
+		Terrain: Tree
+^Rock:
+	Tooltip:
+		Name: Rock
+	RenderBuilding:
+		Palette: terrain
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	AppearsOnRadar:
+	RadarColorFromTerrain:
+		Terrain: Tree
+
+^Husk:
+	Health:
+		HP: 140
+	Armor: 
+		Type: Heavy
+	Husk:
+	Selectable: 
+		Priority: -1
+	HiddenUnderFog:
+	AppearsOnRadar:
+	Burns:
+
+^Bridge:
+	Tooltip:
+		Name: Bridge
+	Targetable:
+		TargetTypes: Ground, Water
+	BelowUnits:
+	Health:
+		HP: 1000
+	Building:
+		DamagedSound: xplos.aud
+		DestroyedSound: xplobig4.aud
+		Footprint: ______ ______ ______ ______
+		Dimensions: 6,4

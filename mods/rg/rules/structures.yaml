@@ -1,0 +1,904 @@
+FACT:
+	Inherits: ^Building
+	-Buildable:
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Construction Yard
+		Icon: mcvicnh
+		Description: Builds structures
+	Building:
+		Power: 10000
+		Footprint: xxxxxx xxxxxx xxxxxx xxxxxx
+		Dimensions: 6,4
+		Capturable: false
+	Health:
+		HP: 1750
+	RevealsShroud:
+		Range: 5
+	Bib:
+	AllowsBuildingRepair:
+#	Production:
+#		Produces: Building,Defense
+#	Transforms:
+#		IntoActor: mcv
+#		Offset:1,1
+#		Facing: 108
+#	ProductionQueue@Building:
+#		Type: Building
+#		BuildSpeed: .4
+#		LowPowerSlowdown: 3
+#	ProductionQueue@Defense:
+#		Type: Defense
+#		BuildSpeed: .4
+#		LowPowerSlowdown: 3
+	BaseBuilding:
+	Scale:
+		Value: 2
+	StoresOre:
+		PipCount: 5
+		PipColor: Green
+		Capacity: 1000000
+	RgBeaconTarget:
+
+NUKE:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Power Plant
+		Icon: nukeicnh
+		Description: Provides power for other structures
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi,nod
+	Building:
+		Power: 100
+		Footprint: xx__ xx__ xxxx xxxx
+		Dimensions: 4,4
+		Capturable: false
+	Health:
+		HP: 400
+	RevealsShroud:
+		Range: 4
+	Bib:
+	Scale:
+		Value: 2
+
+PROC:
+	Inherits: ^Building
+	Valued:
+		Cost: 1700
+	Tooltip:
+		Name: Tiberium Refinery
+		Icon: procicnh
+		Description: Processes raw Tiberium into useable resources
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: nuke
+		Owner: gdi,nod
+	Building:
+		Power: -30
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
+		Capturable: false
+	Health:
+		HP: 900
+	RevealsShroud:
+		Range: 6
+	Bib:
+	OreRefinery:
+		LocalStorage: yes
+		PipCount: 15
+		PipColor: Red
+		DockOffset: 0,2
+		Capacity: 1000
+		ProcessTick: 25
+		ProcessAmount: 50
+	StoresOre:
+		PipColor: Green
+		PipCount: 15
+		Capacity: 1500
+	TiberiumRefineryDockAction:
+	CustomSellValue:
+		Value: 500
+	FreeActor:
+		Actor: HARV
+		InitialActivity: Harvest
+		SpawnOffset: 1,2
+		Facing: 64
+	Scale:
+		Value: 2
+
+SILO:
+	Inherits: ^Building
+	Valued:
+		Cost: 150
+	Tooltip:
+		Name: Tiberium Silo
+		Icon: siloicnh
+		Description: Stores processed Tiberium
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 20
+		Prerequisites: proc
+		Owner: gdi,nod
+	Building:
+		Power: -10
+		Footprint: xx
+		Dimensions: 2,1
+		Capturable: false
+	Health:
+		HP: 300
+	RevealsShroud:
+		Range: 4
+	RenderBuildingOre:
+	StoresOre:
+		PipCount: 5
+		PipColor: Green
+		Capacity: 1000
+	-RenderBuilding:
+	-EmitInfantryOnSell:
+
+HQ:
+	RequiresPower:
+	CanPowerDown:
+	Inherits: ^Building
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Communications Center
+		Icon: hqicnh
+		Description: Provides an overview of the battlefield.\n  Requires power to operate.
+	Buildable:
+		BuildPaletteOrder: 80
+		Prerequisites: proc
+		Owner: gdi,nod
+	Building:
+		Power: -40
+		Footprint: x_ xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 1000
+	RevealsShroud:
+		Range: 10
+	Bib:
+	ProvidesRadar:
+	DetectCloaked:
+		Range: 8
+
+NUK2:
+	Inherits: ^Building
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Advanced Power Plant
+		Icon:nuk2icnh
+		Description: Provides more power, cheaper than the \nstandard Power Plant
+	Buildable:
+		BuildPaletteOrder: 90
+		Prerequisites: hq
+		Owner: gdi,nod
+	Building:
+		Power: 200
+		Footprint: xx xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 600
+	RevealsShroud:
+		Range: 4
+	Bib:
+		
+FIX:
+	Inherits: ^Building
+	Valued:
+		Cost: 1200
+	Tooltip:
+		Name: Repair Facility
+		Icon: fixicnh
+		Description: Repairs vehicles and allows the\nconstruction of additional bases.
+	Buildable:
+		BuildPaletteOrder: 70
+		Prerequisites: @Vehicle Production
+		Owner: gdi,nod
+	Building:
+		Power: -30
+		Footprint: _x_ xxx =x=
+		Dimensions: 3,3
+		Capturable: false
+	Health:
+		HP: 800
+	RevealsShroud:
+		Range: 5
+	BelowUnits:
+	Reservable:
+	RepairsUnits:
+	RallyPoint:
+	Bib:
+
+HPAD:
+	Inherits: ^Building
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Helipad
+		Icon:hpadicnh
+		Description: Produces and reloads helicopters
+	Buildable:
+		BuildPaletteOrder: 50
+		Prerequisites: @Barracks
+		Owner: gdi,nod
+	Building:
+		Power: -10
+		Footprint: xx xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 800
+	RevealsShroud:
+		Range: 5
+	Bib:
+	Exit@1:
+		SpawnOffset: 0,-6
+	ReservableProduction:
+		Produces: Plane
+	BelowUnits:
+	Reservable:
+	RepairsUnits:
+	RallyPoint:
+	ProductionQueue@Plane:
+		Type: Plane
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
+	
+EYE:
+	RequiresPower:
+	CanPowerDown:
+	Inherits: ^Building
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Advanced Communications Center
+		Icon: eyeicnh
+		Description: Provides access to the Ion Cannon.\n  Requires power to operate.
+		AlternateName: @Superweapon
+	Buildable:
+		BuildPaletteOrder: 100
+		Prerequisites: hq
+		Owner: gdi
+	Building:
+		Power: -200
+		Footprint: x_ xx
+		Dimensions: 2,2
+		Capturable: false
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	Health:
+		HP: 1000
+	RevealsShroud:
+		Range: 10
+	Bib:
+	ProvidesRadar:
+	IonControl:
+	RgProduction:
+		Produces: Defense
+	RgProductionQueue@Defense:
+		Type: Defense
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RgAssignUnit:
+	Scale:
+		Value: 2
+	
+TMPL:
+	RequiresPower:
+	CanPowerDown:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Temple of Nod
+		Icon: tmplicnh
+		Description: Place of worship and secret missile silo.\nRequires power to operate.
+		AlternateName: @Superweapon
+	Buildable:
+		BuildPaletteOrder: 100
+		Prerequisites: hq
+		Owner: nod
+	Building:
+		Power: -150
+		Footprint: ___ xxx xxx
+		Dimensions: 3,3
+		Capturable: false
+	Health:
+		HP: 2000
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 6
+	Bib:
+	NukeSilo:
+		MissileWeapon: atomic
+	RgProduction:
+		Produces: Defense
+	RgProductionQueue@Defense:
+		Type: Defense
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RgAssignUnit:
+	Scale:
+		Value: 2
+
+OBLI:
+	RequiresPower:
+	Inherits: ^Building
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: Obelisk of Light
+		Icon:obliicnh
+		Description: Advanced base defense. Requires power\nto operate.\n  Strong vs Tanks, Infantry\n  Weak vs Aircraft
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 60
+		Prerequisites: tmpl
+		Owner: nod
+	Building:
+		Power: -150
+		Footprint: _ x
+		Dimensions: 1,2
+	Health:
+		HP: 400
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 8
+	RenderBuildingCharge:
+		ChargeAudio: obelpowr.aud
+	AttackOmni:
+		PrimaryWeapon: RgLaser
+		PrimaryOffset: 0,0,0,-16
+		FireDelay: 8
+	AutoTarget:
+	-RenderBuilding:
+	RenderRangeCircle:
+	-EmitInfantryOnSell:
+	Scale:
+		Value: 2
+
+CYCL:
+	Inherits: ^Wall
+	Valued:
+		Cost: 25
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Chain Link Barrier
+		Icon:cyclicnh
+		Description: Stops infantry and blocks enemy fire.\nCan be crushed by tanks.
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 10
+		Prerequisites: fact
+		Owner: nod
+	Health:
+		HP: 300
+	Armor: 
+		Type: None
+
+SBAG:
+	Inherits: ^Wall
+	Valued:
+		Cost: 25
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Sandbag Barrier
+		Icon:sbagicnh
+		Description: Stops infantry and blocks enemy fire.\nCan be crushed by tanks.
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 20
+		Prerequisites: fact
+		Owner: gdi
+	Health:
+		HP: 250
+	Armor: 
+		Type: None
+
+BRIK:
+	Inherits: ^Wall
+	Valued:
+		Cost: 100
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: Concrete Barrier
+		Icon:brikicnh
+		Description: Stop units and blocks enemy fire.
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 30
+		Prerequisites: fact
+		Owner: gdi,nod
+	Health:
+		HP: 1000
+	Armor: 
+		Type: Heavy
+	Wall:
+		CrushClasses: heavywall
+		
+GUN:
+	Inherits: ^Building
+	Valued:
+		Cost: 600
+	Tooltip:
+		Name: Turret
+		Icon: gunicnh
+		Description: Anti-Armor base defense.\n  Strong vs Tanks\n  Weak vs Infantry, Aircraft
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 40
+		Prerequisites: @Barracks
+		Owner: gdi,nod
+	Building:
+		Power: -20
+	Health:
+		HP: 400
+	Armor: 
+		Type: Heavy
+	RevealsShroud:
+		Range: 7
+	Turreted:
+		ROT: 12
+		InitialFacing: 50
+	RenderBuildingTurreted:
+	AttackTurreted:
+		PrimaryWeapon: TurretGun
+	AutoTarget:
+	-RenderBuilding:
+	-DeadBuildingState:
+	RenderRangeCircle:
+	Scale:
+		Value: 2
+
+SAM:
+	Inherits: ^Building
+	Valued:
+		Cost: 750
+	Tooltip:
+		Name: SAM Site
+		Icon: samicnh
+		Description: Anti-Air base defense.\n  Strong vs Aircraft\n  Weak vs Infantry, Tanks
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 50
+		Prerequisites: hand
+		Owner: nod
+	Building:
+		Power: -20
+		Footprint: xx
+		Dimensions: 2,1
+	Health:
+		HP: 400
+	Armor: 
+		Type: Heavy
+	RevealsShroud:
+		Range: 5
+	Turreted:
+		ROT: 30
+		InitialFacing: 0
+	RenderBuildingTurreted:
+	AttackTurreted:
+		PrimaryWeapon: Nike
+	AutoTarget:
+	-RenderBuilding:
+	-DeadBuildingState:
+	RenderRangeCircle:
+	Scale:
+		Value: 2
+	
+GTWR:
+	Inherits: ^Building
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Guard Tower
+		Icon: gtwricnh
+		Description: Basic defensive structure.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Aircraft
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 50
+		Prerequisites: @Barracks
+		Owner: gdi,nod
+	Building:
+		Power: -10
+	Health:
+		HP: 600
+	RevealsShroud:
+		Range: 6
+	AttackOmni:
+		PrimaryWeapon: HighV
+	AutoTarget:
+	DetectCloaked:
+		Range: 3
+	RenderRangeCircle:
+	Scale:
+		Value: 2
+	
+ATWR:
+	Inherits: ^Building
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Advanced Guard Tower
+		Icon: atwricnh
+		Description: Anti-armor defensive structure.\n  Strong vs Light Vehicles, Tanks\n  Weak vs Infantry
+	-Buildable:
+		Queue: Defense
+		BuildPaletteOrder: 60
+		Prerequisites: hq
+		Owner: gdi
+	Building:
+		Power: -20
+	Health:
+		HP: 800
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 8
+	AttackOmni:
+		PrimaryWeapon: RgTomahawk
+		SecondaryWeapon: RgTomahawk
+	AutoTarget:
+	DetectCloaked:
+		Range: 6
+	RenderRangeCircle:
+	Scale:
+		Value: 2
+		
+WEAP_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: (destroyed) Weapons Factory
+		Icon: weapicnh
+		AlternateName: @Vehicle Production
+		Description: Assembly point for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: gdi
+	Building:
+		Power: -30
+		Footprint: ______ ______ xxxxxx xxxxxx ====== ======
+		Dimensions: 6,6
+		Capturable: false
+	Health:
+		HP: 400
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 4
+	Bib:
+	-RenderBuilding:
+	RenderWarFactory:
+	RallyPoint:
+		RallyPoint: 0,8
+	Exit@1:
+		SpawnOffset: -8,-8
+		ExitCell: 0,6
+	Scale:
+		Value: 2
+	RgProduction:
+		Produces: Vehicle
+	RgProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.000001
+	RgDestroyed:
+		
+AFLD_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: (destroyed) Airstrip
+		Icon: afldicnh
+		AlternateName: @Vehicle Production
+		Description: Provides a dropzone for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: nod
+	Building:
+		Power: -30
+		Footprint: xxxx xxxx
+		Dimensions: 4,2
+		Capturable: false
+	Health:
+		HP: 1000
+	Armor: 
+		Type: Heavy
+	RevealsShroud:
+		Range: 7
+	Bib:
+	RallyPoint:
+		RallyPoint: 4,2
+	BelowUnits:
+	Exit@1:
+		SpawnOffset: -24,0
+		ExitCell: 3,1
+	RgProduction:
+		Produces: Vehicle
+	RgProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	Scale:
+		Value: 2
+	RgDestroyed:
+	
+
+PYLE:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Barracks
+		Icon: pyleicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: gdi
+	Building:
+		Power: -20
+		Footprint: xx xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 800
+	RevealsShroud:
+		Range: 5
+	Bib:
+#	RallyPoint:
+	Exit@1:
+		SpawnOffset: -10,2
+		ExitCell: 0,1
+	Exit@2:
+		SpawnOffset: 7,7
+		ExitCell: 1,1	
+	RgProduction:		
+		Produces: Infantry
+	RgProductionQueue:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RgAssignUnit:
+	Scale:
+		Value: 2
+	RgReplaceActorOnDeath:
+		Actor: pyle_destroyed
+HAND:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Hand of Nod
+		Icon: handicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: nod
+	Building:
+		Power: -20
+		Footprint: __ xx xx
+		Dimensions: 2,3
+		Capturable: false
+	Health:
+		HP: 800
+	RevealsShroud:
+		Range: 5
+	Bib:
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RgProduction:
+		Produces: Infantry
+	RgProductionQueue@Infantry:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RgAssignUnit:
+	Scale:
+		Value: 2
+	RgReplaceActorOnDeath:
+		Actor: hand_destroyed
+	
+AFLD:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Airstrip
+		Icon: afldicnh
+		AlternateName: @Vehicle Production
+		Description: Provides a dropzone for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: nod
+	Building:
+		Power: -30
+		Footprint: xxxx xxxx
+		Dimensions: 4,2
+		Capturable: false
+	Health:
+		HP: 1000
+	Armor: 
+		Type: Heavy
+	RevealsShroud:
+		Range: 7
+	Bib:
+	RallyPoint:
+		RallyPoint: 4,2
+	BelowUnits:
+	Exit@1:
+		SpawnOffset: -24,0
+		ExitCell: 3,1
+	ProductionAirdrop:
+		Produces: Vehicle
+	ProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
+	RgProduction:
+		Produces: Vehicle
+	RgProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	Scale:
+		Value: 2
+	RgReplaceActorOnDeath:
+		Actor: afld_destroyed
+
+WEAP:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Weapons Factory
+		Icon: weapicnh
+		AlternateName: @Vehicle Production
+		Description: Assembly point for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: gdi
+	Building:
+		Power: -30
+		Footprint: ______ ______ xxxxxx xxxxxx ====== ======
+		Dimensions: 6,6
+		Capturable: false
+	Health:
+		HP: 400
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 4
+	Bib:
+	-RenderBuilding:
+	RenderWarFactory:
+	RallyPoint:
+		RallyPoint: 0,8
+	Exit@1:
+		SpawnOffset: -8,-8
+		ExitCell: 0,6
+#	Production:
+#		Produces: Vehicle
+#	ProductionQueue@Vehicle:
+#		Type: Vehicle
+#		BuildSpeed: .4
+#		LowPowerSlowdown: 3
+	Scale:
+		Value: 2
+	RgProduction:
+		Produces: Vehicle
+	RgProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.000001
+	RgReplaceActorOnDeath:
+		Actor: weap_destroyed
+
+
+PYLE_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: (destroyed) Barracks
+		Icon: pyleicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: gdi
+	Building:
+		Power: -20
+		Footprint: xx xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 1
+	RevealsShroud:
+		Range: 5
+	Bib:
+#	RallyPoint:
+	Exit@1:
+		SpawnOffset: -10,2
+		ExitCell: 0,1
+	Exit@2:
+		SpawnOffset: 7,7
+		ExitCell: 1,1	
+	RgProduction:		
+		Produces: Infantry
+	RgProductionQueue:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RgAssignUnit:
+	Scale:
+		Value: 2
+	RgDestroyed:
+HAND_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: (destroyed) Hand of Nod
+		Icon: handicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: nod
+	Building:
+		Power: -20
+		Footprint: __ xx xx
+		Dimensions: 2,3
+		Capturable: false
+	Health:
+		HP: 1
+	RevealsShroud:
+		Range: 5
+	Bib:
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RgProduction:
+		Produces: Infantry
+	RgProductionQueue@Infantry:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RgAssignUnit:
+	Scale:
+		Value: 2
+	RgDestroyed:

@@ -1,0 +1,530 @@
+E1:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 100
+	Tooltip:
+		Name: Minigunner
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+#	Buildable:
+#		BuildPaletteOrder: 10
+#		Owner: gdi, nod
+	Selectable:
+		Bounds: 12,17,0,-6
+	RevealsShroud:
+		Range: 5
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 50
+	AttackBase:
+		PrimaryWeapon: M16
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+
+E2:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 160
+	Tooltip:
+		Name: Grenadier
+		Description: Infantry armed with grenades. \n  Strong vs Buildings, Infantry\n  Weak vs Vehicles
+		Icon: e2icnh
+#	Buildable:
+#		BuildPaletteOrder: 40
+#		Prerequisites: hq
+#		Owner: gdi
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 50
+	AttackBase:
+		PrimaryWeapon: Grenade
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 15
+#	TakeCover:	
+	IdleAnimation:
+		Animations: idle1,idle2
+	
+E3:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Rocket Soldier
+		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Icon: e3icnh
+#	Buildable:
+#		BuildPaletteOrder: 20
+#		Owner: nod, gdi
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 3
+	Health:
+		HP: 45
+	AttackBase:
+		PrimaryWeapon: Rockets
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 5
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2
+
+E4:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 200
+	Tooltip:
+		Name: Flamethrower
+		Description: Advanced Anti-infantry unit.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Icon: e4icnh
+#	Buildable:
+#		BuildPaletteOrder: 40
+#		Owner: nod
+#		Prerequisites: hq
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 90
+	AttackBase:
+		PrimaryWeapon: Flamethrower
+		PrimaryOffset: 0,0,0,-5
+		FireDelay: 3
+	TakeCover:
+	-RenderInfantry:
+	RenderInfantry:
+	WithMuzzleFlash:
+	IdleAnimation:
+		Animations: idle1,idle2
+
+E5:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Chem Warrior
+		Description: Advanced Anti-infantry unit.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e5icnh
+#	Buildable:
+#		BuildPaletteOrder: 50
+#		Owner: nod
+#		Prerequisites: tmpl
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 90
+	AttackBase:
+		PrimaryWeapon: Chemspray
+		PrimaryOffset: 0,0,0,-5
+		FireDelay: 3
+	TakeCover:
+	-RenderInfantry:
+	RenderInfantry:
+	WithMuzzleFlash:
+	-PoisonedByTiberium:
+	IdleAnimation:
+		Animations: idle1,idle2
+
+E6:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Engineer
+		Description: Infiltrates and captures enemy structures.\n  Strong vs Nothing\n  Weak vs Everything
+		Icon: e6icnh
+#	Buildable:
+#		BuildPaletteOrder: 30
+#		Owner: gdi,nod
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 25
+	TakeCover:
+	Passenger:
+		PipType: Yellow
+	EngineerRepair:
+	EngineerCapture:
+	-AutoTarget:
+	AttackMove:
+		JustMove: true
+	IdleAnimation:
+		Animations: idle1,idle2
+
+RMBO:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Icon: rmboicnh
+		Name: Commando
+		Description: Elite sniper infantry unit.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+#	Buildable:
+#		BuildPaletteOrder: 50
+#		Owner: gdi
+#		Prerequisites: eye
+	Selectable:
+		Bounds: 12,17,0,-6
+		Voice: CommandoVoice
+	Mobile:
+		Speed: 5
+	Health:
+		HP: 200
+	RevealsShroud:
+		Range: 5
+	AttackBase:
+		PrimaryWeapon: Sniper
+	TakeCover:
+	C4Demolition:
+		C4Delay: .03
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+		
+#	OpenRG: Infantry bellow
+
+SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Soldier
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nobody
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackBase:
+		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None	
+		
+GDI_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Soldier
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackBase:
+		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None
+	
+NOD_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Soldier
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackBase:
+		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None
+		
+GDI_GRENADIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Grenadier
+		Description: Infantry armed with grenades. \n  Strong vs Buildings, Infantry\n  Weak vs Vehicles
+		Icon: e2icnh
+	Buildable:
+		BuildPaletteOrder: 40
+#		Prerequisites: hq
+		Owner: gdi
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackBase:
+		PrimaryWeapon: RgGrenade
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 15
+#	TakeCover:	
+#	TakeCover:	
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+NOD_FLAMETHROWER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Flamethrower
+		Description: Advanced Anti-infantry unit.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Icon: e4icnh
+	Buildable:
+		BuildPaletteOrder: 40
+		Owner: nod
+#		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 90
+	AttackBase:
+		PrimaryWeapon: RgFlamethrower
+		PrimaryOffset: 0,0,0,-5
+		FireDelay: 3
+#	TakeCover:
+	-RenderInfantry:
+	RenderInfantry:
+	WithMuzzleFlash:
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+NOD_CHEM_WARRIOR:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 150
+	Tooltip:
+		Name: Chem Warrior
+		Description: Advanced Anti-infantry unit.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e5icnh
+	Buildable:
+		BuildPaletteOrder: 50
+		Owner: nod
+# Requires the HAND (not the 'destroyed' HAND)
+		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 150
+	AttackBase:
+		PrimaryWeapon: RgChemspray
+		PrimaryOffset: 0,0,0,-5
+		FireDelay: 3
+#	TakeCover:
+	RenderInfantry:
+	WithMuzzleFlash:
+	-PoisonedByTiberium:
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+
+GDI_ROCKET_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 225
+	Tooltip:
+		Name: Rocket Soldier
+		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Icon: e3icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: gdi
+		Prerequisites: pyle
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 3
+	Health:
+		HP: 150
+	AttackBase:
+		PrimaryWeapon: RgRocketLauncher
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 5
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+
+NOD_ROCKET_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 225
+	Tooltip:
+		Name: Rocket Soldier
+		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Icon: e3icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: nod
+		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 3
+	Health:
+		HP: 150
+	AttackBase:
+		PrimaryWeapon: RgRocketLauncher
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 5
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2
+
+GDI_ENGINEER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Engineer
+		Description: Repairs nearby buildings and vehicles.\n Slowly heals infantry.\n Can disarm beacons.
+		Icon: e6icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: gdi
+	Selectable:
+		Voice: MedicVoice
+		Bounds: 12,17,0,-9
+	Health:
+		HP: 100
+	Mobile:
+		Speed: 4
+	RevealsShroud:
+		Range: 6
+	Passenger:
+		PipType: Yellow
+	AttackBase:
+		PrimaryWeapon: EngineerHeal
+	IdleAnimation:
+		Animations: idle1,idle2
+	Armor: 
+		Type: None
+	RgDisarmSuperPower:
+
+NOD_ENGINEER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Engineer
+		Description: Repairs nearby buildings and vehicles.\n Slowly heals infantry.\n Can disarm beacons.
+		Icon: e6icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: nod
+	Selectable:
+		Voice: MedicVoice
+		Bounds: 12,17,0,-9
+	Health:
+		HP: 100
+	Mobile:
+		Speed: 4
+	RevealsShroud:
+		Range: 6
+	Passenger:
+		PipType: Yellow
+	AttackBase:
+		PrimaryWeapon: EngineerHeal
+	IdleAnimation:
+		Animations: idle1,idle2
+	Armor: 
+		Type: None
+	RgDisarmSuperPower:
+	
+NOD_NUKE_BEACON:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Nuke Beacon
+		Description: Buys a Nuke Beacon.\n Place on structures to launch a nuke.
+		Icon: atomicnh
+	-Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+		Queue: Defense
+		Prerequisites: tmpl
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 1
+	Health:
+		HP: 1
+#	AttackBase:
+#		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+	Armor: 
+		Type: None				
+		
+GDI_ION_BEACON:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Ion Cannon Beacon
+		Description: Buys an Ion Cannon Beacon.\n Place to launch an Ion Cannon attack.
+		Icon: ionicnh
+	-Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi
+		Queue: Defense
+		Prerequisites: eye
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 1
+	Health:
+		HP: 1
+#	AttackBase:
+#		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+	Armor: 
+		Type: None	
+		
+		
