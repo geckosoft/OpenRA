@@ -1,0 +1,396 @@
+Selectable: True
+
+MapFormat: 3
+
+Title: Chokepoint
+
+Description: A battle over a small stream with only small passes
+
+Author: Tiberian
+
+PlayerCount: 10
+
+Tileset: DESERT
+
+MapSize: 128,128
+
+TopLeft: 16,16
+
+BottomRight: 80,48
+
+Players:
+	PlayerReference@GDI:
+		Name: GDI
+		Palette:
+		OwnsWorld: True
+		NonCombatant: False
+		Playable: False
+		DefaultStartingUnits: False
+		AllowBots: True
+		LockRace: True
+		Race: gdi
+		LockColor: True
+		Color: 255,209,227,82
+		Color2: 255,20,22,3
+		InitialCash: 0
+		Allies: GDI
+		Enemies: NOD
+	PlayerReference@NOD:
+		Name: NOD
+		Palette:
+		OwnsWorld: True
+		NonCombatant: False
+		Playable: False
+		DefaultStartingUnits: False
+		AllowBots: True
+		LockRace: True
+		Race: nod
+		LockColor: True
+		Color: 255,255,14,14
+		Color2: 255,37,0,0
+		InitialCash: 0
+		Allies: NOD
+		Enemies: GDI
+	PlayerReference@Neutral:
+		Name: Neutral
+		Palette:
+		OwnsWorld: True
+		NonCombatant: True
+		Playable: False
+		DefaultStartingUnits: False
+		AllowBots: True
+		LockRace: False
+		Race: gdi
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi0:
+		Name: Multi0
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: gdi
+		LockColor: True
+		Color: 255,209,227,82
+		Color2: 255,20,22,3
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi1:
+		Name: Multi1
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: gdi
+		LockColor: True
+		Color: 255,209,227,82
+		Color2: 255,20,22,3
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi2:
+		Name: Multi2
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: gdi
+		LockColor: True
+		Color: 255,209,227,82
+		Color2: 255,20,22,3
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi3:
+		Name: Multi3
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: gdi
+		LockColor: True
+		Color: 255,209,227,82
+		Color2: 255,20,22,3
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi4:
+		Name: Multi4
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: nod
+		LockColor: True
+		Color: 255,255,14,14
+		Color2: 255,37,0,0
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi5:
+		Name: Multi5
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: nod
+		LockColor: True
+		Color: 255,255,14,14
+		Color2: 255,37,0,0
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi6:
+		Name: Multi6
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: nod
+		LockColor: True
+		Color: 255,255,14,14
+		Color2: 255,37,0,0
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi7:
+		Name: Multi7
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: True
+		Race: nod
+		LockColor: True
+		Color: 255,255,14,14
+		Color2: 255,37,0,0
+		InitialCash: 0
+		Allies:
+		Enemies:
+
+Actors:
+	Actor0: v01
+		Location: 16,42
+		Owner: Neutral
+	Actor1: v03
+		Location: 18,42
+		Owner: Neutral
+	Actor3: hosp
+		Location: 20,46
+		Owner: Neutral
+	Actor4: tc04
+		Location: 15,46
+		Owner: Neutral
+	Actor5: v32
+		Location: 20,44
+		Owner: Neutral
+	Actor6: c7
+		Location: 16,44
+		Owner: Neutral
+	Actor7: c10
+		Location: 19,44
+		Owner: Neutral
+	Actor8: c1
+		Location: 18,45
+		Owner: Neutral
+	Actor9: v16
+		Location: 16,45
+		Owner: Neutral
+	Actor10: t18
+		Location: 17,38
+		Owner: Neutral
+	Actor11: tc03
+		Location: 25,46
+		Owner: Neutral
+	Actor12: t08
+		Location: 24,42
+		Owner: Neutral
+	Actor13: t10
+		Location: 74,16
+		Owner: Neutral
+	Actor14: t15
+		Location: 73,18
+		Owner: Neutral
+	Actor15: tc01
+		Location: 76,16
+		Owner: Neutral
+	Actor16: tc03
+		Location: 78,16
+		Owner: Neutral
+	Actor17: t18
+		Location: 73,20
+		Owner: Neutral
+	Actor18: v11
+		Location: 76,18
+		Owner: Neutral
+	Actor19: v09
+		Location: 77,18
+		Owner: Neutral
+	Actor20: v09
+		Location: 78,18
+		Owner: Neutral
+	Actor21: wood
+		Location: 75,22
+		Owner: Neutral
+	Actor22: wood
+		Location: 76,22
+		Owner: Neutral
+	Actor30: c9
+		Location: 75,21
+		Owner: Neutral
+	Actor24: wood
+		Location: 78,22
+		Owner: Neutral
+	Actor25: wood
+		Location: 79,22
+		Owner: Neutral
+	Actor27: arco
+		Location: 78,20
+		Owner: Neutral
+	Actor28: c2
+		Location: 75,19
+		Owner: Neutral
+	Actor29: c7
+		Location: 77,21
+		Owner: Neutral
+	Actor31: tc02
+		Location: 69,17
+		Owner: Neutral
+	Actor32: tc03
+		Location: 77,26
+		Owner: Neutral
+	Actor33: tc05
+		Location: 70,24
+		Owner: Neutral
+	Actor34: t09
+		Location: 70,21
+		Owner: Neutral
+	Actor82: gtwr
+		Location: 27,40
+		Owner: GDI
+	Actor78: gun
+		Location: 27,19
+		Owner: GDI
+	Actor76: gun
+		Location: 65,20
+		Owner: NOD
+	Actor80: fact
+		Location: 20,33
+		Owner: GDI
+	Actor72: afld
+		Location: 72,32
+		Owner: NOD
+	Actor73: hand
+		Location: 70,27
+		Owner: NOD
+	Actor60: split2
+		Location: 49,39
+		Owner: Neutral
+	Actor59: split2
+		Location: 51,35
+		Owner: Neutral
+	Actor58: split2
+		Location: 53,31
+		Owner: Neutral
+	Actor69: gtwr
+		Location: 67,18
+		Owner: NOD
+	Actor70: proc
+		Location: 63,26
+		Owner: NOD
+	Actor57: split2
+		Location: 35,38
+		Owner: NOD
+	Actor71: obli
+		Location: 65,33
+		Owner: NOD
+	Actor64: weap
+		Location: 18,27
+		Owner: GDI
+	Actor66: gtwr
+		Location: 30,20
+		Owner: GDI
+	Actor79: fact
+		Location: 72,40
+		Owner: NOD
+	Actor68: gtwr
+		Location: 63,22
+		Owner: NOD
+	Actor81: pyle
+		Location: 20,23
+		Owner: GDI
+	Actor62: proc
+		Location: 27,23
+		Owner: GDI
+	Actor61: atwr
+		Location: 29,29
+		Owner: GDI
+	Actor67: gtwr
+		Location: 25,17
+		Owner: GDI
+	Actor55: split2
+		Location: 38,30
+		Owner: Neutral
+	Actor56: split2
+		Location: 36,34
+		Owner: Neutral
+	Actor83: atwr
+		Location: 26,42
+		Owner: GDI
+	Actor84: gtwr
+		Location: 63,40
+		Owner: NOD
+	Actor85: gun
+		Location: 17,32
+		Owner: GDI
+	Actor2: tmpl
+		Location: 65,43
+		Owner: NOD
+	Actor23: eye
+		Location: 19,18
+		Owner: GDI
+
+Waypoints:
+	wp0: 22,27
+	wp1: 22,28
+	wp2: 22,29
+	wp3: 22,30
+	wp4: 22,31
+	wp6: 72,35
+	wp7: 72,36
+	wp8: 72,37
+	wp9: 72,38
+	wp10: 72,39
+
+Smudges:
+
+Rules:
+
