@@ -157,7 +157,13 @@ namespace OpenRA
 				return;
 			MusicPlaying = true;
 			soundEngine.PauseSound(music, false);
-		}
+        }
+
+        public static void StopSound(ISound sound)
+        {
+            if (sound != null)
+                soundEngine.StopSound(sound);
+        }
 
 		public static void StopSound(ISound sound)
 		{
@@ -279,9 +285,15 @@ namespace OpenRA
 		void SetSoundVolume(float volume, ISound music, ISound video);
 	}
 
+<<<<<<< HEAD
 	interface ISoundSource { }
 
 	public interface ISound
+=======
+	interface ISoundSource {}
+
+    public interface ISound
+>>>>>>> Added all Renegade mode sources
 	{
 		float Volume { get; set; }
 		float SeekPosition { get; }

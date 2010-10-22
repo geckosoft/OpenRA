@@ -171,7 +171,6 @@ namespace OpenRA.Traits
         public Renderable(Sprite sprite, float2 pos, string palette, int z)
             : this(sprite, pos, palette, z, 0) { }
 
-
         public Renderable(Sprite sprite, float2 pos, string palette, int z, float scale)
             : this(sprite, pos, palette, z, 0, scale) { }
 
