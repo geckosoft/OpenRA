@@ -10,6 +10,7 @@
 
 using System.Linq;
 using OpenRA.Mods.RA;
+using OpenRA.Mods.RA.Move;
 using OpenRA.Mods.RA.Render;
 using OpenRA.Mods.Rg.Traits;
 using OpenRA.Traits;
@@ -79,9 +80,12 @@ namespace OpenRA.Mods.Rg.Activities
                     rgplayer.SetContainer(null);
                 }
 
+                var mobile = self.Trait<Mobile>();
+
 				actor.TraitsImplementing<IMove>().FirstOrDefault().SetPosition(actor, self.Location);
-				actor.CancelActivity();
-				actor.QueueActivity(new Move(exitTile.Value, 0));
+                actor.CancelActivity();
+                actor.QueueActivity(mobile.MoveTo(exitTile.Value,0));
+
 				if (actor.Owner == self.World.LocalPlayer)
 				{
 					var line = actor.TraitOrDefault<DrawLineToTarget>();

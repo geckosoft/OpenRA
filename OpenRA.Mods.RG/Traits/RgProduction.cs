@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using OpenRA.FileFormats;
 using OpenRA.Mods.RA;
+using OpenRA.Mods.RA.Move;
 using OpenRA.Traits;
 using OpenRA.Traits.Activities;
 
@@ -59,7 +60,7 @@ namespace OpenRA.Mods.Rg.Traits
             {
                 target = rp.rallyPoint;
                 // Todo: Move implies unit has Mobile
-                newUnit.QueueActivity(new Move(target, 1));
+                newUnit.QueueActivity(mobile.MoveTo(target, 1));
             }
 
             if (newUnit.Owner == self.World.LocalPlayer)

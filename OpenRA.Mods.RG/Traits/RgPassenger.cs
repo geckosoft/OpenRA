@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using OpenRA.Effects;
+using OpenRA.Mods.RA.Move;
 using OpenRA.Mods.RA.Orders;
 using OpenRA.Mods.Rg.Activities;
 using OpenRA.Traits;
@@ -81,7 +82,8 @@ namespace OpenRA.Mods.Rg.Traits
                     });
 
                 self.CancelActivity();
-                self.QueueActivity(new Move(order.TargetActor.Location, 1));
+                var mobile = self.Trait<Mobile>();
+                self.QueueActivity(mobile.MoveTo(order.TargetActor.Location, 1));
                 self.QueueActivity(new RgEnterTransport(self, order.TargetActor));
             }
         }
