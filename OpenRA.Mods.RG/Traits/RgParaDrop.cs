@@ -56,7 +56,7 @@ namespace OpenRA.Mods.Rg.Traits
                     self.World.AddFrameEndTask(w => w.Add(
                         new RgFakeParachute(self.Owner, rs.anim.Name,
                             Util.CenterOfCell(Util.CellContaining(self.CenterLocation)),
-                            aircraft.Altitude, a)));
+                            aircraft.Altitude / 2, a)));
                     
                     Sound.Play(info.ChuteSound, self.CenterLocation);
                 }

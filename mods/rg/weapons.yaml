@@ -697,7 +697,7 @@ RgAutoRifle:
 
 RgNuke:
 	Warhead@impact:
-		Damage: 1000
+		Damage: 2000
 		Spread: 1
 		Ore: false
 		Versus: 
@@ -710,7 +710,7 @@ RgNuke:
 		InfDeath: 4
 	Warhead@areanuke:
 		DamageModel: PerCell
-		Damage: 250
+		Damage: 500
 		SmudgeType: Scorch
 		Size: 1
 		Ore: false
@@ -725,7 +725,7 @@ RgNuke:
 
 RgIonCannon:
 	Warhead@impact:
-		Damage: 1000
+		Damage: 2000
 		Spread: 1
 		Ore: false
 		Versus: 
@@ -857,7 +857,7 @@ RgRocketLauncher:
 		Explosion: 5
 		ImpactSound: xplos
 		SmudgeType: Crater
-		Damage: 50
+		Damage: 25
 		
 
 RgTomahawk: 
@@ -971,15 +971,15 @@ RgNODArtillery:
 	Warhead:
 		Spread: 6
 		Versus: 
-			None: 90%
-			Wood: 75%
-			Light: 60%
-			Heavy: 25%
+			None: 75%
+			Wood: 90%
+			Light: 80%
+			Heavy: 100%
 		InfDeath: 2
 		Explosion: 5
 		SmudgeType: Crater
 		ImpactSound: xplos	
-		Damage: 25
+		Damage: 40
 		
 RgGDIArtillery:
 	ROF: 100
@@ -999,15 +999,15 @@ RgGDIArtillery:
 	Warhead:
 		Spread: 6
 		Versus: 
-			None: 90%
-			Wood: 75%
-			Light: 60%
-			Heavy: 25%
+			None: 75%
+			Wood: 90%
+			Light: 80%
+			Heavy: 100%
 		InfDeath: 2
 		Explosion: 5
 		ImpactSound: xplos
 		SmudgeType: Crater
-		Damage: 25
+		Damage: 40
 
 
 EngineerHeal:

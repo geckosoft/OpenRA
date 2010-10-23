@@ -932,6 +932,10 @@ nod_flamethrower:
 	die1: e4
 		Start: 509
 		Length: 9
+	muzzle: flame
+		Start: 0
+		Length: 13
+		Facings: 8
 		
 nod_chem_warrior:
 	stand: e5

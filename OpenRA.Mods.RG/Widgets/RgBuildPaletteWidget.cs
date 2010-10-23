@@ -190,8 +190,8 @@ namespace OpenRA.Mods.Rg.Widgets
             var x = 0;
             var y = 0;
             var buildableItems = queue.BuildableItems().OrderBy(a => a.Traits.Get<BuildableInfo>().BuildPaletteOrder);
-            var totalMoney = queue.self.Owner.PlayerActor.TraitOrDefault<PlayerResources>().Ore +
-                           queue.self.Owner.PlayerActor.TraitOrDefault<PlayerResources>().Cash;
+            var totalMoney = world.LocalPlayer.PlayerActor.TraitOrDefault<PlayerResources>().Ore +
+                           world.LocalPlayer.PlayerActor.TraitOrDefault<PlayerResources>().Cash;
 
 
             buildableItems =
@@ -209,14 +209,14 @@ namespace OpenRA.Mods.Rg.Widgets
             { 
                 /* dont have a unit yet, cant build anything! */
                 /* is actually buggy as in unit could be inside a tank, but its good that ppl cant buy stuff if they reside in one ^^ */
-                buildableItems = queue.BuildableItems().Where(a => a != a).OrderBy(a => a); /* yes the a != a is intended ;p */
+                buildableItems = queue.BuildableItems().Where(a => false).OrderBy(a => a);
             }else
             {
                 /* check distance */
                 var dis = (myUnits[0].CenterLocation - queue.self.CenterLocation).Length;
 
                 if (dis > 100) /* too far away */
-                    buildableItems = queue.BuildableItems().Where (a => a != a).OrderBy(a => a); /* yes the a != a is intended ;p */
+                    buildableItems = queue.BuildableItems().Where (a => false).OrderBy(a => a);
             }        
 
             var allBuildables = queue.AllItems().OrderBy(a => a.Traits.Get<BuildableInfo>().BuildPaletteOrder);

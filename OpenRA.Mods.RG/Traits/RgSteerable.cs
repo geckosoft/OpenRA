@@ -41,7 +41,7 @@ namespace OpenRA.Mods.Rg.Traits
 			get
 			{
 				yield return new DeployOrderTargeter( "Unload", 10, () => CanUnload( self ) );
-				yield return new UnitTraitOrderTargeter<RgPassenger>( "ReverseEnterTransport", 6, null, false, true );
+				yield return new UnitTraitOrderTargeter<RgPassenger>( "ReverseEnterTransport", 9, null, false, true );
 			}
 		}
 

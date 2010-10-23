@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenRA.FileFormats;
+using OpenRA.Mods.RA;
 using OpenRA.Mods.Rg.Effects;
 using OpenRA.Traits;
 
@@ -44,8 +45,9 @@ namespace OpenRA.Mods.Rg.Traits
 				        {
 						    new LocationInit( self.Location + Info.SpawnOffset ),
 						    new OwnerInit( self.Owner ),
+                            new SkipMakeAnimsInit()
 					    });
-
+                       
                        if (Info.InitialActivity != null)
                            a.QueueActivity(Game.CreateObject<IActivity>(Info.InitialActivity));
 

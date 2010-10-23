@@ -28,7 +28,7 @@ namespace OpenRA.Mods.Rg.Traits
         {
             get
             {
-                yield return new EnterOrderTargeter<RgSteerable>("EnterTransport", 6, false, true,
+                yield return new EnterOrderTargeter<RgSteerable>("EnterTransport", 100, false, true,
                     target => IsCorrectCargoType(target), target => CanEnter(target));
             }
         }

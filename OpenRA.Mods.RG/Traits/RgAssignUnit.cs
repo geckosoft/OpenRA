@@ -35,25 +35,28 @@ namespace OpenRA.Mods.Rg.Traits
             if (PendingOrders.Count > 0)
             {
                 var newPlayer = PendingOrders.Dequeue();
-                
+
+                if (newPlayer.PlayerRef.OwnsWorld || newPlayer.NonCombatant)
+                    return;
+
                 /* find our current units */
                 var player = newPlayer.PlayerActor.TraitOrDefault<RgPlayer>();
 
-                var unit = player.Avatar;
+                var avatar = player.Avatar;
 
                 /* todo Add distance check? */
-                if (unit != null && !unit.Destroyed && unit.IsInWorld && player.Container == null )
+                if (avatar != null && !avatar.Destroyed && avatar.IsInWorld && player.Container == null )
                 {
                     if (other.Info.Name == "gdi_ion_beacon" || other.Info.Name == "nod_nuke_beacon")
                     {
-                        if (unit.TraitOrDefault<RgSuperPowerLauncher>().Ammo == 0)
+                        if (avatar.TraitOrDefault<RgSuperPowerLauncher>().Ammo == 0)
                         {
                             if (newPlayer == newPlayer.World.LocalPlayer)
                             {
                                 Game.AddChatLine(Color.OrangeRed, "EVA",
                                                  "Beacon acquired!");
                             }
-                            unit.TraitOrDefault<RgSuperPowerLauncher>().Ammo++;
+                            avatar.TraitOrDefault<RgSuperPowerLauncher>().Ammo++;
                         }else
                         {
                             if (newPlayer == newPlayer.World.LocalPlayer)
@@ -62,22 +65,22 @@ namespace OpenRA.Mods.Rg.Traits
                                                  "You can only carry one beacon at the same time!");
                             }
                             /* give back the money */
-                            player.Parent.PlayerActor.TraitOrDefault<PlayerResources>().GiveCash(other.Info.Traits.GetOrDefault<ValuedInfo>().Cost);
+                            newPlayer.PlayerActor.TraitOrDefault<PlayerResources>().GiveCash(other.Info.Traits.GetOrDefault<ValuedInfo>().Cost);
                         }
 
                         other.World.Remove(other);
                         other.Destroy();
                     }
-                    else if (unit.Info.Traits.GetOrDefault<BuildableInfo>() != null && unit.Info.Traits.GetOrDefault<BuildableInfo>().Queue == "Infantry")
+                    else if (avatar.Info.Traits.GetOrDefault<BuildableInfo>() != null && avatar.Info.Traits.GetOrDefault<BuildableInfo>().Queue == "Infantry")
                     {
-                        unit.CancelActivity();
+                        avatar.CancelActivity();
                         self.World.Remove(other);
                         other.Owner = newPlayer;
                         self.World.Add(other);
 
-                        self.World.Remove(unit);
+                        self.World.Remove(avatar);
 
-                        unit.Destroy();
+                        avatar.Destroy();
                     }
                 }else
                 {

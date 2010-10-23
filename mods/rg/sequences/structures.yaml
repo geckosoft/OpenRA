@@ -350,38 +350,38 @@ atwr:
 
 
 weap_destroyed:
-	idle: weap
+	damaged-idle: weap
 		Start: 0
-	damaged-idle:weap
+	idle:weap
 		Start: 1
 	dead:weap
 		Start: 2
-	build-top: weap2
+	damaged-build-top: weap2
 		Start: 0
 		Length: 10
-	damaged-build-top: weap2
+	build-top: weap2
 		Start: 10
 		Length: 10
-	idle-top: weap2
-		Start: 0
 	damaged-idle-top: weap2
+		Start: 0
+	idle-top: weap2
 		Start: 4
 	make: weapmake
 		Start: 0
 		Length: *
 
 afld_destroyed:
-	idle:afld
+	damaged-idle:afld
 		Start: 0
 		Tick: 120
-	active:afld
+	damaged-active:afld
 		Start: 0
 		Length: 16
 		Tick: 120
-	damaged-idle:afld
+	idle:afld
 		Start: 16
 		Tick: 120
-	damaged-active:afld
+	active:afld
 		Start: 16
 		Length: 16
 		Tick: 120
@@ -393,9 +393,9 @@ afld_destroyed:
 		
 		
 hand_destroyed:
-	idle:hand
-		Start: 0
 	damaged-idle:hand
+		Start: 0
+	idle:hand
 		Start: 1
 	dead:hand
 		Start: 2
@@ -404,10 +404,10 @@ hand_destroyed:
 		Length: *
 
 pyle_destroyed:
-	idle:pyle
+	damaged-idle:pyle
 		Start: 0
 		Length: 10
-	damaged-idle:pyle
+	idle:pyle
 		Start: 10
 		Length: 10
 	dead:pyle

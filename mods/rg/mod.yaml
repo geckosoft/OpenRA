@@ -41,8 +41,7 @@ Packages:
 	allies.mix
 	russian.mix
 	interior.mix
-	ra-sounds.mix
-
+	mods/ra/packages/sounds.mix
 Rules:
 	mods/rg/rules/defaults.yaml
 	mods/rg/rules/system.yaml

@@ -40,6 +40,7 @@ FACT:
 		PipColor: Green
 		Capacity: 1000000
 	RgBeaconTarget:
+	MustBeDestroyed
 
 NUKE:
 	Inherits: ^Building
@@ -64,6 +65,7 @@ NUKE:
 	Bib:
 	Scale:
 		Value: 2
+	MustBeDestroyed
 
 PROC:
 	Inherits: ^Building
@@ -87,7 +89,7 @@ PROC:
 	RevealsShroud:
 		Range: 6
 	Bib:
-	OreRefinery:
+	RgOreRefinery:
 		LocalStorage: yes
 		PipCount: 15
 		PipColor: Red
@@ -109,6 +111,7 @@ PROC:
 		Facing: 64
 	Scale:
 		Value: 2
+	MustBeDestroyed
 
 SILO:
 	Inherits: ^Building
@@ -167,6 +170,7 @@ HQ:
 	ProvidesRadar:
 	DetectCloaked:
 		Range: 8
+	MustBeDestroyed
 
 NUK2:
 	Inherits: ^Building
@@ -190,6 +194,7 @@ NUK2:
 	RevealsShroud:
 		Range: 4
 	Bib:
+	MustBeDestroyed
 		
 FIX:
 	Inherits: ^Building
@@ -217,6 +222,7 @@ FIX:
 	RepairsUnits:
 	RallyPoint:
 	Bib:
+	MustBeDestroyed
 
 HPAD:
 	Inherits: ^Building
@@ -252,6 +258,7 @@ HPAD:
 		Type: Plane
 		BuildSpeed: .4
 		LowPowerSlowdown: 3
+	MustBeDestroyed
 	
 EYE:
 	RequiresPower:
@@ -293,6 +300,7 @@ EYE:
 	RgAssignUnit:
 	Scale:
 		Value: 2
+	MustBeDestroyed
 	
 TMPL:
 	RequiresPower:
@@ -336,6 +344,7 @@ TMPL:
 	RgAssignUnit:
 	Scale:
 		Value: 2
+	MustBeDestroyed
 
 OBLI:
 	RequiresPower:
@@ -373,6 +382,7 @@ OBLI:
 	-EmitInfantryOnSell:
 	Scale:
 		Value: 2
+	MustBeDestroyed
 
 CYCL:
 	Inherits: ^Wall
@@ -564,6 +574,7 @@ ATWR:
 	RenderRangeCircle:
 	Scale:
 		Value: 2
+	MustBeDestroyed
 		
 WEAP_DESTROYED:
 	Inherits: ^Building
@@ -590,8 +601,8 @@ WEAP_DESTROYED:
 	RevealsShroud:
 		Range: 4
 	Bib:
-	-RenderBuilding:
 	RenderWarFactory:
+		HasMakeAnimation: false
 	RallyPoint:
 		RallyPoint: 0,8
 	Exit@1:
@@ -605,6 +616,7 @@ WEAP_DESTROYED:
 		Type: Vehicle
 		BuildSpeed: 0.000001
 	RgDestroyed:
+	-RenderBuilding:	
 		
 AFLD_DESTROYED:
 	Inherits: ^Building
@@ -645,9 +657,9 @@ AFLD_DESTROYED:
 		LowPowerSlowdown: 3
 	Scale:
 		Value: 2
-	RgDestroyed:
-	
-
+	RgDestroyed:	
+	RenderBuilding:
+		HasMakeAnimation: false
 PYLE:
 	Inherits: ^Building
 	Valued:
@@ -689,6 +701,7 @@ PYLE:
 		Value: 2
 	RgReplaceActorOnDeath:
 		Actor: pyle_destroyed
+	MustBeDestroyed
 HAND:
 	Inherits: ^Building
 	Valued:
@@ -727,6 +740,7 @@ HAND:
 		Value: 2
 	RgReplaceActorOnDeath:
 		Actor: hand_destroyed
+	MustBeDestroyed
 	
 AFLD:
 	Inherits: ^Building
@@ -775,6 +789,7 @@ AFLD:
 		Value: 2
 	RgReplaceActorOnDeath:
 		Actor: afld_destroyed
+	MustBeDestroyed
 
 WEAP:
 	Inherits: ^Building
@@ -823,6 +838,7 @@ WEAP:
 		BuildSpeed: 0.000001
 	RgReplaceActorOnDeath:
 		Actor: weap_destroyed
+	MustBeDestroyed
 
 
 PYLE_DESTROYED:
@@ -865,6 +881,8 @@ PYLE_DESTROYED:
 	Scale:
 		Value: 2
 	RgDestroyed:
+	RenderBuilding:
+		HasMakeAnimation: false
 HAND_DESTROYED:
 	Inherits: ^Building
 	Valued:
@@ -901,4 +919,6 @@ HAND_DESTROYED:
 	RgAssignUnit:
 	Scale:
 		Value: 2
-	RgDestroyed:
+	RgDestroyed:	
+	RenderBuilding:
+		HasMakeAnimation: false
