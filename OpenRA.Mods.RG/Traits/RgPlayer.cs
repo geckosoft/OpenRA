@@ -31,10 +31,12 @@ namespace OpenRA.Mods.Rg.Traits
 
                 if (self.Owner != player && self.Owner.Stances[player] == Stance.Ally)
                 {
-                    var fact = self.World.Queries.OwnedBy[player].Where(a => !a.Destroyed && a.Owner == player && a.Info.Name == "fact").SingleOrDefault();
-                    if (fact != null)
+                    /* spawn at any barrack (checking pyle, pyle_destroyed, hand, hand_destroyed) */
+                    var barracks = self.World.Queries.OwnedBy[player].Where(a => !a.Destroyed && a.Owner == player && (a.Info.Name == "pyle" || a.Info.Name == "pyle_destroyed" || a.Info.Name == "hand" || a.Info.Name == "hand_destroyed")).FirstOrDefault();
+
+                    if (barracks != null)
                     {
-                        return fact.Location;// +new int2(-5, -5);
+                        return barracks.Location; // +new int2(-5, -5);
                     }
                 }
             }
@@ -69,7 +71,10 @@ namespace OpenRA.Mods.Rg.Traits
 
             return units.Count() > 0;
         }
-
+        public PlayerResources ParentResources
+        {
+            get { if (Parent == null) return null;  return Parent.PlayerActor.Trait<PlayerResources>(); }
+        }
         public Player Parent
         {
             get

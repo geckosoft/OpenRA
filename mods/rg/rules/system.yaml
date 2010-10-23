@@ -72,7 +72,8 @@ Player:
 	PlayerColorPalette:
 		BasePalette: terrain
 		PaletteFormat: cnc
-
+	RgScore:
+	
 World:
 	OpenWidgetAtGameStart:
 	ScreenShaker:

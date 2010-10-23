@@ -26,7 +26,7 @@ namespace OpenRA.Mods.Rg.Widgets
 
             /* find our cpu resources */
             // self.World.Queries.Ow
-
+            /* not needed anymore! :)
             foreach (var kv in world.players)
             {
                 var player = kv.Value;
@@ -36,6 +36,7 @@ namespace OpenRA.Mods.Rg.Widgets
                     playerResources = player.PlayerActor.Trait<PlayerResources>();
                 }
             }
+            */
 
             var digitCollection = "digits-" + world.LocalPlayer.Country.Race;
             var chromeCollection = "chrome-" + world.LocalPlayer.Country.Race;

@@ -82,6 +82,8 @@
     <Compile Include="Effects\RgIonCannon.cs" />
     <Compile Include="Effects\RgNukeLaunch.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\RgScore.cs" />
+    <Compile Include="Traits\RgOreRefinery.cs" />
     <Compile Include="Traits\RgDisarmSuperPower.cs" />
     <Compile Include="Traits\RgAssignUnit.cs" />
     <Compile Include="Traits\RgBeaconTarget.cs" />

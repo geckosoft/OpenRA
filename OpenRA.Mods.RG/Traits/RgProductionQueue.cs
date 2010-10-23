@@ -138,8 +138,13 @@ namespace OpenRA.Mods.Rg.Traits
 
                         bool hasPlayedSound = false;
 
-                        if (self.Owner.PlayerActor.TraitOrDefault<PlayerResources>().Ore + self.Owner.PlayerActor.TraitOrDefault<PlayerResources>().Cash < cost)
+                        if (order.TargetActor.TraitOrDefault<PlayerResources>().Ore + order.TargetActor.TraitOrDefault<PlayerResources>().Cash < cost)
                             break; /* cant pay for it! */
+
+                        /* give money to cpu! */
+                        order.TargetActor.TraitOrDefault<RgPlayer>().ParentResources.GiveCash(cost);
+                        /* take it from the player */
+                        order.TargetActor.TraitOrDefault<PlayerResources>().TakeCash(cost);
 
                         BeginProduction(new RgProductionItem(this, order.TargetString, (int)time, cost,
                                 () => self.World.AddFrameEndTask(
