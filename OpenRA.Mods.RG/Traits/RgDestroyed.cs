@@ -25,7 +25,7 @@ namespace OpenRA.Mods.Rg.Traits
             Info = info;
         }
 
-        public float GetDamageModifier(WarheadInfo warhead)
+        public float GetDamageModifier(Actor attacker, WarheadInfo warhead)
         {
             return 0;
         }
