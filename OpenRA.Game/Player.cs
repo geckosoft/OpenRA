@@ -41,7 +41,9 @@ namespace OpenRA
 		public bool IsBot;
 		
 		public ShroudRenderer Shroud;
-		public World World { get; private set; }
+        public World World { get; private set; }
+        public bool Connected { get { return (Client == null || Client.State != Session.ClientState.Disconnected); } }
+        private Session.Client Client { get; set; } /* cannot serialize this ^^ */
 
 		public Player( World world, PlayerReference pr, int index )
 		{
@@ -70,7 +72,8 @@ namespace OpenRA
 		{
 			World = world;
 			Shroud = new ShroudRenderer(this, world.Map);
-			
+		    Client = client;
+
 			Index = index;
 			Palette = "player"+index;
 			Color = client.Color1;

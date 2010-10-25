@@ -34,7 +34,8 @@ namespace OpenRA.Network
 		public enum ClientState
 		{
 			NotReady,
-			Ready
+			Ready,
+            Disconnected = 1000
 		}
 
 		public class Client
