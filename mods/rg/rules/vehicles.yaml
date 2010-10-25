@@ -63,6 +63,7 @@ HARV:
 	-AttackMove:
 	Scale:
 		Value: 2
+	RgDestroyed:
 
 APC:
 	Inherits: ^SteerableTank
@@ -555,8 +556,8 @@ C17:
 	Tooltip:
 		Name: Supply Aircraft
 	Plane:
-		ROT: 5
-		Speed: 25
+		ROT: 1
+		Speed: 40
 		CruiseAltitude: 60
 	Health:
 		HP: 999999
@@ -747,7 +748,7 @@ GDI_APC:
 	Armor:
 		Type: Heavy
 	RevealsShroud:
-		Range: 5
+		Range: 8
 	AttackBase:
 		PrimaryWeapon: RgMachineGun
 		PrimaryOffset: 0,0,0,-4
@@ -783,7 +784,7 @@ NOD_APC:
 	Armor:
 		Type: Heavy
 	RevealsShroud:
-		Range: 5
+		Range: 8
 	AttackBase:
 		PrimaryWeapon: RgMachineGun
 		PrimaryOffset: 0,0,0,-4
@@ -823,7 +824,8 @@ NOD_STEALTH_TANK:
 		Range: 10
 	Cloak:
 		InitialDelay: 0
-		CloakDelay: 2.0
+# was 2.0
+		CloakDelay: 4.0
 		CloakSound: appear1.aud
 		UncloakSound: appear1.aud
 	AttackBase:

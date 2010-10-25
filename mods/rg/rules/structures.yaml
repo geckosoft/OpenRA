@@ -111,7 +111,8 @@ PROC:
 		Facing: 64
 	Scale:
 		Value: 2
-	MustBeDestroyed
+	MustBeDestroyed:
+	
 
 SILO:
 	Inherits: ^Building

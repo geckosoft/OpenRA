@@ -15,6 +15,10 @@ namespace OpenRA.Mods.Rg.Traits
         public object Create(ActorInitializer init) { return new RgAssignUnit(init.self); }
     }
 
+    class A<T, T2>
+    {
+        
+    }
     class RgAssignUnit : INotifyProduction, IResolveOrder
     {
         public Queue<Player> PendingOrders = new Queue<Player>();

@@ -45,10 +45,11 @@ namespace OpenRA.Mods.Rg.Activities
 			// if we're a thing that can turn, turn to the
 			// right facing for the unload animation
 			var facing = self.TraitOrDefault<IFacing>();
-			var unloadFacing = self.Info.Traits.Get<RgSteerableInfo>().UnloadFacing;
+			// Dont use this anymore ^^
+            /*var unloadFacing = self.Info.Traits.Get<RgSteerableInfo>().UnloadFacing;
 			if (facing != null && facing.Facing != unloadFacing)
 				return Util.SequenceActivities( new Turn(unloadFacing), this );
-
+            */
 			// todo: handle the BS of open/close sequences, which are inconsistent,
 			//		for reasons that probably make good sense to the westwood guys.
 
