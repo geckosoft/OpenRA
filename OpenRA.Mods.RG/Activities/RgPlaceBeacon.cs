@@ -16,7 +16,7 @@ namespace OpenRA.Mods.Rg.Activities
         public RgPlaceBeacon(Actor target) { this.target = Target.FromActor(target); }
         public ISound CountDown = null;
 
-        protected override bool OnCancel()
+        protected override bool OnCancel(Actor self)
         {
             if (CountDown != null)
                 Sound.StopSound(CountDown);
