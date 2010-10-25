@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Windows.Forms;
 using OpenRA.FileFormats;
 using OpenRA.GameRules;
@@ -80,7 +79,7 @@ namespace OpenRA
 		internal static int LocalTick { get { return orderManager.LocalFrameNumber; } }
 		const int NetTickScale = 3;		// 120ms net tick for 40ms local tick
 
-		internal static event Action<OrderManager> ConnectionStateChanged = _ => { };
+		public static event Action<OrderManager> ConnectionStateChanged = _ => { };
 		static ConnectionState lastConnectionState = ConnectionState.PreConnecting;
 		public static int LocalClientId { get { return orderManager.Connection.LocalClientId; } }
 
@@ -99,7 +98,7 @@ namespace OpenRA
 			using (new PerfSample("render"))
 			{
 				++RenderFrame;
-				viewport.DrawRegions(worldRenderer, new DefaultInputHandler( orderManager.world ));
+				viewport.DrawRegions(worldRenderer);
 				Sound.SetListenerPosition(viewport.Location + .5f * new float2(viewport.Width, viewport.Height));
 			}
 
@@ -143,6 +142,7 @@ namespace OpenRA
 							});
 						
 						world.Tick();
+						worldRenderer.Tick();
 
 						PerfHistory.Tick();
 					}
@@ -152,8 +152,7 @@ namespace OpenRA
 				}
 		}
 
-		internal static event Action LobbyInfoChanged = () => { };
-		internal static event Action ConnectedToLobby = () => { };
+		public static event Action LobbyInfoChanged = () => { };
 
 		internal static void SyncLobbyInfo()
 		{
@@ -175,9 +174,25 @@ namespace OpenRA
 			Widget.SelectedWidget = null;
 
 			orderManager.LocalFrameNumber = 0;
+
 			orderManager.StartGame();
 			worldRenderer.RefreshPalette();
 			AfterGameStart( orderManager.world );
+		}
+
+		public static void DispatchMouseInput(MouseInputEvent ev, MouseEventArgs e, Modifiers modifierKeys)
+		{
+			Sync.CheckSyncUnchanged( orderManager.world, () =>
+			{
+				var mi = new MouseInput
+				{
+					Button = (MouseButton)(int)e.Button,
+					Event = ev,
+					Location = new int2( e.Location ),
+					Modifiers = modifierKeys,
+				};
+				Widget.HandleInput( mi );
+			} );
 		}
 
 		public static bool IsHost
@@ -185,9 +200,17 @@ namespace OpenRA
 			get { return orderManager.Connection.LocalClientId == 0; }
 		}
 
+		public static void HandleKeyEvent(KeyInput e)
+		{
+			Sync.CheckSyncUnchanged( orderManager.world, () =>
+			{
+				Widget.HandleKeyPress( e );
+			} );
+		}
+
 		static Modifiers modifiers;
 		public static Modifiers GetModifierKeys() { return modifiers; }
-		internal static void HandleModifierKeys(Modifiers mods) { modifiers = mods; }
+		public static void HandleModifierKeys(Modifiers mods) {	modifiers = mods; }
 
 		internal static void Initialize(Arguments args)
 		{
@@ -220,138 +243,46 @@ namespace OpenRA
 			Console.WriteLine("Loading mods: {0}",string.Join(",",mods));
 			
 			modData = new ModData( mods );
-
-			// when this client is running in dedicated mode ...
-			if (Settings.Server.IsDedicated)
-			{
-				// it may specify a yaml extension file (to add non synced traits)
-				if (!string.IsNullOrEmpty(Settings.Server.ExtensionYaml))
-				{
-					var r = modData.Manifest.LocalRules.ToList();
-					r.Add(Settings.Server.ExtensionYaml);
-					modData.Manifest.LocalRules = r.ToArray();
-				} 
-				// and a dll to the assemblies (to add those non synced traits)
-				if (!string.IsNullOrEmpty(Settings.Server.ExtensionDll))
-				{
-					var r = modData.Manifest.LocalAssemblies.ToList();
-					r.Add(Settings.Server.ExtensionDll);
-					modData.Manifest.LocalAssemblies = r.ToArray();
-				}
-
-				if (!string.IsNullOrEmpty(Settings.Server.ExtensionClass))
-					Settings.Server.Extension = modData.ObjectCreator.CreateObject<IServerExtension>(Settings.Server.ExtensionClass);
-			}
-
+			
 			Sound.Initialize();
 			PerfHistory.items["render"].hasNormalTick = false;
 			PerfHistory.items["batches"].hasNormalTick = false;
 			PerfHistory.items["text"].hasNormalTick = false;
 			PerfHistory.items["cursor"].hasNormalTick = false;
 
+			
+			JoinLocal();
+			StartGame(modData.Manifest.ShellmapUid);
 
-			if (!Settings.Graphics.UseNullRenderer)
+			Game.ConnectionStateChanged += orderManager =>
 			{
-				JoinLocal();
-				StartGame(modData.Manifest.ShellmapUid);
-
-				Game.ConnectionStateChanged += om =>
-               	{
-               		Widget.CloseWindow();
-               		switch (om.Connection.ConnectionState)
-               		{
-               			case ConnectionState.PreConnecting:
-               				Widget.OpenWindow("MAINMENU_BG");
-               				break;
-               			case ConnectionState.Connecting:
-               				Widget.OpenWindow("CONNECTING_BG",
-               				                  new Dictionary<string, object>
-               				                  	{{"host", om.Host}, {"port", om.Port}});
-               				break;
-               			case ConnectionState.NotConnected:
-               				Widget.OpenWindow("CONNECTION_FAILED_BG",
-               				                  new Dictionary<string, object>
-               				                  	{{"host", om.Host}, {"port", om.Port}});
-               				break;
-               			case ConnectionState.Connected:
-               				var lobby = Widget.OpenWindow("SERVER_LOBBY",
-               				                              new Dictionary<string, object>
-               				                              	{{"orderManager", om}});
-               				lobby.GetWidget<ChatDisplayWidget>("CHAT_DISPLAY").ClearChat();
-               				lobby.GetWidget("CHANGEMAP_BUTTON").Visible = true;
-               				lobby.GetWidget("LOCKTEAMS_CHECKBOX").Visible = true;
-               				lobby.GetWidget("DISCONNECT_BUTTON").Visible = true;
-
-							// Inform whoever is willing to hear it that the player is connected to the lobby
-               				if (ConnectedToLobby != null)
-               					ConnectedToLobby();
-
-							if (Settings.Server.IsDedicated)
-							{
-								// Force spectator as a default
-								Game.orderManager.IssueOrder(Order.Command("spectator"));
-							}
-
-							if (Game.Settings.Server.Extension != null)
-								Game.Settings.Server.Extension.OnLobbyUp(); 
-							break;
-               		}
-               	};
-
-				modData.WidgetLoader.LoadWidget(new Dictionary<string, object>(), Widget.RootWidget, "PERF_BG");
-				Widget.OpenWindow("MAINMENU_BG");
-			}else
-			{
-				JoinLocal();
-				StartGame(modData.Manifest.ShellmapUid);
-
-				Game.ConnectionStateChanged += om =>
+				Widget.CloseWindow();
+				switch( orderManager.Connection.ConnectionState )
 				{
-					Widget.CloseWindow();
-					switch (om.Connection.ConnectionState)
-					{
-						case ConnectionState.PreConnecting:
-							Widget.OpenWindow("MAINMENU_BG");
-							break;
-						case ConnectionState.Connecting:
-							Widget.OpenWindow("CONNECTING_BG",
-											  new Dictionary<string, object> { { "host", om.Host }, { "port", om.Port } });
-							break;
-						case ConnectionState.NotConnected:
-							Widget.OpenWindow("CONNECTION_FAILED_BG",
-											  new Dictionary<string, object> { { "host", om.Host }, { "port", om.Port } });
-							break;
-						case ConnectionState.Connected:
-							var lobby = Widget.OpenWindow("SERVER_LOBBY",
-														  new Dictionary<string, object> { { "orderManager", om } });                          
+					case ConnectionState.PreConnecting:
+						Widget.OpenWindow("MAINMENU_BG");
+						break;
+					case ConnectionState.Connecting:
+						Widget.OpenWindow( "CONNECTING_BG",
+							new Dictionary<string, object> { { "host", orderManager.Host }, { "port", orderManager.Port } } );
+						break;
+					case ConnectionState.NotConnected:
+						Widget.OpenWindow( "CONNECTION_FAILED_BG",
+							new Dictionary<string, object> { { "host", orderManager.Host }, { "port", orderManager.Port } } );
+						break;
+					case ConnectionState.Connected:
+						var lobby = Widget.OpenWindow( "SERVER_LOBBY", new Dictionary<string, object> { { "orderManager", orderManager } } );
+						lobby.GetWidget<ChatDisplayWidget>("CHAT_DISPLAY").ClearChat();
+						lobby.GetWidget("CHANGEMAP_BUTTON").Visible = true;
+						lobby.GetWidget("LOCKTEAMS_CHECKBOX").Visible = true;
+						lobby.GetWidget("DISCONNECT_BUTTON").Visible = true;
+						//r.GetWidget("INGAME_ROOT").GetWidget<ChatDisplayWidget>("CHAT_DISPLAY").ClearChat();	
+						break;
+				}
+			};
 
-							// Inform whoever is willing to hear it that the player is connected to the lobby
-							if (ConnectedToLobby != null)
-								ConnectedToLobby();
-
-							if (Settings.Server.IsDedicated)
-							{
-								// Force spectator as a default
-								Game.orderManager.IssueOrder(Order.Command("spectator"));
-							}
-
-							if (Game.Settings.Server.Extension != null)
-								Game.Settings.Server.Extension.OnLobbyUp(); 
-							break;
-					}
-				};
-
-				modData.WidgetLoader.LoadWidget(new Dictionary<string, object>(), Widget.RootWidget, "PERF_BG");
-				Widget.OpenWindow("MAINMENU_BG");
-			}
-
-			if (Settings.Server.IsDedicated)
-			{
-				// Auto-host
-				var map = Game.modData.AvailableMaps.FirstOrDefault(m => m.Value.Selectable).Key;
-				Server.Server.ServerMain(Game.modData, Settings, map);
-				Game.JoinServer(IPAddress.Loopback.ToString(), Settings.Server.ListenPort);
-			}
+			modData.WidgetLoader.LoadWidget( new Dictionary<string,object>(), Widget.RootWidget, "PERF_BG" );
+			Widget.OpenWindow("MAINMENU_BG");
 
 			Game.orderManager.LastTickTime = Environment.TickCount;
 		}
@@ -377,9 +308,6 @@ namespace OpenRA
 
 		public static void Disconnect()
 		{
-			if (IsHost)
-				Server.Server.StopListening();
-
 			orderManager.Dispose();
 			var shellmap = modData.Manifest.ShellmapUid;
 			JoinLocal();
@@ -411,40 +339,6 @@ namespace OpenRA
 		public static T CreateObject<T>( string name )
 		{
 			return modData.ObjectCreator.CreateObject<T>( name );
-		}
-
-		public static void RejoinLobby(World world)
-		{
-			if (Game.IsHost && Game.Settings.Server.Extension != null)
-				Game.Settings.Server.Extension.OnRejoinLobby(world);
-
-			var map = orderManager.LobbyInfo.GlobalSettings.Map;
-			var host = orderManager.Host;
-			var port = orderManager.Port;
-			var isHost = Game.IsHost;
-
-			Disconnect();
-			ConnectedToLobby += () =>
-         	{
-				if (world.LocalPlayer != null)
-				{
-					/* Try to get back the old slot */
-					Game.orderManager.IssueOrder(Order.Command("race " + world.LocalPlayer.Country.Race));
-					Game.orderManager.IssueOrder(Order.Command("slot " + world.LobbyInfo.ClientWithIndex(world.LocalPlayer.ClientIndex).Slot));
-				}else /* a spectator */
-				{
-					Game.orderManager.IssueOrder(Order.Command("spectator"));
-				}
-
-         		ConnectedToLobby = null;
-         	};
-			if (isHost)
-			{
-				Server.Server.ServerMain(Game.modData, Settings, map);
-				JoinServer(IPAddress.Loopback.ToString(), Settings.Server.ListenPort);
-			}
-			else
-				JoinServer(host, port);
 		}
 	}
 }
