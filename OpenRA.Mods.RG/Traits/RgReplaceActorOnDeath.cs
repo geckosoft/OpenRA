@@ -56,7 +56,7 @@ namespace OpenRA.Mods.Rg.Traits
 
                        if (Info.MarkDestroyed)
                        {
-                           a.World.AddFrameEndTask(ww => ww.Add(new RgDestroyedFx(a)));
+                           a.World.AddFrameEndTask(ww => ww.Add(new RgPaletteFx(a, "destroyed")));
                        }
                    }
                    );

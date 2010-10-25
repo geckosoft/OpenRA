@@ -215,7 +215,7 @@ SOLDIER:
 	IdleAnimation:
 		Animations: idle1,idle2,idle3	
 	Armor: 
-		Type: None	
+		Type: None		
 		
 GDI_SOLDIER:
 	Inherits: ^Infantry
@@ -530,5 +530,73 @@ GDI_ION_BEACON:
 		Animations: idle1,idle2,idle3
 	Armor: 
 		Type: None	
-		
-		
+
+GDI_SNIPER_1:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Deadeye
+		Description: Long-distance sniper.\n  Strong vs Infantry\n  Weak vs Heavy Armor
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi
+		Prerequisites: pyle
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 150
+	-RevealsShroud:
+	RevealsShroud:
+		Range: 20
+	AttackFrontal:
+		PrimaryWeapon: RgSniperBasic
+		FireDelay: 15
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None	
+	-RenderInfantry:
+	RgRenderInfantry:
+	RgProne:
+		ProneSpeed: 0.5
+		DamageTakenModifier: 0.75
+
+NOD_SNIPER_1:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Black Hand Sniper
+		Description: Long-distance sniper.\n  Strong vs Infantry\n  Weak vs Heavy Armor
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 150
+	-RevealsShroud:
+	RevealsShroud:
+		Range: 20
+	AttackFrontal:
+		PrimaryWeapon: RgSniperBasic
+		FireDelay: 15
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None		
+	-RenderInfantry:
+	RgRenderInfantry:
+	RgProne:
+		ProneSpeed: 0.5
+		DamageTakenModifier: 0.75
