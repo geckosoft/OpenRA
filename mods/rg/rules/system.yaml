@@ -192,6 +192,7 @@ World:
 #	ValidateOrder:
 	RgValidateOrder:
 	RgUnitOrderGenerator:
+	PathFinder:
 
 
 CRATE:

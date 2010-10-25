@@ -82,6 +82,7 @@
     <Compile Include="Effects\RgIonCannon.cs" />
     <Compile Include="Effects\RgNukeLaunch.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\RgIsEngineer.cs" />
     <Compile Include="Traits\RgScore.cs" />
     <Compile Include="Traits\RgOreRefinery.cs" />
     <Compile Include="Traits\RgDisarmSuperPower.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Traits\RgProductionQueue.cs" />
     <Compile Include="Traits\RgPlayer.cs" />
     <Compile Include="Traits\RgReplaceActorOnDeath.cs" />
+    <Compile Include="Traits\RgSteerableEnterOrderTargeter.cs" />
     <Compile Include="Traits\RgSuperPowerLauncher.cs" />
     <Compile Include="Traits\RgUnitOrderGenerator.cs" />
     <Compile Include="Traits\RgVictoryConditions.cs" />

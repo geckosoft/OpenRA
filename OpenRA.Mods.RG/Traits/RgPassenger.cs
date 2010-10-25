@@ -29,7 +29,7 @@ namespace OpenRA.Mods.Rg.Traits
         {
             get
             {
-                yield return new EnterOrderTargeter<RgSteerable>("EnterTransport", 100, false, true,
+                yield return new RgSteerableEnterOrderTargeter<RgSteerable>("EnterTransport", 100, true, true,
                     target => IsCorrectCargoType(target), target => CanEnter(target));
             }
         }
@@ -52,7 +52,19 @@ namespace OpenRA.Mods.Rg.Traits
         bool CanEnter(Actor target)
         {
             var cargo = target.TraitOrDefault<RgSteerable>();
-            return (cargo != null && !cargo.IsFull(target));
+            if (cargo == null)
+                return false;
+
+            if (cargo.IsEmpty(target))
+                return true;
+
+            var first = cargo.Passengers.First();
+
+            /* cant exit a vehicle used by an enemy */
+            if (first.Owner.Stances[target.Owner] == Stance.Enemy)
+                return false;
+
+            return true;
         }
 
         public string VoicePhraseForOrder(Actor self, Order order)
@@ -83,7 +95,10 @@ namespace OpenRA.Mods.Rg.Traits
 
                 self.CancelActivity();
                 var mobile = self.Trait<Mobile>();
-                self.QueueActivity(mobile.MoveTo(order.TargetActor.Location, 1));
+
+                if ((self.Location - order.TargetActor.Location).Length > 1)
+                    self.QueueActivity(mobile.MoveTo(order.TargetActor.Location, 1));
+
                 self.QueueActivity(new RgEnterTransport(self, order.TargetActor));
             }
         }

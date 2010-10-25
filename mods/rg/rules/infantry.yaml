@@ -431,11 +431,13 @@ GDI_ENGINEER:
 		PipType: Yellow
 	AttackBase:
 		PrimaryWeapon: EngineerHeal
+#		SecondaryWeapon: RgWeakAutoRifle
 	IdleAnimation:
 		Animations: idle1,idle2
 	Armor: 
 		Type: None
 	RgDisarmSuperPower:
+	RgIsEngineer:
 
 NOD_ENGINEER:
 	Inherits: ^Infantry
@@ -461,11 +463,13 @@ NOD_ENGINEER:
 		PipType: Yellow
 	AttackBase:
 		PrimaryWeapon: EngineerHeal
+#		SecondaryWeapon: RgWeakAutoRifle
 	IdleAnimation:
 		Animations: idle1,idle2
 	Armor: 
 		Type: None
 	RgDisarmSuperPower:
+	RgIsEngineer:
 	
 NOD_NUKE_BEACON:
 	Inherits: ^Infantry

@@ -693,7 +693,25 @@ RgAutoRifle:
 			Concrete: 0%
 		Explosion: 1
 		InfDeath: 1
-		Damage: 5		
+		Damage: 5	
+
+		
+RgWeakAutoRifle: 
+	ROF: 5
+	Range: 4
+	Report: MGUN2
+	Projectile: Bullet
+		Speed: 100
+	Warhead:
+		Spread: 3
+		Versus: 
+			Wood: 25%
+			Light: 10%
+			Heavy: 2.5%
+			Concrete: 0%
+		Explosion: 1
+		InfDeath: 1
+		Damage: 1			
 
 RgNuke:
 	Warhead@impact:
