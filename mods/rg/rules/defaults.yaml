@@ -29,6 +29,8 @@
 		Notification: unitlost.aud
 	AttackMove:
 	RgScore:
+	RgFriendlyFire:
+	
 ^Tank:
 	AppearsOnRadar:
 	Mobile:
@@ -60,6 +62,7 @@
 		Notification: unitlost.aud
 	AttackMove:
 	RgScore:
+	RgFriendlyFire:
 
 ^SteerableTank:
 	AppearsOnRadar:
@@ -96,6 +99,7 @@
 		Passengers: 1
 		UnloadFacing: 220
 	RgScore:
+	RgFriendlyFire:
 	
 ^Helicopter:
 	AppearsOnRadar:
@@ -117,6 +121,7 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	RgScore:
+	RgFriendlyFire:
 
 ^Infantry:
 	AppearsOnRadar:
@@ -159,6 +164,7 @@
 		Notification: unitlost.aud
 	RgSuperPowerLauncher:
 	RgScore:
+	RgFriendlyFire:
 
 ^CivInfantry:
 	Inherits: ^Infantry
@@ -196,6 +202,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
+	RgFriendlyFire:
 
 ^Ship:
 	AppearsOnRadar:
@@ -214,6 +221,7 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
+	RgFriendlyFire:
 
 ^Building:
 	AppearsOnRadar:
@@ -248,6 +256,7 @@
 		Notification: strclost.aud
 	RgBeaconTarget:
 	RgScore:
+	RgFriendlyFire:
 
 ^CivBuilding:
 	Inherits: ^Building
