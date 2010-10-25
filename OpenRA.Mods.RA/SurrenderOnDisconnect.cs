@@ -26,8 +26,6 @@ namespace OpenRA.Mods.RA
 		{
 			if (Disconnected) return;
 
-			if (self.Owner.PlayerActor != self) return; /* trait put on wrong actor type! */
-
 			var p = self.Owner;
 
 			if (p.WinState == WinState.Lost || p.WinState == WinState.Won) return; /* already won or lost */
