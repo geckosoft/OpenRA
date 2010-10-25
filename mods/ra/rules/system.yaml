@@ -100,6 +100,7 @@ Player:
 			3tnk: 0%
 	PlayerColorPalette:
 		BasePalette: terrain
+	SurrenderOnDisconnect:
 
 World:	
 	OpenWidgetAtGameStart:
