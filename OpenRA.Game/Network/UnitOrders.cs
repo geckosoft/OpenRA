@@ -16,7 +16,7 @@ namespace OpenRA.Network
 {
 	static class UnitOrders
 	{
-		static Player FindPlayerByClient( this World world, Session.Client c)
+		static Player FindPlayerByClient(this World world, Session.Client c)
 		{
 			/* todo: this is still a hack. 
 			 * the cases we're trying to avoid are the extra players on the host's client -- Neutral, other MapPlayers,
@@ -25,124 +25,126 @@ namespace OpenRA.Network
 				p => p.ClientIndex == c.Index && p.PlayerName == c.Name);
 		}
 
-		public static void ProcessOrder( OrderManager orderManager, World world, int clientId, Order order )
+		public static void ProcessOrder(OrderManager orderManager, World world, int clientId, Order order)
 		{
-            if (world != null)
-            {
-                var validateOrders = world.WorldActor.TraitsImplementing<IValidateOrder>();
-
-                foreach (var validator in validateOrders)
-                {
-                    if (!validator.OrderValidation(orderManager, world, clientId, order))
-                        return; /* Invalid order */
-                }
-            }else /* @todo how can we access the IValidateOrder traits without a world? */
-            {            
-                // Drop exploiting orders
-                if (order.Subject != null && order.Subject.Owner.ClientIndex != clientId)
-                {
-                    Game.Debug("Detected exploit order from {0}: {1}".F(clientId, order.OrderString));
-                    return;
-                }
-            }
-
-		    switch( order.OrderString )
+			if (world != null)
 			{
-			case "Chat":
+				var validateOrders = world.WorldActor.TraitsImplementing<IValidateOrder>();
+
+				foreach (var validator in validateOrders)
 				{
-					var client = orderManager.LobbyInfo.ClientWithIndex( clientId );
-
-					if (Game.IsHost && Game.Settings.Server.Extension != null && !Game.Settings.Server.Extension.OnIngameChat(client, order.TargetString, false))
-						break;
-
-					if (client != null)
-					{
-						var player = world != null ? world.FindPlayerByClient(client) : null;
-						var suffix = (player != null && player.WinState == WinState.Lost) ? " (Dead)" : "";
-						Game.AddChatLine(client.Color1, client.Name+suffix, order.TargetString);
-					}
-					else
-						Game.AddChatLine(Color.White, "(player {0})".F(clientId), order.TargetString);
-					break;
+					if (!validator.OrderValidation(orderManager, world, clientId, order))
+						return; /* Invalid order */
 				}
-			case "TeamChat":
+			}
+			else /* @todo how can we access the IValidateOrder traits without a world? */
+			{
+				// Drop exploiting orders
+				if (order.Subject != null && order.Subject.Owner.ClientIndex != clientId)
 				{
-					var client = orderManager.LobbyInfo.ClientWithIndex(clientId);
+					Game.Debug("Detected exploit order from {0}: {1}".F(clientId, order.OrderString));
+					return;
+				}
+			}
 
-					if (Game.IsHost && Game.Settings.Server.Extension != null && !Game.Settings.Server.Extension.OnIngameChat(client, order.TargetString, true))
-						break;
-
-					if (client != null)
+			switch (order.OrderString)
+			{
+				case "Chat":
 					{
-						if (world == null)
+						var client = orderManager.LobbyInfo.ClientWithIndex(clientId);
+						if (client != null)
 						{
-							if (client.Team == orderManager.LocalClient.Team)
-								Game.AddChatLine(client.Color1, client.Name + " (Team)",
-									order.TargetString);
+							var player = world != null ? world.FindPlayerByClient(client) : null;
+							var suffix = (player != null && player.WinState == WinState.Lost) ? " (Dead)" : "";
+							Game.AddChatLine(client.Color1, client.Name + suffix, order.TargetString);
 						}
 						else
+							Game.AddChatLine(Color.White, "(player {0})".F(clientId), order.TargetString);
+						break;
+					}
+				case "Disconnected": /* reports that the target player disconnected */
+					{
+						var client = orderManager.LobbyInfo.ClientWithIndex(clientId);
+						if (client != null)
 						{
-							var player = world.FindPlayerByClient(client);
-							var display = player != null
-								&& (world.LocalPlayer != null && player.Stances[world.LocalPlayer] == Stance.Ally
-									|| player.WinState == WinState.Lost);
-
-							if (display)
+							client.State = Session.ClientState.Disconnected;
+						}
+						break;
+					}
+				case "TeamChat":
+					{
+						var client = orderManager.LobbyInfo.ClientWithIndex(clientId);
+						if (client != null)
+						{
+							if (world == null)
 							{
-								var suffix = (player != null && player.WinState == WinState.Lost) ? " (Dead)" : " (Team)";
-								Game.AddChatLine(client.Color1, client.Name + suffix, order.TargetString);
+								if (client.Team == orderManager.LocalClient.Team)
+									Game.AddChatLine(client.Color1, client.Name + " (Team)",
+													 order.TargetString);
+							}
+							else
+							{
+								var player = world.FindPlayerByClient(client);
+								var display = player != null
+											  &&
+											  (world.LocalPlayer != null &&
+											   player.Stances[world.LocalPlayer] == Stance.Ally
+											   || player.WinState == WinState.Lost);
+
+								if (display)
+								{
+									var suffix = (player != null && player.WinState == WinState.Lost)
+													 ? " (Dead)"
+													 : " (Team)";
+									Game.AddChatLine(client.Color1, client.Name + suffix, order.TargetString);
+								}
 							}
 						}
+						break;
 					}
-					break;
-				}
-			case "StartGame":
-				{
-					Game.AddChatLine(Color.White, "Server", "The game has started.");
-					Game.StartGame(orderManager.LobbyInfo.GlobalSettings.Map);
-					break;
-				}
-			case "SyncInfo":
-				{
-					orderManager.LobbyInfo = Session.Deserialize( order.TargetString );
-
-					if( orderManager.FramesAhead != orderManager.LobbyInfo.GlobalSettings.OrderLatency
-						&& !orderManager.GameStarted )
+				case "StartGame":
 					{
-						orderManager.FramesAhead = orderManager.LobbyInfo.GlobalSettings.OrderLatency;
-						Game.Debug( "Order lag is now {0} frames.".F( orderManager.LobbyInfo.GlobalSettings.OrderLatency ) );
+						Game.AddChatLine(Color.White, "Server", "The game has started.");
+						Game.StartGame(orderManager.LobbyInfo.GlobalSettings.Map);
+						break;
 					}
+				case "SyncInfo":
+					{
+						orderManager.LobbyInfo = Session.Deserialize(order.TargetString);
 
-					Game.SyncLobbyInfo();
-					break;
-				}
-			case "SetStance":
-				{
-					
-					var targetPlayer = order.Player.World.players[order.TargetLocation.X];
-					var newStance = (Stance)order.TargetLocation.Y;
+						if (orderManager.FramesAhead != orderManager.LobbyInfo.GlobalSettings.OrderLatency
+							&& !orderManager.GameStarted)
+						{
+							orderManager.FramesAhead = orderManager.LobbyInfo.GlobalSettings.OrderLatency;
+							Game.Debug(
+								"Order lag is now {0} frames.".F(orderManager.LobbyInfo.GlobalSettings.OrderLatency));
+						}
 
-					if (Game.IsHost && Game.Settings.Server.Extension != null)
-						Game.Settings.Server.Extension.OnIngameSetStance(order.Player, targetPlayer, newStance);
-						
+						Game.SyncLobbyInfo();
+						break;
+					}
+				case "SetStance":
+					{
+						var targetPlayer = order.Player.World.players[order.TargetLocation.X];
+						var newStance = (Stance)order.TargetLocation.Y;
 
-					SetPlayerStance(world, order.Player, targetPlayer, newStance);
+						SetPlayerStance(world, order.Player, targetPlayer, newStance);
 
-					// automatically declare war reciprocally
-					if (newStance == Stance.Enemy)
-						SetPlayerStance(world, targetPlayer, order.Player, newStance);
+						// automatically declare war reciprocally
+						if (newStance == Stance.Enemy)
+							SetPlayerStance(world, targetPlayer, order.Player, newStance);
 
-					Game.Debug("{0} has set diplomatic stance vs {1} to {2}".F(
-						order.Player.PlayerName, targetPlayer.PlayerName, newStance));
-					break;
-				}
-			default:
-				{
-					if( !order.IsImmediate )
-						foreach (var t in order.Subject.TraitsImplementing<IResolveOrder>())
-							t.ResolveOrder(order.Subject, order);
-					break;
-				}
+						Game.Debug("{0} has set diplomatic stance vs {1} to {2}".F(
+							order.Player.PlayerName, targetPlayer.PlayerName, newStance));
+						break;
+					}
+				default:
+					{
+						if (!order.IsImmediate)
+							foreach (var t in order.Subject.TraitsImplementing<IResolveOrder>())
+								t.ResolveOrder(order.Subject, order);
+						break;
+					}
 			}
 		}
 

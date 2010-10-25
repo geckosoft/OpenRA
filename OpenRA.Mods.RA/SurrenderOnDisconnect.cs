@@ -13,34 +13,34 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.RA
 {
-    class SurrenderOnDisconnectInfo : TraitInfo<SurrenderOnDisconnect>
+	class SurrenderOnDisconnectInfo : TraitInfo<SurrenderOnDisconnect>
 	{
 
 	}
 
-    class SurrenderOnDisconnect : ITick
-    {
-        private bool Disconnected = false;
+	class SurrenderOnDisconnect : ITick
+	{
+		private bool Disconnected = false;
 
 		public void Tick(Actor self)
 		{
-            if (Disconnected) return;
+			if (Disconnected) return;
 
-            if (self.Owner.PlayerActor != self) return; /* trait put on wrong actor type! */
+			if (self.Owner.PlayerActor != self) return; /* trait put on wrong actor type! */
 
-		    var p = self.Owner;
+			var p = self.Owner;
 
-            if (p.WinState == WinState.Lost || p.WinState == WinState.Won) return; /* already won or lost */
+			if (p.WinState == WinState.Lost || p.WinState == WinState.Won) return; /* already won or lost */
 
-		    var client = p.World.LobbyInfo.ClientWithIndex(p.ClientIndex);
-            if (client == null)
-                return;
+			var client = p.World.LobbyInfo.ClientWithIndex(p.ClientIndex);
+			if (client == null)
+				return;
 
-            if (client.State == Session.ClientState.Disconnected)
-            {
-                Disconnected = true; /* dont call this multiple times! */
-                self.World.IssueOrder(new Order("Surrender", self));
-            }
+			if (client.State == Session.ClientState.Disconnected)
+			{
+				Disconnected = true; /* dont call this multiple times! */
+				self.World.IssueOrder(new Order("Surrender", self));
+			}
 		}
 	}
 }
