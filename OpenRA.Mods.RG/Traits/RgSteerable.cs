@@ -185,6 +185,6 @@ namespace OpenRA.Mods.Rg.Traits
             /* remove people who surrendered from the cargo */
             cargo.RemoveAll(a => a.Owner.WinState == WinState.Lost);
 
-	    }
+	    } 
 	}
 }
