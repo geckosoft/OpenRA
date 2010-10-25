@@ -75,13 +75,17 @@
     <Compile Include="Activities\RgDisarmBeacon.cs" />
     <Compile Include="Activities\RgExitSteerable.cs" />
     <Compile Include="Activities\RgEnterTransport.cs" />
+    <Compile Include="Activities\RgIdleAnimation.cs" />
     <Compile Include="Activities\RgPlaceBeacon.cs" />
+    <Compile Include="Effects\RgPaletteFx.cs" />
     <Compile Include="Effects\Projectiles\HealZap.cs" />
-    <Compile Include="Effects\RgDestroyedFx.cs" />
     <Compile Include="Effects\RgFakeParachute.cs" />
     <Compile Include="Effects\RgIonCannon.cs" />
     <Compile Include="Effects\RgNukeLaunch.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\Render\RgRenderInfantry.cs" />
+    <Compile Include="Traits\RgFriendlyFire.cs" />
+    <Compile Include="Traits\RgIdleAnimation.cs" />
     <Compile Include="Traits\RgIsEngineer.cs" />
     <Compile Include="Traits\RgScore.cs" />
     <Compile Include="Traits\RgOreRefinery.cs" />
@@ -106,9 +110,17 @@
     <Compile Include="RgLoadScreen.cs" />
     <Compile Include="Traits\RgPassenger.cs" />
     <Compile Include="Traits\RgValidateOrder.cs" />
+    <Compile Include="Traits\RgProne.cs" />
+    <Compile Include="Traits\RgStartLocations.cs" />
+    <Compile Include="Widgets\Delegates\RgLobbyDelegate.cs" />
     <Compile Include="Widgets\Delegates\RgMainMenuButtonsDelegate.cs" />
     <Compile Include="Widgets\RgBuildPaletteWidget.cs" />
     <Compile Include="Widgets\RgMoneyBinWidget.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Traits\Player\" />
+    <Folder Include="Traits\Units\" />
+    <Folder Include="Traits\World\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1118,3 +1118,26 @@ RgRocketLauncherTest:
 		Delay: 3
 		InfDeath: 4
 		
+
+RgSniperBasic:
+	ROF: 100
+	Range: 15
+	Report: RAMGUN2
+	Projectile: Bullet
+		Speed: 75
+#		High: yes
+#		Angle: .1
+		Inaccuracy: 1
+		Image: 120MM
+	Warhead:
+		Spread: 1
+		Versus: 
+			None: 150%
+			Wood: 100%
+			Light: 100%
+			Heavy: 25%
+		InfDeath: 1
+		Explosion: 1
+#		SmudgeType: Crater
+#		ImpactSound: xplos	
+		Damage: 25

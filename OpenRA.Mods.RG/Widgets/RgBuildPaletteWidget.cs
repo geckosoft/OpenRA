@@ -194,11 +194,19 @@ namespace OpenRA.Mods.Rg.Widgets
                            world.LocalPlayer.PlayerActor.TraitOrDefault<PlayerResources>().Cash;
 
 
+
+			var power = queue.self.Owner.PlayerActor.Trait<PowerManager>();
+			var lowpower = power.PowerState != PowerState.Normal;
+        	float costModifier = 1;
+
+			if (lowpower)
+				costModifier = 2; /* low power means double the cost */
+
             buildableItems =
                 buildableItems.Where(
                     a =>
                     a.Traits.GetOrDefault<ValuedInfo>() != null &&
-                    a.Traits.GetOrDefault<ValuedInfo>().Cost <= totalMoney).OrderBy(a => a.Traits.Get<BuildableInfo>().BuildPaletteOrder);
+					a.Traits.GetOrDefault<ValuedInfo>().Cost * costModifier <= totalMoney).OrderBy(a => a.Traits.Get<BuildableInfo>().BuildPaletteOrder);
 
             /* now see if we arent too far! */
 
@@ -215,7 +223,7 @@ namespace OpenRA.Mods.Rg.Widgets
                 /* check distance */
                 var dis = (myUnits[0].CenterLocation - queue.self.CenterLocation).Length;
 
-                if (dis > 100) /* too far away */
+                if (dis > 125) /* too far away */
                     buildableItems = queue.BuildableItems().Where (a => false).OrderBy(a => a);
             }        
 
@@ -496,7 +504,7 @@ namespace OpenRA.Mods.Rg.Widgets
 
             /* find our cpu resources */
             // self.World.Queries.Ow
-
+        	Player plrr = null;
             foreach (var kv in world.players)
             {
                 var player = kv.Value;
@@ -504,15 +512,22 @@ namespace OpenRA.Mods.Rg.Widgets
                 if (player.Stances[pl] == Stance.Ally && player.PlayerRef.OwnsWorld && !player.PlayerRef.NonCombatant)
                 {
                     resources = player.PlayerActor.Trait<PlayerResources>();
+                	plrr = player;
                 }
             }
+        	bool lowpower = false;
+			var power = pl.PlayerActor.Trait<PowerManager>();
+			if (plrr != null)
+			{
+				power = plrr.PlayerActor.Trait<PowerManager>();
 
-            var power = pl.PlayerActor.Trait<PowerManager>();
-
-            DrawRightAligned("${0}".F(cost), pos + new int2(-5, 5),
+				lowpower = power.PowerState != PowerState.Normal;
+				if (lowpower)
+					cost *= 2; /* low power means double the cost */
+			}
+        	DrawRightAligned("${0}".F(cost), pos + new int2(-5, 5),
                 (resources.DisplayCash >= cost ? Color.White : Color.Red));
 
-            var lowpower = power.PowerState != PowerState.Normal;
             var time = CurrentQueue.GetBuildTime(info.Name)
                 * ((lowpower) ? CurrentQueue.Info.LowPowerSlowdown : 1);
             DrawRightAligned(WorldUtils.FormatTime(time), pos + new int2(-5, 35), lowpower ? Color.Red : Color.White);

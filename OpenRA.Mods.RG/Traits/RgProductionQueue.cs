@@ -133,6 +133,11 @@ namespace OpenRA.Mods.Rg.Traits
                         var cost = unit.Traits.Contains<ValuedInfo>() ? unit.Traits.Get<ValuedInfo>().Cost : 0;
                         var time = GetBuildTime(order.TargetString);
 
+						var power = self.Owner.PlayerActor.Trait<PowerManager>();
+						var lowpower = power.PowerState != PowerState.Normal;
+						if (lowpower)
+							cost *= 2;
+
                         if (!BuildableItems().Any(b => b.Name == order.TargetString))
                             return;	/* you can't build that!! */
 

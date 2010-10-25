@@ -7,13 +7,15 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Effects
 {
-    class RgDestroyedFx : IEffect
+    class RgPaletteFx : IEffect
     {
         Actor a;
+        private string Palette = "";
 
-        public RgDestroyedFx(Actor a)
+        public RgPaletteFx(Actor a, string palette)
         {
             this.a = a;
+            Palette = palette;
         }
 
         public void Tick(World world)
@@ -25,7 +27,7 @@ namespace OpenRA.Mods.Rg.Effects
         public IEnumerable<Renderable> Render()
         {
             foreach (var r in a.Render())
-                yield return r.WithPalette("destroyed");
+                yield return r.WithPalette(Palette);
         }
     }
 }

@@ -8,7 +8,7 @@ Description: A battle over a small stream with only small passes
 
 Author: Tiberian
 
-PlayerCount: 10
+PlayerCount: 30
 
 Tileset: DESERT
 
@@ -59,7 +59,7 @@ Players:
 		Playable: False
 		DefaultStartingUnits: False
 		AllowBots: True
-		LockRace: False
+		LockRace: True
 		Race: gdi
 		LockColor: False
 		Color: 255,238,238,238
@@ -75,11 +75,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: gdi
-		LockColor: True
-		Color: 255,209,227,82
-		Color2: 255,20,22,3
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -91,11 +91,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: gdi
-		LockColor: True
-		Color: 255,209,227,82
-		Color2: 255,20,22,3
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -107,11 +107,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: gdi
-		LockColor: True
-		Color: 255,209,227,82
-		Color2: 255,20,22,3
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -123,11 +123,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: gdi
-		LockColor: True
-		Color: 255,209,227,82
-		Color2: 255,20,22,3
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -139,11 +139,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: nod
-		LockColor: True
-		Color: 255,255,14,14
-		Color2: 255,37,0,0
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -155,11 +155,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: nod
-		LockColor: True
-		Color: 255,255,14,14
-		Color2: 255,37,0,0
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -171,11 +171,11 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: nod
-		LockColor: True
-		Color: 255,255,14,14
-		Color2: 255,37,0,0
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -187,11 +187,363 @@ Players:
 		Playable: True
 		DefaultStartingUnits: True
 		AllowBots: True
-		LockRace: True
-		Race: nod
-		LockColor: True
-		Color: 255,255,14,14
-		Color2: 255,37,0,0
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi8:
+		Name: Multi8
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi9:
+		Name: Multi9
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi10:
+		Name: Multi10
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi11:
+		Name: Multi11
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi12:
+		Name: Multi12
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi13:
+		Name: Multi13
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi14:
+		Name: Multi14
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi15:
+		Name: Multi15
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi16:
+		Name: Multi16
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi17:
+		Name: Multi17
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi18:
+		Name: Multi18
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi19:
+		Name: Multi19
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi20:
+		Name: Multi20
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi21:
+		Name: Multi21
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi22:
+		Name: Multi22
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi23:
+		Name: Multi23
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi24:
+		Name: Multi24
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi25:
+		Name: Multi25
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi26:
+		Name: Multi26
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi27:
+		Name: Multi27
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi28:
+		Name: Multi28
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
+		InitialCash: 0
+		Allies:
+		Enemies:
+	PlayerReference@Multi29:
+		Name: Multi29
+		Palette:
+		OwnsWorld: False
+		NonCombatant: False
+		Playable: True
+		DefaultStartingUnits: True
+		AllowBots: True
+		LockRace: False
+		Race: Random
+		LockColor: False
+		Color: 255,238,238,238
+		Color2: 255,44,28,24
 		InitialCash: 0
 		Allies:
 		Enemies:
@@ -224,9 +576,9 @@ Actors:
 	Actor9: v16
 		Location: 16,45
 		Owner: Neutral
-	Actor10: t18
-		Location: 17,38
-		Owner: Neutral
+	Actor35: nuke
+		Location: 76,44
+		Owner: NOD
 	Actor11: tc03
 		Location: 25,46
 		Owner: Neutral
@@ -314,9 +666,9 @@ Actors:
 	Actor60: split2
 		Location: 49,39
 		Owner: Neutral
-	Actor59: split2
-		Location: 51,35
-		Owner: Neutral
+	Actor26: nuke
+		Location: 16,35
+		Owner: GDI
 	Actor58: split2
 		Location: 53,31
 		Owner: Neutral
@@ -359,9 +711,6 @@ Actors:
 	Actor55: split2
 		Location: 38,30
 		Owner: Neutral
-	Actor56: split2
-		Location: 36,34
-		Owner: Neutral
 	Actor83: atwr
 		Location: 26,42
 		Owner: GDI
@@ -379,16 +728,38 @@ Actors:
 		Owner: GDI
 
 Waypoints:
-	wp0: 22,27
-	wp1: 22,28
-	wp2: 22,29
-	wp3: 22,30
-	wp4: 22,31
-	wp6: 72,35
-	wp7: 72,36
-	wp8: 72,37
-	wp9: 72,38
-	wp10: 72,39
+	wpA0: 22,27
+	wpA1: 22,28
+	wpA2: 22,29
+	wpA3: 22,30
+	wpA4: 22,31
+	wpA5: 23,27
+	wpA6: 23,28
+	wpA7: 23,29
+	wpA8: 23,30
+	wpA9: 23,31
+	
+	wpB0: 32,27
+	wpB1: 32,28
+	wpB2: 32,29
+	wpB3: 32,30
+	wpB4: 32,31
+	wpB5: 33,27
+	wpB6: 33,28
+	wpB7: 33,29
+	wpB8: 33,30
+	wpB9: 33,31
+	
+	wpC0: 72,35
+	wpC1: 72,36
+	wpC2: 72,37
+	wpC3: 72,38
+	wpC4: 72,39
+	wpC5: 73,35
+	wpC6: 73,36
+	wpC7: 73,37
+	wpC8: 73,38
+	wpC9: 73,39
 
 Smudges:
 

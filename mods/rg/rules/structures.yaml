@@ -8,10 +8,10 @@ FACT:
 		Icon: mcvicnh
 		Description: Builds structures
 	Building:
-		Power: 10000
 		Footprint: xxxxxx xxxxxx xxxxxx xxxxxx
 		Dimensions: 6,4
 		Capturable: false
+		Power: -50
 	Health:
 		HP: 1750
 	RevealsShroud:
@@ -50,22 +50,24 @@ NUKE:
 		Name: Power Plant
 		Icon: nukeicnh
 		Description: Provides power for other structures
+	-Buildable:
 	Buildable:
 		BuildPaletteOrder: 10
 		Owner: gdi,nod
+	-Building:
 	Building:
-		Power: 100
 		Footprint: xx__ xx__ xxxx xxxx
 		Dimensions: 4,4
 		Capturable: false
+		Power: 10000
 	Health:
-		HP: 400
+		HP: 1250
 	RevealsShroud:
 		Range: 4
 	Bib:
 	Scale:
 		Value: 2
-	MustBeDestroyed
+	MustBeDestroyed:
 
 PROC:
 	Inherits: ^Building
@@ -80,9 +82,9 @@ PROC:
 		Prerequisites: nuke
 		Owner: gdi,nod
 	Building:
-		Power: -30
-		Footprint: xxx xxx ===
-		Dimensions: 3,3
+#		Power: -30
+		Footprint: xxxxxx xxxxxx xxxxxx xxxxxx ====== ======
+		Dimensions: 6,6
 		Capturable: false
 	Health:
 		HP: 900
@@ -128,7 +130,7 @@ SILO:
 		Prerequisites: proc
 		Owner: gdi,nod
 	Building:
-		Power: -10
+#		Power: -10
 		Footprint: xx
 		Dimensions: 2,1
 		Capturable: false
@@ -146,7 +148,6 @@ SILO:
 
 HQ:
 	RequiresPower:
-	CanPowerDown:
 	Inherits: ^Building
 	Valued:
 		Cost: 1000
@@ -159,7 +160,7 @@ HQ:
 		Prerequisites: proc
 		Owner: gdi,nod
 	Building:
-		Power: -40
+#		Power: -40
 		Footprint: x_ xx
 		Dimensions: 2,2
 		Capturable: false
@@ -210,7 +211,7 @@ FIX:
 		Prerequisites: @Vehicle Production
 		Owner: gdi,nod
 	Building:
-		Power: -30
+#		Power: -30
 		Footprint: _x_ xxx =x=
 		Dimensions: 3,3
 		Capturable: false
@@ -238,7 +239,7 @@ HPAD:
 		Prerequisites: @Barracks
 		Owner: gdi,nod
 	Building:
-		Power: -10
+#		Power: -10
 		Footprint: xx xx
 		Dimensions: 2,2
 		Capturable: false
@@ -262,22 +263,20 @@ HPAD:
 	MustBeDestroyed
 	
 EYE:
-	RequiresPower:
-	CanPowerDown:
 	Inherits: ^Building
 	Valued:
 		Cost: 1800
 	Tooltip:
 		Name: Advanced Communications Center
 		Icon: eyeicnh
-		Description: Provides access to the Ion Cannon.\n  Requires power to operate.
+		Description: Provides access to the Ion Cannon.\n
 		AlternateName: @Superweapon
 	Buildable:
 		BuildPaletteOrder: 100
 		Prerequisites: hq
 		Owner: gdi
 	Building:
-		Power: -200
+		Power: 0
 		Footprint: x_ xx
 		Dimensions: 2,2
 		Capturable: false
@@ -297,29 +296,27 @@ EYE:
 	RgProductionQueue@Defense:
 		Type: Defense
 		BuildSpeed: 0.000001
-		LowPowerSlowdown: 3
+		LowPowerSlowdown: 1
 	RgAssignUnit:
 	Scale:
 		Value: 2
 	MustBeDestroyed
 	
 TMPL:
-	RequiresPower:
-	CanPowerDown:
 	Inherits: ^Building
 	Valued:
 		Cost: 2000
 	Tooltip:
 		Name: Temple of Nod
 		Icon: tmplicnh
-		Description: Place of worship and secret missile silo.\nRequires power to operate.
+		Description: Place of worship and secret missile silo.\n
 		AlternateName: @Superweapon
 	Buildable:
 		BuildPaletteOrder: 100
 		Prerequisites: hq
 		Owner: nod
 	Building:
-		Power: -150
+		Power: 0
 		Footprint: ___ xxx xxx
 		Dimensions: 3,3
 		Capturable: false
@@ -337,7 +334,7 @@ TMPL:
 	RgProductionQueue@Defense:
 		Type: Defense
 		BuildSpeed: 0.000001
-		LowPowerSlowdown: 3
+		LowPowerSlowdown: 1
 	RallyPoint:
 	Exit@1:
 		SpawnOffset: 12,24
@@ -362,7 +359,7 @@ OBLI:
 		Prerequisites: tmpl
 		Owner: nod
 	Building:
-		Power: -150
+#		Power: -50
 		Footprint: _ x
 		Dimensions: 1,2
 	Health:
@@ -461,7 +458,7 @@ GUN:
 		Prerequisites: @Barracks
 		Owner: gdi,nod
 	Building:
-		Power: -20
+#		Power: -20
 	Health:
 		HP: 400
 	Armor: 
@@ -495,7 +492,7 @@ SAM:
 		Prerequisites: hand
 		Owner: nod
 	Building:
-		Power: -20
+#		Power: -20
 		Footprint: xx
 		Dimensions: 2,1
 	Health:
@@ -531,7 +528,7 @@ GTWR:
 		Prerequisites: @Barracks
 		Owner: gdi,nod
 	Building:
-		Power: -10
+#		Power: -10
 	Health:
 		HP: 600
 	RevealsShroud:
@@ -547,6 +544,7 @@ GTWR:
 	
 ATWR:
 	Inherits: ^Building
+	RequiresPower:
 	Valued:
 		Cost: 1000
 	Tooltip:
@@ -559,7 +557,7 @@ ATWR:
 		Prerequisites: hq
 		Owner: gdi
 	Building:
-		Power: -20
+		Power: -25
 	Health:
 		HP: 800
 	Armor: 
@@ -591,7 +589,7 @@ WEAP_DESTROYED:
 		Prerequisites: proc
 		Owner: gdi
 	Building:
-		Power: -30
+		Power: -100
 		Footprint: ______ ______ xxxxxx xxxxxx ====== ======
 		Dimensions: 6,6
 		Capturable: false
@@ -633,7 +631,7 @@ AFLD_DESTROYED:
 		Prerequisites: proc
 		Owner: nod
 	Building:
-		Power: -30
+		Power: -100
 		Footprint: xxxx xxxx
 		Dimensions: 4,2
 		Capturable: false
@@ -675,7 +673,7 @@ PYLE:
 		Prerequisites: nuke
 		Owner: gdi
 	Building:
-		Power: -20
+		Power: 0
 		Footprint: xx xx
 		Dimensions: 2,2
 		Capturable: false
@@ -717,7 +715,7 @@ HAND:
 		Prerequisites: nuke
 		Owner: nod
 	Building:
-		Power: -20
+		Power: 0
 		Footprint: __ xx xx
 		Dimensions: 2,3
 		Capturable: false
@@ -758,8 +756,8 @@ AFLD:
 		Owner: nod
 	Building:
 		Power: -30
-		Footprint: xxxx xxxx
-		Dimensions: 4,2
+		Footprint: ________ xxx_____ xxx_____ ________
+		Dimensions: 8,4
 		Capturable: false
 	Health:
 		HP: 1000
@@ -769,23 +767,23 @@ AFLD:
 		Range: 7
 	Bib:
 	RallyPoint:
-		RallyPoint: 4,2
+		RallyPoint: 7,6
 	BelowUnits:
 	Exit@1:
 		SpawnOffset: -24,0
-		ExitCell: 3,1
+		ExitCell: 6,2
 	ProductionAirdrop:
 		Produces: Vehicle
 	ProductionQueue@Vehicle:
 		Type: Vehicle
-		BuildSpeed: .4
-		LowPowerSlowdown: 3
+		BuildSpeed: 0.02
+		LowPowerSlowdown: 2
 	RgProduction:
 		Produces: Vehicle
 	RgProductionQueue@Vehicle:
 		Type: Vehicle
-		BuildSpeed: 0.000001
-		LowPowerSlowdown: 3
+		BuildSpeed: 0.1
+		LowPowerSlowdown: 2
 	Scale:
 		Value: 2
 	RgReplaceActorOnDeath:
@@ -829,14 +827,15 @@ WEAP:
 #	ProductionQueue@Vehicle:
 #		Type: Vehicle
 #		BuildSpeed: .4
-#		LowPowerSlowdown: 3
+#		LowPowerSlowdown: 2
 	Scale:
 		Value: 2
 	RgProduction:
 		Produces: Vehicle
 	RgProductionQueue@Vehicle:
 		Type: Vehicle
-		BuildSpeed: 0.000001
+		BuildSpeed: 0.1
+		LowPowerSlowdown: 2
 	RgReplaceActorOnDeath:
 		Actor: weap_destroyed
 	MustBeDestroyed
@@ -856,7 +855,7 @@ PYLE_DESTROYED:
 		Prerequisites: nuke
 		Owner: gdi
 	Building:
-		Power: -20
+		Power: -30
 		Footprint: xx xx
 		Dimensions: 2,2
 		Capturable: false
@@ -898,7 +897,7 @@ HAND_DESTROYED:
 		Prerequisites: nuke
 		Owner: nod
 	Building:
-		Power: -20
+		Power: -30
 		Footprint: __ xx xx
 		Dimensions: 2,3
 		Capturable: false

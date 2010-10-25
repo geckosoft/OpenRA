@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Mods.RA.Orders;
@@ -25,7 +26,7 @@ namespace OpenRA.Mods.Rg.Traits
 		public object Create( ActorInitializer init ) { return new RgSteerable( init.self ); }
 	}
 
-	public class RgSteerable : IPips, IIssueOrder, IResolveOrder, IOrderVoice, INotifyDamage
+	public class RgSteerable : IPips, IIssueOrder, IResolveOrder, IOrderVoice, INotifyDamage, ITick
 	{
 		readonly Actor self;
 		List<Actor> cargo = new List<Actor>();
@@ -175,5 +176,15 @@ namespace OpenRA.Mods.Rg.Traits
                 });
 			}
 		}
+
+	    public void Tick(Actor self)
+	    {
+	        if (cargo.Count == 0)
+	            return; /* nothing to do here */
+
+            /* remove people who surrendered from the cargo */
+            cargo.RemoveAll(a => a.Owner.WinState == WinState.Lost);
+
+	    }
 	}
 }

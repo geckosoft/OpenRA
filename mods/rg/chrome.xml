@@ -209,4 +209,8 @@
 	<collection name="checkbox" src="buttons.png">
 		<image name="checked" x="0" y="112" width="16" height="16" />
 	</collection>
+	<collection name="lobby_logo" src="lobby_logo.png">
+		<image name="gdi" x="0" y="0" width="128" height="128" />
+		<image name="nod" x="0" y="128" width="128" height="128" />
+	</collection>
 </chrome>
