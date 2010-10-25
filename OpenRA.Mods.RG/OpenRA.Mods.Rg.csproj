@@ -82,6 +82,7 @@
     <Compile Include="Effects\RgIonCannon.cs" />
     <Compile Include="Effects\RgNukeLaunch.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\RgFriendlyFire.cs" />
     <Compile Include="Traits\RgIsEngineer.cs" />
     <Compile Include="Traits\RgScore.cs" />
     <Compile Include="Traits\RgOreRefinery.cs" />

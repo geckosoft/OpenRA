@@ -86,7 +86,7 @@ APC:
 		Type: Heavy
 	RevealsShroud:
 		Range: 5
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: MachineGun
 		PrimaryOffset: 0,0,0,-4
 		MuzzleFlash: yes
@@ -120,7 +120,7 @@ ARTY:
 		Type: Light
 	RevealsShroud:
 		Range: 6
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Ballistic
 	RenderUnit:
 	Explodes:
@@ -147,7 +147,7 @@ FTNK:
 		Type: Heavy
 	RevealsShroud:
 		Range: 4
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: BigFlamer
 		PrimaryOffset: 2,-8,0,-2
 		SecondaryWeapon: BigFlamer
@@ -206,7 +206,7 @@ BIKE:
 		Armor: none
 	RevealsShroud:
 		Range: 7
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Rockets.Bike
 		PrimaryOffset: 0,0,0,-2
 		PrimaryLocalOffset: -4,0,25,4,0,-25
@@ -446,7 +446,7 @@ STNK:
 		CloakDelay: 2.0
 		CloakSound: appear1.aud
 		UncloakSound: appear1.aud
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: 227mm
 	RenderUnit:
 	AutoTarget:
@@ -749,7 +749,7 @@ GDI_APC:
 		Type: Heavy
 	RevealsShroud:
 		Range: 8
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgMachineGun
 		PrimaryOffset: 0,0,0,-4
 		MuzzleFlash: yes
@@ -785,7 +785,7 @@ NOD_APC:
 		Type: Heavy
 	RevealsShroud:
 		Range: 8
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgMachineGun
 		PrimaryOffset: 0,0,0,-4
 		MuzzleFlash: yes
@@ -828,7 +828,7 @@ NOD_STEALTH_TANK:
 		CloakDelay: 4.0
 		CloakSound: appear1.aud
 		UncloakSound: appear1.aud
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgStealth227mm
 	RenderUnit:
 #	AutoTarget:
@@ -890,7 +890,7 @@ NOD_ARTILLERY:
 		Type: Light
 	RevealsShroud:
 		Range: 10
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgNODArtillery
 	RenderUnit:
 	Explodes:

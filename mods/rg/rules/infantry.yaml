@@ -17,7 +17,7 @@ E1:
 		Speed: 4
 	Health:
 		HP: 50
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: M16
 #	TakeCover:
 	IdleAnimation:
@@ -41,7 +41,7 @@ E2:
 		Speed: 4
 	Health:
 		HP: 50
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Grenade
 		PrimaryOffset: 0,0,0,-10
 		FireDelay: 15
@@ -66,7 +66,7 @@ E3:
 		Speed: 3
 	Health:
 		HP: 45
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Rockets
 		PrimaryOffset: 0,0,0,-10
 		FireDelay: 5
@@ -92,7 +92,7 @@ E4:
 		Speed: 4
 	Health:
 		HP: 90
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Flamethrower
 		PrimaryOffset: 0,0,0,-5
 		FireDelay: 3
@@ -121,7 +121,7 @@ E5:
 		Speed: 4
 	Health:
 		HP: 90
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Chemspray
 		PrimaryOffset: 0,0,0,-5
 		FireDelay: 3
@@ -182,7 +182,7 @@ RMBO:
 		HP: 200
 	RevealsShroud:
 		Range: 5
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: Sniper
 	TakeCover:
 	C4Demolition:
@@ -209,7 +209,7 @@ SOLDIER:
 		Speed: 4
 	Health:
 		HP: 100
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgAutoRifle
 #	TakeCover:
 	IdleAnimation:
@@ -234,7 +234,7 @@ GDI_SOLDIER:
 		Speed: 4
 	Health:
 		HP: 100
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgAutoRifle
 #	TakeCover:
 	IdleAnimation:
@@ -259,7 +259,7 @@ NOD_SOLDIER:
 		Speed: 4
 	Health:
 		HP: 100
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgAutoRifle
 #	TakeCover:
 	IdleAnimation:
@@ -285,7 +285,7 @@ GDI_GRENADIER:
 		Speed: 4
 	Health:
 		HP: 100
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgGrenade
 		PrimaryOffset: 0,0,0,-10
 		FireDelay: 15
@@ -312,7 +312,7 @@ NOD_FLAMETHROWER:
 		Speed: 4
 	Health:
 		HP: 90
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgFlamethrower
 		PrimaryOffset: 0,0,0,-5
 		FireDelay: 3
@@ -342,7 +342,7 @@ NOD_CHEM_WARRIOR:
 		Speed: 4
 	Health:
 		HP: 150
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgChemspray
 		PrimaryOffset: 0,0,0,-5
 		FireDelay: 3
@@ -372,7 +372,7 @@ GDI_ROCKET_SOLDIER:
 		Speed: 3
 	Health:
 		HP: 150
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgRocketLauncher
 		PrimaryOffset: 0,0,0,-10
 		FireDelay: 5
@@ -399,7 +399,7 @@ NOD_ROCKET_SOLDIER:
 		Speed: 3
 	Health:
 		HP: 150
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: RgRocketLauncher
 		PrimaryOffset: 0,0,0,-10
 		FireDelay: 5
@@ -429,7 +429,7 @@ GDI_ENGINEER:
 		Range: 6
 	Passenger:
 		PipType: Yellow
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: EngineerHeal
 #		SecondaryWeapon: RgWeakAutoRifle
 	IdleAnimation:
@@ -461,7 +461,7 @@ NOD_ENGINEER:
 		Range: 6
 	Passenger:
 		PipType: Yellow
-	AttackBase:
+	AttackFrontal:
 		PrimaryWeapon: EngineerHeal
 #		SecondaryWeapon: RgWeakAutoRifle
 	IdleAnimation:
@@ -493,7 +493,7 @@ NOD_NUKE_BEACON:
 		Speed: 1
 	Health:
 		HP: 1
-#	AttackBase:
+#	AttackFrontal:
 #		PrimaryWeapon: RgAutoRifle
 #	TakeCover:
 	IdleAnimation:
@@ -523,7 +523,7 @@ GDI_ION_BEACON:
 		Speed: 1
 	Health:
 		HP: 1
-#	AttackBase:
+#	AttackFrontal:
 #		PrimaryWeapon: RgAutoRifle
 #	TakeCover:
 	IdleAnimation:

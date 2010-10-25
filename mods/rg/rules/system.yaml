@@ -73,6 +73,7 @@ Player:
 		BasePalette: terrain
 		PaletteFormat: cnc
 	RgScore:
+	SurrenderOnDisconnect:
 	
 World:
 	OpenWidgetAtGameStart:
