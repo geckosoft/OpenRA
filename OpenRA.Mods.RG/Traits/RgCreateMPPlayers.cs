@@ -77,9 +77,9 @@ namespace OpenRA.Mods.Rg.Traits
         {
             if (p == q) return Stance.Ally;
 
-            if (p.PlayerRef.Race == q.PlayerRef.Race)
+			if (p.Country.Race == q.Country.Race)
                 return Stance.Ally;
-            if (p.PlayerRef.Race != q.PlayerRef.Race && p.InternalName != "Neutral" && q.InternalName != "Neutral")
+			if (p.Country.Race != q.Country.Race && p.InternalName != "Neutral" && q.InternalName != "Neutral")
                 return Stance.Enemy;
             if (p.PlayerRef.Allies.Contains(q.InternalName))
                 return Stance.Ally;

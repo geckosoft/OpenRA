@@ -83,7 +83,13 @@ namespace OpenRA.Mods.Rg.Traits
 
 	    public int MoneyPerSecond
 	    {
-	        get { return 2; } /* @todo Make it only return 1 when on low power! */
+	        get
+	        {
+				var power = self.Owner.PlayerActor.Trait<PowerManager>();
+				var lowpower = power.PowerState != PowerState.Normal;
+
+	        	return (lowpower) ? 1 : 2;
+	        }
 	    }
 		public void Tick (Actor self)
 		{

@@ -210,7 +210,7 @@ SOLDIER:
 	Health:
 		HP: 100
 	AttackFrontal:
-		PrimaryWeapon: RgAutoRifle
+		PrimaryWeapon: RgRocketLauncherTest
 #	TakeCover:
 	IdleAnimation:
 		Animations: idle1,idle2,idle3	
@@ -538,7 +538,7 @@ GDI_SNIPER_1:
 	Tooltip:
 		Name: Deadeye
 		Description: Long-distance sniper.\n  Strong vs Infantry\n  Weak vs Heavy Armor
-		Icon: e1icnh
+		Icon: gdi_sniper_1
 	Buildable:
 		BuildPaletteOrder: 10
 		Owner: gdi
@@ -554,8 +554,10 @@ GDI_SNIPER_1:
 		Range: 20
 	AttackFrontal:
 		PrimaryWeapon: RgSniperBasic
-		FireDelay: 15
+#		FireDelay: 15
 #	TakeCover:
+	RgIdleAnimation:
+		Animations: idle1,idle2,idle3	
 	IdleAnimation:
 		Animations: idle1,idle2,idle3	
 	Armor: 
@@ -573,7 +575,7 @@ NOD_SNIPER_1:
 	Tooltip:
 		Name: Black Hand Sniper
 		Description: Long-distance sniper.\n  Strong vs Infantry\n  Weak vs Heavy Armor
-		Icon: e1icnh
+		Icon: nod_sniper_1
 	Buildable:
 		BuildPaletteOrder: 10
 		Owner: nod
@@ -589,9 +591,11 @@ NOD_SNIPER_1:
 		Range: 20
 	AttackFrontal:
 		PrimaryWeapon: RgSniperBasic
-		FireDelay: 15
+#		FireDelay: 15
 #	TakeCover:
 	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	RgIdleAnimation:
 		Animations: idle1,idle2,idle3	
 	Armor: 
 		Type: None		

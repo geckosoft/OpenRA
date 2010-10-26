@@ -1,6 +1,6 @@
 Background@SERVER_LOBBY:
 	Id:SERVER_LOBBY
-	Delegate:LobbyDelegate
+	Delegate:RgLobbyDelegate
 	X:(WINDOW_RIGHT - WIDTH)/2
 	Y:(WINDOW_BOTTOM - HEIGHT)/2
 	Width:800
@@ -14,7 +14,7 @@ Background@SERVER_LOBBY:
 			Width:800
 			Height:20
 			Bold:True
-			Text:OpenRA Multiplayer Lobby
+			Text:OpenRg Lobby
 		Background@LOBBY_MAP_BG:
 			X:PARENT_RIGHT-268
 			Y:50
@@ -33,15 +33,15 @@ Background@SERVER_LOBBY:
 			X:20
 			Y:75
 			Width:500
-			Height:200
+			Height:40
 			Children:
 				Container@TEMPLATE_LOCAL:
-					Id:TEMPLATE_LOCAL
+					Id:TEMPLATE_LOCAL 
 					X:0
 					Y:0
 					Width:500
 					Height:30
-					Visible:false
+					Visible:true
 					Children:
 						TextField@NAME:
 							Id:NAME
@@ -70,6 +70,7 @@ Background@SERVER_LOBBY:
 							Height:25
 							X:244
 							Y:0
+							Visible: true
 							Children:
 								Image@FACTIONFLAG:
 									Id:FACTIONFLAG
@@ -91,6 +92,7 @@ Background@SERVER_LOBBY:
 							Height:25
 							X:374
 							Y:0
+							Visible: false
 						Checkbox@STATUS:
 							Id:STATUS
 							X:455
@@ -237,6 +239,7 @@ Background@SERVER_LOBBY:
 					Text:Team
 					Align:Center
 					Bold:True
+					Visible:False
 				Label@LABEL_LOBBY_STATUS:
 					Id:LABEL_LOBBY_STATUS
 					X:432
@@ -255,6 +258,62 @@ Background@SERVER_LOBBY:
 			Height:25
 			Text:Change Map
 			Bold:True
+		Container@PICK_SIDE:
+			Id:PICK_SIDE
+			Visible:true
+			X:80
+			Height:250
+			Y:PARENT_TOP + 30
+			Width:PARENT_RIGHT - 200
+			Children:				
+				Image@LOGO_GDI
+					X:1
+					Y:1
+					Id:LOGO_GDI
+					ImageName:gdi
+					ImageCollection:lobby_logo
+				Button@GDI_BUTTON:
+					Id:GDI_BUTTON
+					Visible:true
+					X:1
+					Y:128+32
+					Width:128
+					Height:25
+					Text:Join GDI
+					Bold:True	
+				Label@GDI_LABEL:
+					Id:GDI_LABEL
+					X:1
+					Y:128
+					Width:128
+					Height:25
+					Text:0 / 10
+					Align:Center
+					Bold:True					
+				Image@LOGO_NOD
+					X:128*2
+					Y:1
+					Id:LOGO_NOD
+					ImageName:nod
+					ImageCollection:lobby_logo
+				Button@NOD_BUTTON:
+					Id:NOD_BUTTON
+					Visible:true
+					X:128*2
+					Y:128+32
+					Width:128
+					Height:25
+					Text:Join Nod
+					Bold:True
+				Label@NOD_LABEL:
+					Id:NOD_LABEL
+					X:128*2
+					Y:128
+					Width:128
+					Height:25
+					Text:0 / 10
+					Align:Center
+					Bold:True
 		ChatDisplay@CHAT_DISPLAY:
 			Id:CHAT_DISPLAY
 			Visible:true
@@ -298,7 +357,7 @@ Background@SERVER_LOBBY:
 			Bold:True
 		Checkbox@LOCKTEAMS_CHECKBOX:
 			Id:LOCKTEAMS_CHECKBOX
-			Visible: true
+			Visible: false
 			X: PARENT_RIGHT-160
 			Y: PARENT_BOTTOM-229
 			Width: 80

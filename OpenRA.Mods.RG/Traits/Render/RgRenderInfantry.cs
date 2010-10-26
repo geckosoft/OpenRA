@@ -1,6 +1,7 @@
 ﻿using OpenRA.Mods.RA.Activities;
 using OpenRA.Mods.RA.Effects;
 using OpenRA.Mods.RA.Move;
+using OpenRA.Mods.Rg.Activities;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Traits.Render
@@ -61,7 +62,7 @@ namespace OpenRA.Mods.Rg.Traits.Render
 		{
 			base.Tick(self);
 			if (inAttack) return;
-			if (self.GetCurrentActivity() is IdleAnimation) return;
+			if (self.GetCurrentActivity() is RgIdleAnimation) return;
 			if (ChooseMoveAnim(self)) return;
 
 			if (IsProne(self))

@@ -170,7 +170,7 @@ World:
 	SpawnMapActors:
 	RgCreateMPPlayers:
 #	SpawnMPUnits:
-	MPStartLocations:
+	RgStartLocations:
 	EvaAlerts:
 		RadarUp: comcntr1.aud
 		RadarDown: powrdn1.aud
