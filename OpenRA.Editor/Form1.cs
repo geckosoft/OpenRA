@@ -160,7 +160,10 @@ namespace OpenRA.Editor
 
 					actorTemplates.Add(template);
 				}
-				catch { }
+				catch (Exception ex)
+				{
+					
+				}
 			}
 
 			surface1.BindActorTemplates(actorTemplates);

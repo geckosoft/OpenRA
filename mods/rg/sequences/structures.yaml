@@ -297,7 +297,6 @@ wood:
 	damaged-idle:
 		Start: 16
 		Length: 16
-
 gun:
 	idle:
 		Start: 0
@@ -415,3 +414,11 @@ pyle_destroyed:
 	make: pylemake
 		Start: 0
 		Length: *
+
+crate_spawn
+	idle:wood
+		Start: 0
+		Length: 16
+	damaged-idle:wood
+		Start: 16
+		Length: 16
