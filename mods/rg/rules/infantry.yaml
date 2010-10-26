@@ -210,7 +210,7 @@ SOLDIER:
 	Health:
 		HP: 100
 	AttackFrontal:
-		PrimaryWeapon: RgRocketLauncherTest
+		PrimaryWeapon: RgAutoRifle
 #	TakeCover:
 	IdleAnimation:
 		Animations: idle1,idle2,idle3	

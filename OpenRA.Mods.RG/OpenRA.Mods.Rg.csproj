@@ -83,6 +83,7 @@
     <Compile Include="Effects\RgIonCannon.cs" />
     <Compile Include="Effects\RgNukeLaunch.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\RgProduceActorOnDeath.cs" />
     <Compile Include="Traits\Render\RgRenderInfantry.cs" />
     <Compile Include="Traits\RgFriendlyFire.cs" />
     <Compile Include="Traits\RgIdleAnimation.cs" />

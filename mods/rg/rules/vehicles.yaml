@@ -34,15 +34,15 @@ MCV:
 HARV:
 	Inherits: ^Tank
 	Valued:
-		Cost: 0
+		Cost: 1000
 	Tooltip:
 		Name: Harvester
 		Icon: harvicnh
 		Description: Collects Tiberium for processing.\n  Unarmed
-	-Buildable:
+	Buildable:
 		BuildPaletteOrder: 10
 		Prerequisites: proc
-		Owner: gdi,nod
+		Owner: nobody
 	Selectable:
 		Priority: 7
 		Bounds: 44,44
@@ -52,18 +52,22 @@ HARV:
 		PipColor: Green
 		Capacity: 28
 	Mobile:
-		Speed: 6
+		Speed: 4
 	Health:
-		HP: 600
+		HP: 800
 	Armor: 
 		Type: Light
 	RevealsShroud:
-		Range: 4
+		Range: 7
 	RenderUnit:
 	-AttackMove:
 	Scale:
 		Value: 2
-	RgDestroyed:
+#	RgDestroyed:
+	RgProduceActorOnDeath:
+		Actor: harv
+		RequiresRefinery: true
+		InitialActivity: Harvest
 
 APC:
 	Inherits: ^SteerableTank

@@ -25,7 +25,7 @@ namespace OpenRA.Mods.Rg.Traits
             Info = info;
         }
 
-        public void DoProduction(Actor self, ActorInfo producee, ExitInfo exitinfo, Order order)
+        public Actor DoProduction(Actor self, ActorInfo producee, ExitInfo exitinfo, Order order)
         {
             var newUnit = self.World.CreateActor(false, producee.Name, new TypeDictionary
 			{
@@ -73,7 +73,7 @@ namespace OpenRA.Mods.Rg.Traits
                 });
             }
 
-            if (order.TargetActor != null)
+            if (order != null && order.TargetActor != null)
             {
                 var assigner = self.TraitOrDefault<RgAssignUnit>();
                 if (assigner != null)
@@ -85,10 +85,11 @@ namespace OpenRA.Mods.Rg.Traits
             foreach (var t in self.TraitsImplementing<INotifyProduction>())
                 t.UnitProduced(self, newUnit, exit);
 
-            //Log.Write("debug", "{0} #{1} produced by {2} #{3}", newUnit.Info.Name, newUnit.ActorID, self.Info.Name, self.ActorID);
+        	return newUnit;
+        	//Log.Write("debug", "{0} #{1} produced by {2} #{3}", newUnit.Info.Name, newUnit.ActorID, self.Info.Name, self.ActorID);
         }
 
-        public virtual bool Produce(Actor self, ActorInfo producee, Order order)
+        public virtual Actor Produce(Actor self, ActorInfo producee, Order order)
         {
             // Todo: remove assumption on Mobile; 
             // required for 3-arg CanEnterCell
@@ -102,10 +103,9 @@ namespace OpenRA.Mods.Rg.Traits
             foreach (var s in self.Info.Traits.WithInterface<ExitInfo>())
                 if (Mobile.CanEnterCell(mobileInfo, self.World, uim, bim, self.Location + s.ExitCell, self, true))
                 {
-                    DoProduction(self, producee, s, order);
-                    return true;
+                    return DoProduction(self, producee, s, order);
                 }
-            return false;
+            return null;
         }
 
 
