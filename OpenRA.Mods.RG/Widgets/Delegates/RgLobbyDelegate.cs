@@ -14,10 +14,12 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 		public static Color CurrentColorPreview1;
 		public static Color CurrentColorPreview2;
 		private readonly Dictionary<string, string> CountryNames;
+		private readonly ButtonWidget GDIButton;
+		private readonly LabelWidget GDILabel;
 		private readonly Widget LocalPlayerTemplate;
+		private readonly ButtonWidget NodButton;
+		private readonly LabelWidget NodLabel;
 		private readonly Widget Players;
-		private readonly LabelWidget NodLabel, GDILabel;
-		private readonly ButtonWidget NodButton, GDIButton;
 		private readonly OrderManager orderManager;
 		private Widget EmptySlotTemplate, EmptySlotTemplateHost;
 		private Map Map;
@@ -38,12 +40,12 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			CurrentColorPreview2 = Game.Settings.Player.Color2;
 
 			Players = lobby.GetWidget("PLAYERS");
-			NodLabel = (LabelWidget)lobby.GetWidget("NOD_LABEL");
-			GDILabel = (LabelWidget)lobby.GetWidget("GDI_LABEL");
+			NodLabel = (LabelWidget) lobby.GetWidget("NOD_LABEL");
+			GDILabel = (LabelWidget) lobby.GetWidget("GDI_LABEL");
 
 
-			NodButton = (ButtonWidget)lobby.GetWidget("NOD_BUTTON");
-			GDIButton = (ButtonWidget)lobby.GetWidget("GDI_BUTTON");
+			NodButton = (ButtonWidget) lobby.GetWidget("NOD_BUTTON");
+			GDIButton = (ButtonWidget) lobby.GetWidget("GDI_BUTTON");
 
 
 			// orderManager.IssueOrder(Order.Command("race " + nextCountry));
@@ -51,38 +53,34 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 
 			/* assign the event handlers */
 			NodButton.OnMouseUp = _ =>
-			{
-				if (CountPlayers("nod") > CountPlayers("gdi") + 1)
-					return false; /* too many nods already (allow 1 overflow) */
+			                      	{
+			                      		if (CountPlayers("nod") > CountPlayers("gdi") + 1)
+			                      			return false; /* too many nods already (allow 1 overflow) */
 
 
-				orderManager.IssueOrder(Order.Command("race nod"));
+			                      		orderManager.IssueOrder(Order.Command("race nod"));
 
-				return true;
-			};
+			                      		return true;
+			                      	};
 
 
 			GDIButton.OnMouseUp = _ =>
-			{
-				if (CountPlayers("gdi") > CountPlayers("nod") + 1)
-					return false; /* too many nods already (allow 1 overflow) */
+			                      	{
+			                      		if (CountPlayers("gdi") > CountPlayers("nod") + 1)
+			                      			return false; /* too many nods already (allow 1 overflow) */
 
 
-				orderManager.IssueOrder(Order.Command("race gdi"));
+			                      		orderManager.IssueOrder(Order.Command("race gdi"));
 
-				return true;
-			};
+			                      		return true;
+			                      	};
 			// players assigned / slots available
-			GDILabel.GetText = () =>
-			{
-				return CountPlayers("gdi") + " / " + Math.Round((float)(orderManager.LobbyInfo.Slots.Count / 2 + 1), 0);
-			};
+			GDILabel.GetText =
+				() => { return CountPlayers("gdi") + " / " + Math.Round((float) (orderManager.LobbyInfo.Slots.Count/2 + 1), 0); };
 
 			// players assigned / slots available
-			NodLabel.GetText = () =>
-			{
-				return CountPlayers("nod") + " / " + Math.Round((float)(orderManager.LobbyInfo.Slots.Count / 2 + 1), 0);
-			};
+			NodLabel.GetText =
+				() => { return CountPlayers("nod") + " / " + Math.Round((float) (orderManager.LobbyInfo.Slots.Count/2 + 1), 0); };
 
 			var mapPreview = lobby.GetWidget<MapPreviewWidget>("LOBBY_MAP_PREVIEW");
 			mapPreview.Map = () => Map;
@@ -185,10 +183,11 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			                         	};
 		}
 
-		string PickRace()
+		private string PickRace()
 		{
-			return (CountPlayers("gdi") > CountPlayers("nod")) ?  "nod" : "gdi";
+			return (CountPlayers("gdi") > CountPlayers("nod")) ? "nod" : "gdi";
 		}
+
 		private void UpdatePlayerColor(float hf, float sf, float lf, float r)
 		{
 			Color c1 = PlayerColorRemap.ColorFromHSL(hf, sf, lf);
@@ -205,11 +204,13 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			CurrentColorPreview1 = PlayerColorRemap.ColorFromHSL(hf, sf, lf);
 			CurrentColorPreview2 = PlayerColorRemap.ColorFromHSL(hf, sf, r*lf);
 		}
+
 		/*
 		int CountPlayerSlots()
 		{
 			//return orderManager.LobbyInfo.Slots.Where(a => a.Index)
 		}*/
+
 		private void UpdateCurrentMap()
 		{
 			if (MapUid == orderManager.LobbyInfo.GlobalSettings.Map) return;
@@ -305,7 +306,8 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 					var color = template.GetWidget<ButtonWidget>("COLOR");
 
 					var colorBlock = color.GetWidget<ColorBlockWidget>("COLORBLOCK");
-					var p = Map.Players.Where(a => a.Value.Name.ToLower() == c.Country.ToLower()).Select(a => a.Value).SingleOrDefault();
+					PlayerReference p =
+						Map.Players.Where(a => a.Value.Name.ToLower() == c.Country.ToLower()).Select(a => a.Value).SingleOrDefault();
 					if (p != null)
 					{
 						c.Color1 = p.Color;
@@ -317,11 +319,11 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 					var factionname = faction.GetWidget<LabelWidget>("FACTIONNAME");
 					factionname.GetText = () =>
 					                      	{
-												if (c.Country.ToLower() == "random")
-												{
-													//c.Country = PickRace();
-													orderManager.IssueOrder(Order.Command("race " + PickRace()));
-												}
+					                      		if (c.Country.ToLower() == "random")
+					                      		{
+					                      			//c.Country = PickRace();
+					                      			orderManager.IssueOrder(Order.Command("race " + PickRace()));
+					                      		}
 					                      		return CountryNames[c.Country];
 					                      	};
 					var factionflag = faction.GetWidget<ImageWidget>("FACTIONFLAG");

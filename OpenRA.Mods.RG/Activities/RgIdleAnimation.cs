@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRA.Mods.Rg.Traits.Render;
+﻿using OpenRA.Mods.Rg.Traits.Render;
 using OpenRA.Traits;
 using OpenRA.Traits.Activities;
 
@@ -10,8 +6,9 @@ namespace OpenRA.Mods.Rg.Activities
 {
 	public class RgIdleAnimation : Idle
 	{
-		string sequence;
-		int delay;
+		private readonly string sequence;
+		private bool active = true;
+		private int delay;
 
 		public RgIdleAnimation(string sequence, int delay)
 		{
@@ -19,7 +16,6 @@ namespace OpenRA.Mods.Rg.Activities
 			this.delay = delay;
 		}
 
-		bool active = true;
 		public override IActivity Tick(Actor self)
 		{
 			if (!active) return NextActivity;
@@ -35,6 +31,5 @@ namespace OpenRA.Mods.Rg.Activities
 			active = false;
 			return true;
 		}
-
 	}
 }

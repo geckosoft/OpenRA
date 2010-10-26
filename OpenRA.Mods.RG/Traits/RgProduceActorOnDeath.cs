@@ -10,7 +10,7 @@ namespace OpenRA.Mods.Rg.Traits
 		public readonly int Facing;
 		public readonly string InitialActivity;
 		public readonly bool MarkDestroyed = true;
-		public readonly bool RequiresRefinery = false;
+		public readonly bool RequiresRefinery;
 		public readonly int2 SpawnOffset = int2.Zero;
 
 		#region ITraitInfo Members
@@ -63,24 +63,26 @@ namespace OpenRA.Mods.Rg.Traits
 									queue.Owner.PlayerActor.TraitOrDefault<PlayerResources>().GiveCash(
 										actorInfo.Traits.GetOrDefault<ValuedInfo>().Cost);
 
-									var unit = actorInfo;
+									ActorInfo unit = actorInfo;
 
-									queue.TraitOrDefault<RgProductionQueue>().BeginProduction(new RgProductionItem(queue.TraitOrDefault<RgProductionQueue>(), Info.Actor,25*5, actorInfo.Traits.GetOrDefault<ValuedInfo>().Cost,
-											() => self.World.AddFrameEndTask(
-												_ =>
-												{
-													var isBuilding = unit.Traits.Contains<BuildingInfo>();
-													/*if (!hasPlayedSound)
+									queue.TraitOrDefault<RgProductionQueue>().BeginProduction(
+										new RgProductionItem(queue.TraitOrDefault<RgProductionQueue>(), Info.Actor, 25*5,
+										                     actorInfo.Traits.GetOrDefault<ValuedInfo>().Cost,
+										                     () => self.World.AddFrameEndTask(
+										                     	_ =>
+										                     		{
+										                     			bool isBuilding = unit.Traits.Contains<BuildingInfo>();
+										                     			/*if (!hasPlayedSound)
 													{
 														var eva = self.World.WorldActor.Info.Traits.Get<EvaAlertsInfo>();
 														Sound.PlayToPlayer(order.Player, isBuilding ? eva.BuildingReadyAudio : eva.UnitReadyAudio);
 														hasPlayedSound = true;
 													}*/
-													var u = queue.TraitOrDefault<RgProductionQueue>().BuildUnit(unit.Name, null);
+										                     			Actor u = queue.TraitOrDefault<RgProductionQueue>().BuildUnit(unit.Name, null);
 
-													if (Info.InitialActivity != null)
-														u.QueueActivity(Game.CreateObject<IActivity>(Info.InitialActivity));
-												}), true));
+										                     			if (Info.InitialActivity != null)
+										                     				u.QueueActivity(Game.CreateObject<IActivity>(Info.InitialActivity));
+										                     		}), true));
 
 
 									/*queue.TraitOrDefault<RgProductionQueue>().BuildUnit(Info.Actor, null);*/

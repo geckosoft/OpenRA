@@ -1,27 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRA.Traits;
+﻿using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Traits
 {
-
-	class RgIdleAnimationInfo : ITraitInfo
+	internal class RgIdleAnimationInfo : ITraitInfo
 	{
+		public readonly string[] Animations = {};
 		public readonly int IdleWaitTicks = 50;
-		public readonly string[] Animations = { };
-		public object Create(ActorInitializer init) { return new RgIdleAnimation(this); }
+
+		#region ITraitInfo Members
+
+		public object Create(ActorInitializer init)
+		{
+			return new RgIdleAnimation(this);
+		}
+
+		#endregion
 	}
 
 	// infantry prone behavior
-	class RgIdleAnimation : INotifyDamage, INotifyIdle
+	internal class RgIdleAnimation : INotifyDamage, INotifyIdle
 	{
-		RgIdleAnimationInfo Info;
+		private readonly RgIdleAnimationInfo Info;
+
 		public RgIdleAnimation(RgIdleAnimationInfo info)
 		{
 			Info = info;
 		}
+
+		#region INotifyDamage Members
 
 		public void Damaged(Actor self, AttackInfo e)
 		{
@@ -29,10 +35,16 @@ namespace OpenRA.Mods.Rg.Traits
 				self.CancelActivity();
 		}
 
+		#endregion
+
+		#region INotifyIdle Members
+
 		public void Idle(Actor self)
 		{
 			self.QueueActivity(new Activities.RgIdleAnimation(Info.Animations.Random(self.World.SharedRandom),
-															Info.IdleWaitTicks));
+			                                                  Info.IdleWaitTicks));
 		}
+
+		#endregion
 	}
 }
