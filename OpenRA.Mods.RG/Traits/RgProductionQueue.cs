@@ -110,7 +110,7 @@ namespace OpenRA.Mods.Rg.Traits
 
         public virtual void Tick(Actor self)
         {
-            while (Queue.Count > 0 && !BuildableItems().Any(b => b.Name == Queue[0].Item))
+            while (Queue.Count > 0 && ( !Queue[0].Force && !BuildableItems().Any(b => b.Name == Queue[0].Item)))
             {
                 self.Owner.PlayerActor.Trait<PlayerResources>().GiveCash(Queue[0].TotalCost - Queue[0].RemainingCost); // refund what's been paid so far.
                 FinishProduction();
@@ -226,7 +226,7 @@ namespace OpenRA.Mods.Rg.Traits
             Queue.RemoveAt(0);
         }
 
-        protected void BeginProduction(RgProductionItem item)
+        public void BeginProduction(RgProductionItem item)
         {
             Queue.Add(item);
         }
@@ -236,25 +236,32 @@ namespace OpenRA.Mods.Rg.Traits
             return a.TraitsImplementing<IDisable>().Any(d => d.Disabled);
         }
 
-        // Builds a unit from the actor that holds this queue (1 queue per building)
-        protected virtual void BuildUnit(string name, Order order)
-        {
-            // Cannot produce if i'm dead
-            if (!self.IsInWorld || self.IsDead())
-            {
-                CancelProduction(name, 1);
-                return;
-            }
+		// Builds a unit from the actor that holds this queue (1 queue per building)
+		internal virtual Actor BuildUnit(string name, Order order)
+		{
+			// Cannot produce if i'm dead
+			if (!self.IsInWorld || self.IsDead())
+			{
+				CancelProduction(name, 1);
+				return null;
+			}
 
-            var sp = self.TraitsImplementing<RgProduction>().Where(p => p.Info.Produces.Contains(Info.Type)).FirstOrDefault();
+			var sp = self.TraitsImplementing<RgProduction>().Where(p => p.Info.Produces.Contains(Info.Type)).FirstOrDefault();
 
 
-            if (sp != null && !IsDisabledBuilding(self) && sp.Produce(self, Rules.Info[name], order))
-            {
+			if (sp != null && !IsDisabledBuilding(self))
+			{
+				var a = sp.Produce(self, Rules.Info[name], order);
+				if (a != null)
+					FinishProduction();
 
-                FinishProduction();
-            }
-        }
+				return a;
+			}
+
+			return null;
+		}
+
+
     }
 
     public class RgProductionItem
@@ -265,22 +272,34 @@ namespace OpenRA.Mods.Rg.Traits
         public readonly int TotalCost;
         public int RemainingTime { get; private set; }
         public int RemainingCost { get; private set; }
+    	public readonly bool Force = false;
 
         public bool Paused = false, Done = false;
         public Action OnComplete;
         int slowdown = 0;
 
-        public RgProductionItem(RgProductionQueue queue, string item, int time, int cost, Action onComplete)
-        {
-            if (time <= 0) time = 1;
-            Item = item;
-            RemainingTime = TotalTime = time;
-            RemainingCost = TotalCost = cost;
-            OnComplete = onComplete;
-            Queue = queue;
+		public RgProductionItem(RgProductionQueue queue, string item, int time, int cost, Action onComplete)
+		{
+			if (time <= 0) time = 1;
+			Item = item;
+			RemainingTime = TotalTime = time;
+			RemainingCost = TotalCost = cost;
+			OnComplete = onComplete;
+			Queue = queue;
 
-            //Log.Write("debug", "new ProductionItem: {0} time={1} cost={2}", item, time, cost);
-        }
+			//Log.Write("debug", "new ProductionItem: {0} time={1} cost={2}", item, time, cost);
+		}
+		public RgProductionItem(RgProductionQueue queue, string item, int time, int cost, Action onComplete, bool force)
+		{
+			if (time <= 0) time = 1;
+			Item = item;
+			RemainingTime = TotalTime = time;
+			RemainingCost = TotalCost = cost;
+			OnComplete = onComplete;
+			Queue = queue;
+			Force = true;
+			//Log.Write("debug", "new ProductionItem: {0} time={1} cost={2}", item, time, cost);
+		}
 
         public void Tick(PlayerResources pr, PowerManager pm)
         {
