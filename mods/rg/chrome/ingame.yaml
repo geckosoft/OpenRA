@@ -33,10 +33,10 @@ Container@INGAME_ROOT:
 					Height:40
 					Align:Center
 					Bold:True
-		SpecialPowerBin@INGAME_POWERS_BIN:
+		RgAbilities@INGAME_POWERS_BIN:
 			Id:INGAME_POWERS_BIN
 			X:0
-			Y:25
+			Y:25	
 		RgBuildPalette@INGAME_BUILD_PALETTE:
 			Id:INGAME_BUILD_PALETTE
 			X:WINDOW_RIGHT - 250

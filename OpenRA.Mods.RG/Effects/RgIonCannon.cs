@@ -39,6 +39,9 @@ namespace OpenRA.Mods.Rg.Effects
 
 		private void Finish(World world)
 		{
+			foreach (var a in world.Queries.WithTrait<RgIonFx>())
+				a.Trait.Enable();
+
 			world.AddFrameEndTask(w => w.Remove(this));
 			Combat.DoExplosion(firedBy, "RgIonCannon", target.CenterLocation, 0);
 		}

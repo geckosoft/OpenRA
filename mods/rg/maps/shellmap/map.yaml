@@ -919,6 +919,9 @@ Actors:
 	Actor221: jeep
 		Location: 57,45
 		Owner: Neutral
+	Actor22200: minp
+		Location: 56,46
+		Owner: Neutral
 
 Waypoints:
 

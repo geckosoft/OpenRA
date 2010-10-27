@@ -327,7 +327,11 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 					                      		return CountryNames[c.Country];
 					                      	};
 					var factionflag = faction.GetWidget<ImageWidget>("FACTIONFLAG");
-					factionflag.GetImageName = () => c.Country;
+					factionflag.GetImageName = () => {
+						if (c.Country.ToLower() == "random")
+							return "gdi";
+					                                 	return c.Country;
+					};
 					factionflag.GetImageCollection = () => "flags";
 
 					var status = template.GetWidget<CheckboxWidget>("STATUS");

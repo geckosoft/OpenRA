@@ -41,7 +41,7 @@ namespace OpenRA.Traits
 			hp = init.Contains<HealthInit>() ? (int)(init.Get<HealthInit, float>()*MaxHP) : MaxHP;
 		}
 		
-		public int HP { get { return hp; } }
+		public int HP { get { return hp; } set { hp = value; } } // was no way to just instantly heal a unit :/
 		public readonly int MaxHP;
 		public float HPFraction
 		{
@@ -50,7 +50,7 @@ namespace OpenRA.Traits
 		
 		public bool IsDead { get { return hp <= 0; } }
 		public bool RemoveOnDeath = true;
-				
+
 		public DamageState DamageState
 		{
 			get 

@@ -1141,3 +1141,39 @@ RgSniperBasic:
 #		SmudgeType: Crater
 #		ImpactSound: xplos	
 		Damage: 25
+
+ATMine:
+	Warhead:
+		Damage: 50
+		Versus: 
+			None: 0%
+			Wood: 0%
+			Concrete: 0%
+		ImpactSound: mineblo1
+		Explosion: 6
+
+APMine:
+	Warhead:
+		Damage: 50
+		Versus: 
+			Wood: 0%
+			Light: 0%
+			Heavy: 0%
+			Concrete: 0%
+		ImpactSound: mine1
+		InfDeath: 2
+		Explosion: 5
+		
+
+AMine:
+	Warhead:
+		Damage: 50
+		Versus: 
+			None: 50%
+			Wood: 100%
+			Light: 100%
+			Heavy: 75%
+			Concrete: 0%
+		ImpactSound: mine1
+		InfDeath: 2
+		Explosion: 5

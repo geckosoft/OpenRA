@@ -1,0 +1,48 @@
+
+MINP:
+	RgMine:
+		Weapon: APMine
+		CrushClasses: apmine
+	Health:
+		HP: 1
+	RenderUnit:
+	BelowUnits:
+#	InvisibleToOthers:
+	RgDestroyed:
+	RgIndestructible:
+	Tooltip:
+		Name: Anti-Personnel Mine
+	Scale:
+		Value: 0.5
+
+MINV:
+	RgMine:
+		Weapon: ATMine
+		CrushClasses: atmine
+	Health:
+		HP: 1
+	RenderUnit:
+	BelowUnits:
+	RgIndestructible:
+#	InvisibleToOthers:
+	Tooltip:
+		Name: Anti-Tank Mine
+	Scale:
+		Value: 0.5
+		
+
+MINE:
+	RgMine:
+		Weapon: AMine
+		CrushClasses: apmine
+	Health:
+		HP: 1
+	RenderUnit:
+	BelowUnits:
+#	InvisibleToOthers:
+	RgDestroyed:
+	RgIndestructible:
+	Tooltip:
+		Name: Anti-Personnel Mine
+	Scale:
+		Value: 0.5

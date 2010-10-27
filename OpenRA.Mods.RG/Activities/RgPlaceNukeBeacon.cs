@@ -1,25 +1,26 @@
 ﻿using System.Linq;
 using OpenRA.Mods.Rg.Traits;
+using OpenRA.Mods.Rg.Traits.Inventory;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Activities
 {
-	internal class RgPlaceBeacon : CancelableActivity
+	internal class RgPlaceNukeBeacon : CancelableActivity
 	{
-		public ISound CountDown;
+		public ISound CountDownSnd;
 		private int launchTicks = 25*20; /* around 20 seconds delay before it is launched after placement */
 		private int placeTicks = 25*4; /* around 4 second delay before it is placed */
 		private Target target;
 
-		public RgPlaceBeacon(Actor target)
+		public RgPlaceNukeBeacon(Actor target)
 		{
 			this.target = Target.FromActor(target);
 		}
 
 		protected override bool OnCancel(Actor self)
 		{
-			if (CountDown != null)
-				Sound.StopSound(CountDown);
+			if (CountDownSnd != null)
+				Sound.StopSound(CountDownSnd);
 
 			return true;
 		}
@@ -31,27 +32,28 @@ namespace OpenRA.Mods.Rg.Activities
 			if ((target.Actor.Location - self.Location).Length > 2)
 				return NextActivity; /* moving target ? */
 
-			if (target.Actor.TraitOrDefault<RgBeaconTarget>() == null)
+			if (target.Actor.TraitOrDefault<RgNukeBeaconTarget>() == null)
 				return NextActivity;
 			var rgPlayer = self.Owner.PlayerActor.TraitOrDefault<RgPlayer>();
 
 			if (rgPlayer == null)
 				return NextActivity; /* should not occur! */
 
-			if (self.TraitOrDefault<RgSuperPowerLauncher>().Ammo == 0)
+			var inv = RgPlayer.Get(self).Inventory;
+			var beaconItm = inv.Get<InvNukeBeacon>();
+			if (beaconItm == null || !beaconItm.CanTake(1))
 				return NextActivity;
 
-			Actor launchSite = rgPlayer.ParentActors().Where(a => a.Info.Name == "tmpl" || a.Info.Name == "eye").FirstOrDefault();
+			Actor launchSite = rgPlayer.ParentActors().Where(a => a.Info.Name == "tmpl").FirstOrDefault();
 			if (launchSite == null)
-				return NextActivity; /* nope */
-			if (CountDown == null)
+				return NextActivity; /* nope */ // @todo Allow launching anyway
+
+			if (CountDownSnd == null)
 			{
-				if (launchSite.Info.Name == "tmpl")
-					CountDown = Sound.Play("nuke_beacon.aud", self.CenterLocation);
-				else
-					CountDown = Sound.Play("ion_beacon.aud", self.CenterLocation);
+				CountDownSnd = Sound.Play("nuke_beacon.aud", self.CenterLocation);
 			}
-			if (placeTicks > 0 && self.TraitOrDefault<RgSuperPowerLauncher>().Ammo > 0)
+                 
+			if (placeTicks > 0 && beaconItm.CanTake(1))
 			{
 				placeTicks--;
 				if (placeTicks == 0)
@@ -63,10 +65,10 @@ namespace OpenRA.Mods.Rg.Activities
 						return NextActivity;
 
 					/* Init launch countdown! */
-					target.Actor.TraitOrDefault<RgBeaconTarget>().TriggerLaunch(self.Owner, launchSite, launchTicks);
+					target.Actor.TraitOrDefault<RgNukeBeaconTarget>().TriggerLaunch(self.Owner, launchSite, launchTicks);
 
-					/* Remove 1 ammo */
-					self.TraitOrDefault<RgSuperPowerLauncher>().Ammo--;
+					/* Take 1 beacon item away */
+					beaconItm.Take(1);
 
 					return NextActivity;
 				}
@@ -74,5 +76,6 @@ namespace OpenRA.Mods.Rg.Activities
 
 			return this;
 		}
+
 	}
 }

@@ -35,14 +35,23 @@ Packages:
 	~movies-nod.mix
 	~movies.mix
 	~scores.mix
-	~main.mix
-	redalert.mix
-	hires.mix
-	local.mix
-	allies.mix
-	russian.mix
-	interior.mix
+#	From the RA mod
+	~mods/ra/packages/main.mix
+	~mods/ra/packages/redalert.mix
+	mods/ra/packages/conquer.mix
+	~mods/ra/packages/hires.mix
+	~mods/ra/packages/local.mix
 	mods/ra/packages/sounds.mix
+	~mods/ra/packages/speech.mix
+	mods/ra/packages/allies.mix
+	mods/ra/packages/russian.mix
+	mods/ra/packages/temperat.mix
+	mods/ra/packages/snow.mix
+	mods/ra/packages/interior.mix
+	~mods/ra/packages/scores.mix
+	~mods/ra/packages/movies1.mix
+	~mods/ra/packages/movies2.mix
+	
 Rules:
 	mods/rg/rules/defaults.yaml
 	mods/rg/rules/system.yaml
@@ -52,6 +61,7 @@ Rules:
 	mods/rg/rules/trees.yaml
 	mods/rg/rules/civilian.yaml
 	mods/rg/rules/tech.yaml
+	mods/rg/rules/misc.yaml
 
 Sequences:
 	mods/rg/sequences/structures.yaml
