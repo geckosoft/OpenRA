@@ -138,11 +138,11 @@ namespace OpenRA.Mods.RA.Effects
                     /* @todo Make usage of altitude */
                     if (Info.Shadow && at <= 0.5f)
                     {
-                        yield return new Renderable(anim.Image, pos - .5f*anim.Image.size, "shadow", (int) pos.Y, (0.5f - at) * 2);
+                        yield return new Renderable(anim.Image, pos - .5f*anim.Image.size, "shadow", (int) pos.Y, (int)(0.5f - at) * 2);
                     }
                     else if (Info.Shadow) /* at > 0.5f */
                     {
-                        yield return new Renderable(anim.Image, pos - .5f * anim.Image.size, "shadow", (int)pos.Y, (at-0.5f) * 2);
+						yield return new Renderable(anim.Image, pos - .5f * anim.Image.size, "shadow", (int)pos.Y, (int)(at - 0.5f) * 2);
                     }
                     yield return new Renderable(anim.Image, highPos - .5f * anim.Image.size, Args.firedBy.Owner.Palette, (int)pos.Y);
 				}

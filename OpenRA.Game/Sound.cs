@@ -48,57 +48,46 @@ namespace OpenRA
 
 		public static void SetListenerPosition(float2 position) { soundEngine.SetListenerPosition(position); }
 
-        public static ISound Play(string name)
-        {
-            if (name == "" || name == null)
-                return null;
-
-            var sound = sounds[name];
-            return soundEngine.Play2D(sound, false, true, float2.Zero, InternalSoundVolume);
-        }
-
-        public static ISound Play(string name, float2 pos)
-        {
-            if (name == "" || name == null)
-                return null;
-
-            var sound = sounds[name];
-            return soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume);
-        }
-
-
-        public static ISound Play(string name, float volumeModifier)
-        {
-            if (name == "" || name == null)
-                return null;
-
-            var sound = sounds[name];
-            return soundEngine.Play2D(sound, false, true, float2.Zero, InternalSoundVolume * volumeModifier);
-        }
-
-        public static ISound Play(string name, float2 pos, float volumeModifier)
-        {
-            if (name == "" || name == null)
-                return null;
-
-            var sound = sounds[name];
-            return soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume * volumeModifier);
-        }
-
-        public static ISound PlayToPlayer(Player player, string name)
+		public static ISound Play(string name)
 		{
-			if( player == player.World.LocalPlayer )
-				return Play( name );
-
-            return null;
+			return Play(name, float2.Zero);
 		}
 
-        public static ISound PlayToPlayer(Player player, string name, float2 pos)
+		public static ISound Play(string name, float2 pos)
+		{
+			if (name == "" || name == null)
+				return null;
+
+			var sound = sounds[name];
+			return soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume);
+		}
+
+
+		public static ISound Play(string name, float volumeModifier)
+		{
+			return Play(name, float2.Zero, volumeModifier);
+		}
+
+		public static ISound Play(string name, float2 pos, float volumeModifier)
+		{
+			if (name == "" || name == null)
+				return null;
+
+			var sound = sounds[name];
+			return soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume * volumeModifier);
+		}
+
+		public static ISound PlayToPlayer(Player player, string name)
+		{
+			return PlayToPlayer(player, name, float2.Zero);
+		}
+
+		public static ISound PlayToPlayer(Player player, string name, float2 pos)
 		{
 			if (player == player.World.LocalPlayer)
 				return Play(name, pos);
 
-            return null;
+			return null;
 		}
 
 		public static void PlayVideo(byte[] raw)
@@ -106,25 +95,25 @@ namespace OpenRA
 			rawSource = LoadSoundRaw(raw);
 			video = soundEngine.Play2D(rawSource, false, true, float2.Zero, InternalSoundVolume);
 		}
-		
+
 		public static void PlayVideo()
 		{
 			if (video != null)
 				soundEngine.PauseSound(video, false);
 		}
-		
+
 		public static void PauseVideo()
 		{
 			if (video != null)
 				soundEngine.PauseSound(video, true);
 		}
-		
+
 		public static void StopVideo()
 		{
 			if (video != null)
 				soundEngine.StopSound(video);
 		}
-		
+
 		public static void Tick()
 		{
 			// Song finished
@@ -134,13 +123,13 @@ namespace OpenRA
 				OnMusicComplete();
 			}
 		}
-		
+
 		static Action OnMusicComplete;
 		public static bool MusicPlaying { get; private set; }
-		
+
 		public static void PlayMusic(string name)
 		{
-			PlayMusicThen(name, () => {});
+			PlayMusicThen(name, () => { });
 		}
 		public static void PlayMusicThen(string name, Action then)
 		{
@@ -155,41 +144,41 @@ namespace OpenRA
 				return;
 			}
 			StopMusic();
-						
+
 			currentMusic = name;
 			MusicPlaying = true;
 			var sound = sounds[name];
 			music = soundEngine.Play2D(sound, false, true, float2.Zero, MusicVolume);
 		}
-		
+
 		public static void PlayMusic()
 		{
 			if (music == null)
 				return;
 			MusicPlaying = true;
 			soundEngine.PauseSound(music, false);
-        }
+		}
 
-        public static void StopSound(ISound sound)
-        {
-            if (sound != null)
-                soundEngine.StopSound(sound);
-        }
+		public static void StopSound(ISound sound)
+		{
+			if (sound != null)
+				soundEngine.StopSound(sound);
+		}
 
 		public static void StopMusic()
 		{
 			if (music != null)
 				soundEngine.StopSound(music);
-			
+
 			MusicPlaying = false;
 			currentMusic = null;
 		}
-		
+
 		public static void PauseMusic()
 		{
 			if (music == null)
 				return;
-			
+
 			MusicPlaying = false;
 			soundEngine.PauseSound(music, true);
 		}
@@ -197,9 +186,9 @@ namespace OpenRA
 		public static float GlobalVolume
 		{
 			get { return soundEngine.Volume; }
-			set { soundEngine.Volume = value;}
+			set { soundEngine.Volume = value; }
 		}
-		
+
 		static float soundVolumeModifier = 1.0f;
 		public static float SoundVolumeModifier
 		{
@@ -210,8 +199,8 @@ namespace OpenRA
 				soundEngine.SetSoundVolume(InternalSoundVolume, music, video);
 			}
 		}
-		
-		static float InternalSoundVolume { get { return SoundVolume*soundVolumeModifier; } }
+
+		static float InternalSoundVolume { get { return SoundVolume * soundVolumeModifier; } }
 		public static float SoundVolume
 		{
 			get { return Game.Settings.Sound.SoundVolume; }
@@ -232,7 +221,7 @@ namespace OpenRA
 					music.Volume = value;
 			}
 		}
-		
+
 		public static float VideoVolume
 		{
 			get { return Game.Settings.Sound.VideoVolume; }
@@ -243,17 +232,17 @@ namespace OpenRA
 					video.Volume = value;
 			}
 		}
-		
+
 		public static float MusicSeekPosition
 		{
-			get { return (music != null)? music.SeekPosition : 0; }	
+			get { return (music != null) ? music.SeekPosition : 0; }
 		}
-		
+
 		public static float VideoSeekPosition
 		{
-			get { return (video != null)? video.SeekPosition : 0; }	
+			get { return (video != null) ? video.SeekPosition : 0; }
 		}
-		
+
 		// Returns true if it played a phrase
 		public static bool PlayVoice(string phrase, Actor voicedUnit, string variant)
 		{
@@ -269,8 +258,8 @@ namespace OpenRA
 			var clip = vi.Pools.Value[phrase].GetNext();
 			if (clip == null)
 				return false;
-			
-			var variantext = (vi.Variants.ContainsKey(variant) && !vi.DisableVariants.Contains(phrase))? 
+
+			var variantext = (vi.Variants.ContainsKey(variant) && !vi.DisableVariants.Contains(phrase)) ?
 				  vi.Variants[variant][voicedUnit.ActorID % vi.Variants[variant].Length] : vi.DefaultVariant;
 			Play(clip + variantext);
 			return true;
@@ -290,9 +279,9 @@ namespace OpenRA
 		void SetSoundVolume(float volume, ISound music, ISound video);
 	}
 
-	interface ISoundSource {}
+	interface ISoundSource { }
 
-    public interface ISound
+	public interface ISound
 	{
 		float Volume { get; set; }
 		float SeekPosition { get; }
@@ -325,7 +314,7 @@ namespace OpenRA
 					Log.Write("debug", "Failed generating OpenAL source {0}", i);
 					return;
 				}
-					
+
 				sourcePool.Add(source, false);
 			}
 		}
@@ -377,10 +366,10 @@ namespace OpenRA
 			get { return volume; }
 			set { Al.alListenerf(Al.AL_GAIN, volume = value); }
 		}
-		
+
 		public void PauseSound(ISound sound, bool paused)
 		{
-			int key = ((OpenAlSound) sound).source;
+			int key = ((OpenAlSound)sound).source;
 			int state;
 			Al.alGetSourcei(key, Al.AL_SOURCE_STATE, out state);
 			if (state == Al.AL_PLAYING && paused)
@@ -388,9 +377,9 @@ namespace OpenRA
 			else if (state == Al.AL_PAUSED && !paused)
 				Al.alSourcePlay(key);
 		}
-		
+
 		public void SetAllSoundsPaused(bool paused)
-		{	
+		{
 			foreach (int key in sourcePool.Keys)
 			{
 				int state;
@@ -399,35 +388,35 @@ namespace OpenRA
 					Al.alSourcePause(key);
 				else if (state == Al.AL_PAUSED && !paused)
 					Al.alSourcePlay(key);
-					
+
 			}
 		}
-					
+
 		public void SetSoundVolume(float volume, ISound music, ISound video)
 		{
-			var sounds = sourcePool.Select(s => s.Key).Where( b => 
-			{ 
+			var sounds = sourcePool.Select(s => s.Key).Where(b =>
+			{
 				int state;
 				Al.alGetSourcei(b, Al.AL_SOURCE_STATE, out state);
-				return ((state == Al.AL_PLAYING || state == Al.AL_PAUSED) && 
-					   ((music != null)? b != ((OpenAlSound) music).source : true) &&
-					   ((video != null)? b != ((OpenAlSound) video).source : true));
+				return ((state == Al.AL_PLAYING || state == Al.AL_PAUSED) &&
+					   ((music != null) ? b != ((OpenAlSound)music).source : true) &&
+					   ((video != null) ? b != ((OpenAlSound)video).source : true));
 			}).ToList();
 			foreach (var s in sounds)
 			{
 				Al.alSourcef(s, Al.AL_GAIN, volume);
 			}
 		}
-		
+
 		public void StopSound(ISound sound)
 		{
-			int key = ((OpenAlSound) sound).source;
+			int key = ((OpenAlSound)sound).source;
 			int state;
 			Al.alGetSourcei(key, Al.AL_SOURCE_STATE, out state);
 			if (state == Al.AL_PLAYING || state == Al.AL_PAUSED)
 				Al.alSourceStop(key);
 		}
-		
+
 		public void StopAllSounds()
 		{
 			foreach (int key in sourcePool.Keys)
@@ -441,7 +430,7 @@ namespace OpenRA
 
 		public void SetListenerPosition(float2 position)
 		{
-			var orientation = new [] { 0f, 0f, 1f, 0f, -1f, 0f };
+			var orientation = new[] { 0f, 0f, 1f, 0f, -1f, 0f };
 
 			Al.alListener3f(Al.AL_POSITION, position.X, position.Y, 50);
 			Al.alListenerfv(Al.AL_ORIENTATION, ref orientation[0]);
@@ -493,26 +482,26 @@ namespace OpenRA
 		public float Volume
 		{
 			get { return volume; }
-			set 
+			set
 			{
 				if (source != -1)
-					Al.alSourcef(source, Al.AL_GAIN, volume = value); 
+					Al.alSourcef(source, Al.AL_GAIN, volume = value);
 			}
 		}
-		
+
 		public float SeekPosition
 		{
 			get
 			{
 				float pos;
 				Al.alGetSourcef(source, Al.AL_SAMPLE_OFFSET, out pos);
-				return pos/22050f; 
+				return pos / 22050f;
 			}
 		}
-		
+
 		public bool Playing
 		{
-			get 
+			get
 			{
 				int state;
 				Al.alGetSourcei(source, Al.AL_SOURCE_STATE, out state);
