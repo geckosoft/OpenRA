@@ -22,8 +22,8 @@ namespace OpenRA.Widgets
 		Down = 4,
 		Right = 8
 	}
-	
-	class ViewportScrollControllerWidget : Widget
+
+	public class ViewportScrollControllerWidget : Widget
 	{
 		public int EdgeScrollThreshold = 15;
 

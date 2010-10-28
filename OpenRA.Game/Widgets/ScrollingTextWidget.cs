@@ -17,7 +17,7 @@ using OpenRA.Graphics;
 
 namespace OpenRA.Widgets
 {
-	class ScrollingTextWidget : Widget
+	public class ScrollingTextWidget : Widget
 	{
 		public string Text = "";
 		private string ScrollingText = "";
