@@ -132,17 +132,23 @@ namespace OpenRA.Mods.RA.Effects
 				var pos = float2.Lerp(Args.src, Args.dest, at) - new float2(0, altitude);
 
 				if (Info.High || Info.Angle > 0)
-				{
-					if (Info.Shadow)
-						yield return new Renderable(anim.Image, pos - .5f * anim.Image.size, "shadow", (int)pos.Y);
+                {
+                    var highPos = pos - new float2(0, GetAltitude());
 
-					var highPos = pos - new float2(0, GetAltitude());
-
-					yield return new Renderable(anim.Image, highPos - .5f * anim.Image.size, Args.firedBy.Owner.Palette, (int)pos.Y);
+                    /* @todo Make usage of altitude */
+                    if (Info.Shadow && at <= 0.5f)
+                    {
+                        yield return new Renderable(anim.Image, pos - .5f*anim.Image.size, "shadow", (int) pos.Y, (0.5f - at) * 2);
+                    }
+                    else if (Info.Shadow) /* at > 0.5f */
+                    {
+                        yield return new Renderable(anim.Image, pos - .5f * anim.Image.size, "shadow", (int)pos.Y, (at-0.5f) * 2);
+                    }
+                    yield return new Renderable(anim.Image, highPos - .5f * anim.Image.size, Args.firedBy.Owner.Palette, (int)pos.Y);
 				}
 				else
 					yield return new Renderable(anim.Image, pos - .5f * anim.Image.size,
-						Args.weapon.Underwater ? "shadow" : Args.firedBy.Owner.Palette, (int)pos.Y);
+						Args.weapon.Underwater ? "shadow" : Args.firedBy.Owner.Palette, (int)pos.Y); /* @todo add scaling here as well?? */
 			}
 		}
 

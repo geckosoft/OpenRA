@@ -48,34 +48,57 @@ namespace OpenRA
 
 		public static void SetListenerPosition(float2 position) { soundEngine.SetListenerPosition(position); }
 
-		public static void Play(string name)
-		{
-			if (name == "" || name == null)
-				return;
+        public static ISound Play(string name)
+        {
+            if (name == "" || name == null)
+                return null;
 
-			var sound = sounds[name];
-			soundEngine.Play2D(sound, false, true, float2.Zero, InternalSoundVolume);
-		}
+            var sound = sounds[name];
+            return soundEngine.Play2D(sound, false, true, float2.Zero, InternalSoundVolume);
+        }
 
-		public static void Play(string name, float2 pos)
-		{
-			if (name == "" || name == null)
-				return;
-			
-			var sound = sounds[name];
-			soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume);
-		}
+        public static ISound Play(string name, float2 pos)
+        {
+            if (name == "" || name == null)
+                return null;
 
-		public static void PlayToPlayer(Player player, string name)
+            var sound = sounds[name];
+            return soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume);
+        }
+
+
+        public static ISound Play(string name, float volumeModifier)
+        {
+            if (name == "" || name == null)
+                return null;
+
+            var sound = sounds[name];
+            return soundEngine.Play2D(sound, false, true, float2.Zero, InternalSoundVolume * volumeModifier);
+        }
+
+        public static ISound Play(string name, float2 pos, float volumeModifier)
+        {
+            if (name == "" || name == null)
+                return null;
+
+            var sound = sounds[name];
+            return soundEngine.Play2D(sound, false, false, pos, InternalSoundVolume * volumeModifier);
+        }
+
+        public static ISound PlayToPlayer(Player player, string name)
 		{
 			if( player == player.World.LocalPlayer )
-				Play( name );
+				return Play( name );
+
+            return null;
 		}
 
-		public static void PlayToPlayer(Player player, string name, float2 pos)
+        public static ISound PlayToPlayer(Player player, string name, float2 pos)
 		{
 			if (player == player.World.LocalPlayer)
-				Play(name, pos);
+				return Play(name, pos);
+
+            return null;
 		}
 
 		public static void PlayVideo(byte[] raw)
@@ -145,7 +168,13 @@ namespace OpenRA
 				return;
 			MusicPlaying = true;
 			soundEngine.PauseSound(music, false);
-		}
+        }
+
+        public static void StopSound(ISound sound)
+        {
+            if (sound != null)
+                soundEngine.StopSound(sound);
+        }
 
 		public static void StopMusic()
 		{
@@ -262,7 +291,8 @@ namespace OpenRA
 	}
 
 	interface ISoundSource {}
-	interface ISound
+
+    public interface ISound
 	{
 		float Volume { get; set; }
 		float SeekPosition { get; }
