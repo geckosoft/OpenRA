@@ -101,7 +101,7 @@ namespace OpenRA.Graphics
 				world.OrderGenerator.RenderBeforeWorld(this, world);
 
 			foreach( var image in SpritesToRender() )
-				image.Sprite.DrawAt( image.Pos, this.GetPaletteIndex( image.Palette ) );
+				image.Sprite.DrawAt( image.Pos, this.GetPaletteIndex( image.Palette ), image.Scale);
 			uiOverlay.Draw(this, world);
 
 			// added for contrails

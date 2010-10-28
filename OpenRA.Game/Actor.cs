@@ -111,6 +111,12 @@ namespace OpenRA
 			var si = Info.Traits.GetOrDefault<SelectableInfo>();
 
 			var size = Size.Value;
+
+            /* apply scaling */
+		    var scale = this.TraitOrDefault<Scale>();
+            if (scale != null && scale.Info.Value != 1)
+                size = size*scale.Info.Value;
+
 			var loc = CenterLocation - 0.5f * size;
 			
 			if (si != null && si.Bounds != null && si.Bounds.Length > 2)
