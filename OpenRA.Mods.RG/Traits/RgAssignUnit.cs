@@ -55,10 +55,14 @@ namespace OpenRA.Mods.Rg.Traits
 				if (avatar != null && !avatar.Destroyed && avatar.IsInWorld && player.Container == null)
 				{
 
-					if (other.Info.Name == "gdi_ion_beacon" || other.Info.Name == "nod_nuke_beacon")
+					if (other.Info.Name == "gdi_ion_beacon" || other.Info.Name == "nod_nuke_beacon" || other.Info.Name == "refill_infantry")
 					{
 						switch (other.Info.Name)
 						{
+							case "refill_infantry":
+								player.Refill();
+
+								break;
 							case "gdi_ion_beacon":
 								if (inv.Get<InvIonBeacon>().Amount == inv.Get<InvIonBeacon>().Max)
 								{
