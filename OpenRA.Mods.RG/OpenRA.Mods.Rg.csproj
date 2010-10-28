@@ -89,6 +89,7 @@
     <Compile Include="Interfaces.cs" />
     <Compile Include="Traits\Abilities\RgPlaceMineAbility.cs" />
     <Compile Include="Traits\Abilities\RgNukeBeacon.cs" />
+    <Compile Include="Traits\Inventory\InvArmor.cs" />
     <Compile Include="Traits\Inventory\InvMine.cs" />
     <Compile Include="Traits\RgIndestructible.cs" />
     <Compile Include="Traits\RgMine.cs" />

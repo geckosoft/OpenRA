@@ -443,7 +443,7 @@ GDI_ENGINEER:
 		Max: 5
 		Amount: 5
 	RgPlaceMineAbility:
-		Image: e6icnh
+		Image: placemine_icon
 		ChargeTime: 0.001
 		Description: Place a mine
 		LongDesc: Places a mine at the current location. Does not stack.
@@ -627,7 +627,7 @@ REFILL_INFANTRY:
 	Tooltip:
 		Name: Refill
 		Description: Refills health and ammo.
-		Icon: ionicnh
+		Icon: generic_icon
 	-Buildable:
 	Buildable:
 		BuildPaletteOrder: 1
