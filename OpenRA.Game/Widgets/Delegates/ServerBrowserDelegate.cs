@@ -36,7 +36,7 @@ namespace OpenRA.Widgets.Delegates
 			bg.Children.RemoveAll(a => GameButtons.Contains(a));
 			GameButtons.Clear();
 
-			MasterServerQuery.Refresh(Game.Settings.Server.MasterServer);
+			MasterServerQuery.Refresh(!string.IsNullOrEmpty(Game.modData.Manifest.MasterServer) ? Game.modData.Manifest.MasterServer : Game.Settings.Server.MasterServer);
 
 			bg.GetWidget("SERVER_INFO").IsVisible = () => currentServer != null;
 			var preview = bg.GetWidget<MapPreviewWidget>("MAP_PREVIEW");
@@ -68,7 +68,7 @@ namespace OpenRA.Widgets.Delegates
 				bg.Children.RemoveAll(a => GameButtons.Contains(a));
 				GameButtons.Clear();
 
-				MasterServerQuery.Refresh(Game.Settings.Server.MasterServer);
+				MasterServerQuery.Refresh(!string.IsNullOrEmpty(Game.modData.Manifest.MasterServer) ? Game.modData.Manifest.MasterServer : Game.Settings.Server.MasterServer);
 
 				return true;
 			};

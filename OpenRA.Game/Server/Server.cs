@@ -52,7 +52,9 @@ namespace OpenRA.Server
 			Log.AddChannel("server", "server.log");
 
 			isInitialPing = true;
-			Server.masterServerUrl = settings.Server.MasterServer;
+
+			// Allow overriding of the master server url
+			Server.masterServerUrl = !String.IsNullOrEmpty(modData.Manifest.MasterServer) ? modData.Manifest.MasterServer : settings.Server.MasterServer;
 			isInternetServer = settings.Server.AdvertiseOnline;
 			listener = new TcpListener(IPAddress.Any, settings.Server.ListenPort);
 			Name = settings.Server.Name;
