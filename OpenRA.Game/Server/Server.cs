@@ -47,11 +47,6 @@ namespace OpenRA.Server
 		static ModData ModData;
 		static Map Map;
 
-		public static void OverrideMasterServerUrl(string url)
-		{
-			masterServerUrl = url;
-		}
-
 		public static void ServerMain(ModData modData, Settings settings, string map)
 		{
 			Log.AddChannel("server", "server.log");
