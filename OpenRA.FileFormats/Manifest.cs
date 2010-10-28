@@ -25,7 +25,7 @@ namespace OpenRA.FileFormats
 		public string[] LocalAssemblies = new string[0];
 		public readonly string ShellmapUid, LoadScreen;
 		public readonly int TileSize = 24;
-
+		public readonly string MasterServer;
 		public Manifest(string[] mods)
 		{
 			Mods = mods;
@@ -48,8 +48,11 @@ namespace OpenRA.FileFormats
 			Movies = YamlList(yaml, "Movies");
 			TileSets = YamlList(yaml, "TileSets");
 
-			ShellmapUid = yaml.First( x => x.Key == "ShellmapUid" ).Value.Value;
-			LoadScreen = yaml.First( x => x.Key == "LoadScreen" ).Value.Value;
+			ShellmapUid = yaml.First(x => x.Key == "ShellmapUid").Value.Value;
+			LoadScreen = yaml.First(x => x.Key == "LoadScreen").Value.Value;
+
+			if (yaml.FirstOrDefault(x => x.Key == "MasterServer") != null)
+				MasterServer = yaml.First(x => x.Key == "MasterServer").Value.Value;
 			
 			if (yaml.FirstOrDefault( x => x.Key == "TileSize" ) != null)
 				TileSize = int.Parse(yaml.First( x => x.Key == "TileSize" ).Value.Value);

@@ -39,7 +39,8 @@ namespace OpenRA.Widgets.Delegates
 					if (!string.IsNullOrEmpty(v))
 						version.Text = versionFileContent + "\nLatest: " + v;
 				};
-				MasterServerQuery.GetCurrentVersion(Game.Settings.Server.MasterServer);
+
+				MasterServerQuery.GetCurrentVersion(!string.IsNullOrEmpty(Game.modData.Manifest.MasterServer) ? Game.modData.Manifest.MasterServer : Game.Settings.Server.MasterServer);
 			}
 			else
 			{
@@ -47,7 +48,7 @@ namespace OpenRA.Widgets.Delegates
 			}
 			MasterServerQuery.ClientVersion = version.Text;
 
-			MasterServerQuery.GetMOTD(Game.Settings.Server.MasterServer);
+			MasterServerQuery.GetMOTD(!string.IsNullOrEmpty(Game.modData.Manifest.MasterServer) ? Game.modData.Manifest.MasterServer : Game.Settings.Server.MasterServer);
 		}
 	}
 }
