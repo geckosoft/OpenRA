@@ -53,6 +53,7 @@ Packages:
 	~mods/ra/packages/movies2.mix
 	
 Rules:
+	mods/rg/rules/openrg.yaml
 	mods/rg/rules/defaults.yaml
 	mods/rg/rules/system.yaml
 	mods/rg/rules/structures.yaml
@@ -64,6 +65,7 @@ Rules:
 	mods/rg/rules/misc.yaml
 
 Sequences:
+	mods/rg/sequences/openrg.yaml
 	mods/rg/sequences/structures.yaml
 	mods/rg/sequences/vehicles.yaml
 	mods/rg/sequences/infantry.yaml
@@ -110,3 +112,5 @@ TileSets:
 
 LoadScreen: RgLoadScreen
 ShellmapUid:e7b9badb3b7d49ccc773a7aa086c0ff9a1136b77
+MasterServer: http://master.open-ra.org/openrg/
+

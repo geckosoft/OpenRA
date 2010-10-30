@@ -9,7 +9,7 @@ namespace OpenRA.Mods.Rg
 	{
 		private static readonly string[] Comments = new[]
 		                                            	{
-		                                            		"Loading OpenRg ..."
+		                                            		"Contacting EVA ..."
 		                                            	};
 
 		private readonly Stopwatch lastLoadScreen = new Stopwatch();

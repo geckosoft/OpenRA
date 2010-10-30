@@ -1030,7 +1030,7 @@ RgGDIArtillery:
 
 EngineerHeal:
 	ROF: 16
-	Range: 4
+	Range: 6
 	Report: HEAL2
 	Projectile: HealZap
 		BeamRadius: 20
@@ -1045,6 +1045,24 @@ EngineerHeal:
 			Concrete: 0%
 		InfDeath: 0
 		Damage: -10
+		
+EngineerSuperHeal:
+	ROF: 16
+	Range: 6
+	Report: HEAL2
+	Projectile: HealZap
+		BeamRadius: 20
+		Speed: 100
+	Warhead: 
+		Spread: 5
+		Versus: 
+			None: 25%
+			Wood: 100%
+			Light: 100%
+			Heavy: 100%
+			Concrete: 0%
+		InfDeath: 0
+		Damage: -20
 		
 MedicHeal:
 	ROF: 16

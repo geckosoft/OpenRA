@@ -10,7 +10,7 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Traits.Abilities
 {
-	class IonCannonAbilityInfo : RgAbilityInfo
+	public class IonCannonAbilityInfo : RgAbilityInfo
 	{
 		public override object Create(ActorInitializer init) { return new IonCannonAbility(init.self, this); }
 	}
