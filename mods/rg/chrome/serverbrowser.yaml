@@ -94,7 +94,7 @@ Background@CREATESERVER_BG:
 			Bold:True
 Background@JOINSERVER_BG:
 	Id:JOINSERVER_BG
-	Delegate:ServerBrowserDelegate
+	Delegate:RgServerBrowserDelegate
 	X:(WINDOW_RIGHT - WIDTH)/2
 	Y:(WINDOW_BOTTOM - HEIGHT)/2
 	Width:700
