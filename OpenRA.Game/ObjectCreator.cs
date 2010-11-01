@@ -11,6 +11,23 @@ namespace OpenRA
 	{
 		Pair<Assembly, string>[] ModAssemblies;
 
+		public ObjectCreator(IEnumerable<string> assemblies)
+		{
+			// All the core namespaces
+			var asms = typeof(Game).Assembly.GetNamespaces()
+				.Select(c => Pair.New(typeof(Game).Assembly, c))
+				.ToList();
+
+			// Namespaces from each mod assembly
+			foreach (var a in assemblies)
+			{
+				var asm = Assembly.LoadFile(Path.GetFullPath(a));
+				asms.AddRange(asm.GetNamespaces().Select(ns => Pair.New(asm, ns)));
+			}
+
+			ModAssemblies = asms.ToArray();
+		}
+
 		public ObjectCreator( Manifest manifest )
 		{
 			// All the core namespaces
