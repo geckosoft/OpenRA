@@ -67,14 +67,21 @@ namespace OpenRA.Mods.RA.Widgets.Delegates
 			var postgameText = postgameBG.GetWidget<LabelWidget>("TEXT");
 			postgameBG.IsVisible = () =>
 			{
-				return world.LocalPlayer != null && world.LocalPlayer.WinState != WinState.Undefined;
+			    var gameOver = world.LocalPlayer != null && world.LocalPlayer.WinState != WinState.Undefined;
+
+
+				if (postgameBG.Bounds.Y > 30 && gameOver)
+					postgameBG.Bounds.Y -= 1;
+
+				return gameOver;
 			};
-			
+
 			postgameText.GetText = () =>
 			{
 				var state = world.LocalPlayer.WinState;
 				return (state == WinState.Undefined)? "" :
 								((state == WinState.Lost)? "YOU ARE DEFEATED" : "YOU ARE VICTORIOUS");
+
 			};
 		}
 	}
