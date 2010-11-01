@@ -277,7 +277,7 @@ namespace OpenRA.Mods.RA.Move
 			{
 				var crushActions = a.TraitsImplementing<ICrushable>().Where(b => b.CrushClasses.Intersect(Info.Crushes).Any());
 				foreach (var b in crushActions)
-					b.OnCrush(self);
+					b.OnCrush(a, self);
 			}
 		}
 

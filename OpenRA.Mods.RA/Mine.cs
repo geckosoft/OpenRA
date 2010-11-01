@@ -40,7 +40,7 @@ namespace OpenRA.Mods.RA
 			self.World.WorldActor.Trait<UnitInfluence>().Add(self, this);
 		}
 
-		public void OnCrush(Actor crusher)
+		public void OnCrush(Actor self, Actor crusher)
 		{
 			if (crusher.HasTrait<MineImmune>() && crusher.Owner == self.Owner)
 				return;

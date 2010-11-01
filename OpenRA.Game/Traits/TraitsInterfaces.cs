@@ -131,7 +131,7 @@ namespace OpenRA.Traits
 	public interface IOffsetCenterLocation { float2 CenterOffset { get; } }
 	public interface ICrushable
 	{
-		void OnCrush(Actor crusher);
+		void OnCrush(Actor self, Actor crusher);
 		IEnumerable<string> CrushClasses { get; }
 	}
 		
