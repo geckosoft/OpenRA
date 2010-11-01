@@ -8,8 +8,10 @@
  */
 #endregion
 
+using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Traits;
+using OpenRA.Widgets;
 
 namespace OpenRA.Mods.RA
 {
@@ -28,9 +30,8 @@ namespace OpenRA.Mods.RA
 				Surrender(self);
 			
 			var others = self.World.players.Where( p => !p.Value.NonCombatant && p.Value != self.Owner && p.Value.Stances[self.Owner] != Stance.Ally );
-			if (others.Count() == 0) return;	
-			
-			if(others.All(p => p.Value.WinState == WinState.Lost))
+
+			if(others.All(p => p.Value.WinState == WinState.Lost) ||(others.Count() == 0))
 				Win(self);
 		}
 
