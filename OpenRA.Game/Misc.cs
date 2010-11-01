@@ -53,7 +53,7 @@ namespace OpenRA
 
 		void OnServerStart();
 		void OnServerStop(bool forced);
-		void OnLoadMap(Map map);
+		void OnLoadMap(ref Map map);
 
 		/// <summary>
 		/// Return false to drop the connection
@@ -133,7 +133,7 @@ namespace OpenRA
 
 		}
 
-		public virtual void OnLoadMap(Map map)
+		public virtual void OnLoadMap(ref Map map)
 		{
 			// Good spot to manipulate amount of spectators! ie set Server.MaxSpectators
 		}

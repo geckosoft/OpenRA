@@ -160,14 +160,15 @@ namespace OpenRA.Server
 		static void LoadMap()
 		{
 			Map = new Map(ModData.AvailableMaps[lobbyInfo.GlobalSettings.Map].Package);
+
+			if (Game.Settings.Server.Extension != null)
+				Game.Settings.Server.Extension.OnLoadMap(ref Map);
+
 			lobbyInfo.Slots = Map.Players
 				.Select(p => MakeSlotFromPlayerReference(p.Value))
 				.Where(s => s != null)
 				.Select((s, i) => { s.Index = i; return s; })
 				.ToList();
-
-			if (Game.Settings.Server.Extension != null)
-				Game.Settings.Server.Extension.OnLoadMap(Map);
 
 			// Generate slots for spectators
 			for (int i = 0; i < MaxSpectators; i++)
