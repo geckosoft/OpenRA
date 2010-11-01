@@ -107,6 +107,10 @@ SPEN:
 	-EmitInfantryOnSell:
 	RepairsUnits:
 	RallyPoint:
+	ProductionQueue@Ship:
+		Type: Ship
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 SYRD:
 	InfiltrateForSupportPower:
@@ -162,6 +166,10 @@ SYRD:
 	-EmitInfantryOnSell:
 	RepairsUnits:
 	RallyPoint:
+	ProductionQueue@Ship:
+		Type: Ship
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 IRON:
 	RequiresPower:
@@ -539,6 +547,10 @@ WEAP:
 		Produces: Vehicle
 	PrimaryBuilding:
 	IronCurtainable:
+	ProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 FACT:
 	Inherits: ^Building
@@ -569,6 +581,15 @@ FACT:
 		IntoActor: mcv
 		Offset:1,1
 		Facing: 96
+	ProductionQueue@Building:
+		Type: Building
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
+	ProductionQueue@Defense:
+		Type: Defense
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
+		
 PROC:
 	Inherits: ^Building
 	Buildable:
@@ -672,6 +693,10 @@ HPAD:
 	BelowUnits:
 	Reservable:
 	IronCurtainable:
+	ProductionQueue@Plane:
+		Type: Plane
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 AFLD:
 	Inherits: ^Building
@@ -706,6 +731,10 @@ AFLD:
 	BelowUnits:
 	Reservable:
 	IronCurtainable:
+	ProductionQueue@Plane:
+		Type: Plane
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 POWR:
 	Inherits: ^Building
@@ -827,6 +856,10 @@ BARR:
 		Produces: Infantry
 	PrimaryBuilding:
 	IronCurtainable:
+	ProductionQueue@Infantry:
+		Type: Infantry
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 TENT:
 	Inherits: ^Building
@@ -865,6 +898,10 @@ TENT:
 		Produces: Infantry
 	PrimaryBuilding:
 	IronCurtainable:
+	ProductionQueue@Infantry:
+		Type: Infantry
+		BuildSpeed: .4
+		LowPowerSlowdown: 3
 
 FIX:
 	Inherits: ^Building
