@@ -13,10 +13,10 @@ using OpenRA.Widgets;
 
 namespace OpenRA.Mods.RA.Widgets.Delegates
 {
-	public class IngameObserverChromeDelegate : IWidgetDelegate
+	public class SpectatorChromeDelegate : IWidgetDelegate
 	{
 		[ObjectCreator.UseCtor]
-		public IngameObserverChromeDelegate([ObjectCreator.Param] World world)
+		public SpectatorChromeDelegate([ObjectCreator.Param] World world)
 		{
 			var r = Widget.RootWidget;
 			var gameRoot = r.GetWidget("OBSERVER_ROOT");

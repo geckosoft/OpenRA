@@ -230,7 +230,7 @@
     <Compile Include="WaterPaletteRotation.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="Widgets\BuildPaletteWidget.cs" />
-    <Compile Include="Widgets\Delegates\IngameObserverChromeDelegate.cs" />
+    <Compile Include="Widgets\Delegates\SpectatorChromeDelegate.cs" />
     <Compile Include="Widgets\Delegates\IngameChromeDelegate.cs" />
     <Compile Include="Widgets\MoneyBinWidget.cs" />
     <Compile Include="Widgets\OrderButtonWidget.cs" />
