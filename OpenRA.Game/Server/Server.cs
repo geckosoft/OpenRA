@@ -122,7 +122,12 @@ namespace OpenRA.Server
 
 					foreach( Socket s in checkRead )
 						if( s == listener.Server ) AcceptConnection();
-						else if (conns.Count > 0) conns.Single( c => c.socket == s ).ReadData();
+						else
+						{
+							var con = conns.SingleOrDefault(c => c.socket == s);
+							if (con != null)
+								con.ReadData();
+						}
 
 					if (Environment.TickCount - lastPing > MasterPingInterval * 1000)
 						PingMasterServer();
