@@ -11,7 +11,7 @@ namespace OpenRA
 	{
 		Pair<Assembly, string>[] ModAssemblies;
 
-		public ObjectCreator(IEnumerable<string> assemblies)
+		public ObjectCreator(Manifest manifest)
 		{
 			// All the core namespaces
 			var asms = typeof(Game).Assembly.GetNamespaces()
@@ -19,7 +19,7 @@ namespace OpenRA
 				.ToList();
 
 			// Namespaces from each mod assembly
-			foreach (var a in assemblies)
+			foreach (var a in manifest.Assemblies)
 			{
 				var asm = Assembly.LoadFile(Path.GetFullPath(a));
 				asms.AddRange(asm.GetNamespaces().Select(ns => Pair.New(asm, ns)));
@@ -28,21 +28,10 @@ namespace OpenRA
 			ModAssemblies = asms.ToArray();
 		}
 
-		public ObjectCreator( Manifest manifest )
+		public void AddAssembly(string path)
 		{
-			// All the core namespaces
-			var asms = typeof(Game).Assembly.GetNamespaces()
-				.Select(c => Pair.New(typeof(Game).Assembly, c))
-				.ToList();
-
-			// Namespaces from each mod assembly
-			foreach (var a in manifest.Assemblies.Concat(manifest.LocalAssemblies))
-			{
-				var asm = Assembly.LoadFile(Path.GetFullPath(a));
-				asms.AddRange(asm.GetNamespaces().Select(ns => Pair.New(asm, ns)));
-			}
-
-			ModAssemblies = asms.ToArray();
+			var asm = Assembly.LoadFile(Path.GetFullPath(path));
+			ModAssemblies =ModAssemblies.Concat(asm.GetNamespaces().Select(ns => Pair.New(asm, ns))).ToArray();
 		}
 
 		public static Action<string> MissingTypeAction = 
