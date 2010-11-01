@@ -633,6 +633,12 @@ namespace OpenRA.Server
 				{ "mods",
 					s =>
 					{
+						// @todo Remove? Does not seem to be used.
+						if (conn.PlayerIndex != 0)
+						{
+							SendChatTo( conn, "Only the host can set that option" );
+							return true;
+						}
 						var args = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 						lobbyInfo.GlobalSettings.Mods = args.GetRange(0,args.Count - 1).ToArray();
 						lobbyInfo.GlobalSettings.Map = args.Last();
