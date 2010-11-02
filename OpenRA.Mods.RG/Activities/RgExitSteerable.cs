@@ -1,38 +1,26 @@
-#region Copyright & License Information
-/*
- * Copyright 2007-2010 The OpenRA Developers (see AUTHORS)
- * This file is part of OpenRA, which is free software. It is made 
- * available to you under the terms of the GNU General Public License
- * as published by the Free Software Foundation. For more information,
- * see LICENSE.
- */
-#endregion
-
+using System.Drawing;
 using System.Linq;
-using OpenRA.Mods.RA;
 using OpenRA.Mods.RA.Move;
 using OpenRA.Mods.RA.Render;
 using OpenRA.Mods.Rg.Traits;
 using OpenRA.Traits;
-using OpenRA.Traits.Activities;
-using System.Drawing;
 
 namespace OpenRA.Mods.Rg.Activities
 {
-    public class RgExitSteerable : CancelableActivity
+	public class RgExitSteerable : CancelableActivity
 	{
-		int2? ChooseExitTile(Actor self, Actor cargo)
+		private int2? ChooseExitTile(Actor self, Actor cargo)
 		{
 			// is anyone still hogging this tile?
 			if (self.World.WorldActor.Trait<UnitInfluence>().GetUnitsAt(self.Location).Count() > 1)
 				return null;
-			
+
 			var mobile = cargo.Trait<Mobile>();
 
-			for (var i = -1; i < 2; i++)
-				for (var j = -1; j < 2; j++)
-					if ((i != 0 || j != 0) && 
-						mobile.CanEnterCell(self.Location + new int2(i, j)))
+			for (int i = -1; i < 2; i++)
+				for (int j = -1; j < 2; j++)
+					if ((i != 0 || j != 0) &&
+					    mobile.CanEnterCell(self.Location + new int2(i, j)))
 						return self.Location + new int2(i, j);
 
 			return null;
@@ -46,54 +34,54 @@ namespace OpenRA.Mods.Rg.Activities
 			// right facing for the unload animation
 			var facing = self.TraitOrDefault<IFacing>();
 			// Dont use this anymore ^^
-            /*var unloadFacing = self.Info.Traits.Get<RgSteerableInfo>().UnloadFacing;
+			/*var unloadFacing = self.Info.Traits.Get<RgSteerableInfo>().UnloadFacing;
 			if (facing != null && facing.Facing != unloadFacing)
 				return Util.SequenceActivities( new Turn(unloadFacing), this );
             */
 			// todo: handle the BS of open/close sequences, which are inconsistent,
 			//		for reasons that probably make good sense to the westwood guys.
 
-            var cargo = self.Trait<RgSteerable>();
+			var cargo = self.Trait<RgSteerable>();
 			if (cargo.IsEmpty(self))
 				return NextActivity;
 
 			var ru = self.TraitOrDefault<RenderUnit>();
-            try
-            {
-                if (ru != null)
-                    ru.PlayCustomAnimation(self, "unload", null);
-
-            }catch
-            {
-            }
-		    var exitTile = ChooseExitTile(self, cargo.Peek(self));
-			if (exitTile == null) 
+			try
+			{
+				if (ru != null)
+					ru.PlayCustomAnimation(self, "unload", null);
+			}
+			catch
+			{
+			}
+			int2? exitTile = ChooseExitTile(self, cargo.Peek(self));
+			if (exitTile == null)
 				return this;
 
-			var actor = cargo.Unload(self);
+			Actor actor = cargo.Unload(self);
 
 			self.World.AddFrameEndTask(w =>
-			{
-				w.Add(actor);
-                var rgplayer = actor.Owner.PlayerActor.TraitOrDefault<RgPlayer>();
-                if (rgplayer != null)
-                {
-                    rgplayer.SetContainer(null);
-                }
+			                           	{
+			                           		w.Add(actor);
+			                           		var rgplayer = actor.Owner.PlayerActor.TraitOrDefault<RgPlayer>();
+			                           		if (rgplayer != null)
+			                           		{
+			                           			rgplayer.SetContainer(null);
+			                           		}
 
-                var mobile = self.Trait<Mobile>();
+			                           		var mobile = self.Trait<Mobile>();
 
-				actor.TraitsImplementing<IMove>().FirstOrDefault().SetPosition(actor, self.Location);
-                actor.CancelActivity();
-                actor.QueueActivity(mobile.MoveTo(exitTile.Value,0));
+			                           		actor.TraitsImplementing<IMove>().FirstOrDefault().SetPosition(actor, self.Location);
+			                           		actor.CancelActivity();
+			                           		actor.QueueActivity(mobile.MoveTo(exitTile.Value, 0));
 
-				if (actor.Owner == self.World.LocalPlayer)
-				{
-					var line = actor.TraitOrDefault<DrawLineToTarget>();
-					if (line != null)
-						line.SetTargetSilently(self, Target.FromCell(exitTile.Value), Color.Green);
-				}
-			});
+			                           		if (actor.Owner == self.World.LocalPlayer)
+			                           		{
+			                           			var line = actor.TraitOrDefault<DrawLineToTarget>();
+			                           			if (line != null)
+			                           				line.SetTargetSilently(self, Target.FromCell(exitTile.Value), Color.Green);
+			                           		}
+			                           	});
 
 			return this;
 		}

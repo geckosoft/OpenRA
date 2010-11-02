@@ -1,32 +1,28 @@
-#region Copyright & License Information
-/*
- * Copyright 2007-2010 The OpenRA Developers (see AUTHORS)
- * This file is part of OpenRA, which is free software. It is made 
- * available to you under the terms of the GNU General Public License
- * as published by the Free Software Foundation. For more information,
- * see LICENSE.
- */
-#endregion
-
 using System.Drawing;
-using OpenRA.Support;
 using OpenRA.Graphics;
+using OpenRA.Support;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.Rg
 {
 	public class RgLoadScreen : ILoadScreen
-	{	
-		static string[] Comments = new[] {	"Loading OpenRg ..."
-		};
-		
-		Stopwatch lastLoadScreen = new Stopwatch();
-		Rectangle StripeRect;
-		Sprite Stripe, Logo;
-		float2 LogoPos;
-		
-		Renderer r;
-		SpriteFont Font;
+	{
+		private static readonly string[] Comments = new[]
+		                                            	{
+		                                            		"Loading OpenRg ..."
+		                                            	};
+
+		private readonly Stopwatch lastLoadScreen = new Stopwatch();
+		private SpriteFont Font;
+		private Sprite Logo;
+		private float2 LogoPos;
+		private Sprite Stripe;
+		private Rectangle StripeRect;
+
+		private Renderer r;
+
+		#region ILoadScreen Members
+
 		public void Init()
 		{
 			// Avoid standard loading mechanisms so we
@@ -34,34 +30,37 @@ namespace OpenRA.Mods.Rg
 			r = Game.Renderer;
 			if (r == null) return;
 			Font = r.BoldFont;
-			
+
 			var s = new Sheet("mods/rg/uibits/loadscreen.png");
-			Logo = new Sprite(s, new Rectangle(0,0,256,256), TextureChannel.Alpha);
-			Stripe = new Sprite(s, new Rectangle(256,0,256,256), TextureChannel.Alpha);
+			Logo = new Sprite(s, new Rectangle(0, 0, 256, 256), TextureChannel.Alpha);
+			Stripe = new Sprite(s, new Rectangle(256, 0, 256, 256), TextureChannel.Alpha);
 			StripeRect = new Rectangle(0, Renderer.Resolution.Height/2 - 128, Renderer.Resolution.Width, 256);
-			LogoPos =  new float2(Renderer.Resolution.Width/2 - 128, Renderer.Resolution.Height/2 - 128);
+			LogoPos = new float2(Renderer.Resolution.Width/2 - 128, Renderer.Resolution.Height/2 - 128);
 		}
 
-		
+
 		public void Display()
 		{
 			if (r == null)
 				return;
-			
+
 			// Update text at most every 0.5 seconds
 			if (lastLoadScreen.ElapsedTime() < 0.5)
 				return;
-			
+
 			lastLoadScreen.Reset();
-			var text = Comments.Random(Game.CosmeticRandom);
-			var textSize = Font.Measure(text);
-			
+			string text = Comments.Random(Game.CosmeticRandom);
+			int2 textSize = Font.Measure(text);
+
 			r.BeginFrame(float2.Zero);
-			WidgetUtils.FillRectWithSprite(StripeRect, Stripe);			
+			WidgetUtils.FillRectWithSprite(StripeRect, Stripe);
 			r.RgbaSpriteRenderer.DrawSprite(Logo, LogoPos);
-			Font.DrawText(text, new float2(Renderer.Resolution.Width - textSize.X - 20, Renderer.Resolution.Height - textSize.Y - 20), Color.White);
+			Font.DrawText(text,
+			              new float2(Renderer.Resolution.Width - textSize.X - 20, Renderer.Resolution.Height - textSize.Y - 20),
+			              Color.White);
 			r.EndFrame();
 		}
+
+		#endregion
 	}
 }
-

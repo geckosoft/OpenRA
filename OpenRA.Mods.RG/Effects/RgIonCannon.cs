@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using OpenRA.Effects;
 using OpenRA.Graphics;
 using OpenRA.Mods.RA;
@@ -9,33 +6,41 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Effects
 {
-    public class RgIonCannon : IEffect
-    {
-        Target target;
-        Animation anim;
-        Actor firedBy;
+	public class RgIonCannon : IEffect
+	{
+		private readonly Animation anim;
+		private readonly Actor firedBy;
+		private Target target;
 
-        public RgIonCannon(Actor firedBy, World world, int2 location)
-        {
-            this.firedBy = firedBy;
-            target = Target.FromCell(location);
-            anim = new Animation("ionsfx");
-            anim.PlayThen("idle", () => Finish(world));
-        }
+		public RgIonCannon(Actor firedBy, World world, int2 location)
+		{
+			this.firedBy = firedBy;
+			target = Target.FromCell(location);
+			anim = new Animation("ionsfx");
+			anim.PlayThen("idle", () => Finish(world));
+		}
 
-        public void Tick(World world) { anim.Tick(); }
+		#region IEffect Members
 
-        public IEnumerable<Renderable> Render()
-        {
-            yield return new Renderable(anim.Image,
-                target.CenterLocation - new float2(.5f * anim.Image.size.X, anim.Image.size.Y - Game.CellSize),
-                "effect", (int)target.CenterLocation.Y);
-        }
+		public void Tick(World world)
+		{
+			anim.Tick();
+		}
 
-        void Finish(World world)
-        {
-            world.AddFrameEndTask(w => w.Remove(this));
-            Combat.DoExplosion(firedBy, "RgIonCannon", target.CenterLocation, 0);
-        }
-    }
+		public IEnumerable<Renderable> Render()
+		{
+			yield return new Renderable(anim.Image,
+			                            target.CenterLocation -
+			                            new float2(.5f*anim.Image.size.X, anim.Image.size.Y - Game.CellSize),
+			                            "effect", (int) target.CenterLocation.Y);
+		}
+
+		#endregion
+
+		private void Finish(World world)
+		{
+			world.AddFrameEndTask(w => w.Remove(this));
+			Combat.DoExplosion(firedBy, "RgIonCannon", target.CenterLocation, 0);
+		}
+	}
 }

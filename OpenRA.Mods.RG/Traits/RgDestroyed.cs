@@ -1,33 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRA.GameRules;
+﻿using OpenRA.GameRules;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Traits
 {
-    public class RgDestroyedInfo : ITraitInfo
-    {
-        public RgDestroyedInfo() { }		/* only because we have other ctors */
+	public class RgDestroyedInfo : ITraitInfo
+	{
+		/* only because we have other ctors */
 
-        public object Create(ActorInitializer init) { return new RgDestroyed(init.self, this); }
-    }
+		#region ITraitInfo Members
 
-    public class RgDestroyed : IDamageModifier
-    {
-        public Actor Self;
-        public RgDestroyedInfo Info;
+		public object Create(ActorInitializer init)
+		{
+			return new RgDestroyed(init.self, this);
+		}
 
-        public RgDestroyed(Actor self, RgDestroyedInfo info)
-        {
-            Self= self;
-            Info = info;
-        }
+		#endregion
+	}
 
-        public float GetDamageModifier(Actor attacker, WarheadInfo warhead)
-        {
-            return 0;
-        }
-    }
+	public class RgDestroyed : IDamageModifier
+	{
+		public RgDestroyedInfo Info;
+		public Actor Self;
+
+		public RgDestroyed(Actor self, RgDestroyedInfo info)
+		{
+			Self = self;
+			Info = info;
+		}
+
+		#region IDamageModifier Members
+
+		public float GetDamageModifier(Actor attacker, WarheadInfo warhead)
+		{
+			return 0;
+		}
+
+		#endregion
+	}
 }

@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using OpenRA.Graphics;
 using OpenRA.Traits;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.Rg.Widgets
 {
-    class RgMoneyBinWidget : Widget
-    {
+	internal class RgMoneyBinWidget : Widget
+	{
+		private readonly World world;
 
-        readonly World world;
-        [ObjectCreator.UseCtor]
-        public RgMoneyBinWidget([ObjectCreator.Param] World world)
-        {
-            this.world = world;
-        }
+		[ObjectCreator.UseCtorAttribute]
+		public RgMoneyBinWidget([ObjectCreator.ParamAttribute] World world)
+		{
+			this.world = world;
+		}
 
-        public override void DrawInner(WorldRenderer wr)
-        {
-            if (world.LocalPlayer == null) return;
+		public override void DrawInner(WorldRenderer wr)
+		{
+			if (world.LocalPlayer == null) return;
 
-            var playerResources = world.LocalPlayer.PlayerActor.Trait<PlayerResources>();
+			var playerResources = world.LocalPlayer.PlayerActor.Trait<PlayerResources>();
 
-            /* find our cpu resources */
-            // self.World.Queries.Ow
-            /* not needed anymore! :)
+			/* find our cpu resources */
+			// self.World.Queries.Ow
+			/* not needed anymore! :)
             foreach (var kv in world.players)
             {
                 var player = kv.Value;
@@ -38,27 +35,27 @@ namespace OpenRA.Mods.Rg.Widgets
             }
             */
 
-            var digitCollection = "digits-" + world.LocalPlayer.Country.Race;
-            var chromeCollection = "chrome-" + world.LocalPlayer.Country.Race;
+			string digitCollection = "digits-" + world.LocalPlayer.Country.Race;
+			string chromeCollection = "chrome-" + world.LocalPlayer.Country.Race;
 
-            Game.Renderer.RgbaSpriteRenderer.DrawSprite(
-                ChromeProvider.GetImage(chromeCollection, "moneybin"),
-                new float2(Bounds.Left, 0));
+			Game.Renderer.RgbaSpriteRenderer.DrawSprite(
+				ChromeProvider.GetImage(chromeCollection, "moneybin"),
+				new float2(Bounds.Left, 0));
 
-            // Cash
-            var cashDigits = (playerResources.DisplayCash + playerResources.DisplayOre).ToString();
+			// Cash
+			string cashDigits = (playerResources.DisplayCash + playerResources.DisplayOre).ToString();
 
-            var x = Bounds.Right - 65;
+			int x = Bounds.Right - 65;
 
-            foreach (var d in cashDigits.Reverse())
-            {
-                Game.Renderer.RgbaSpriteRenderer.DrawSprite(
-                    ChromeProvider.GetImage(digitCollection, (d - '0').ToString()),
-                    new float2(x, 6));
-                x -= 14;
-            }
+			foreach (char d in cashDigits.Reverse())
+			{
+				Game.Renderer.RgbaSpriteRenderer.DrawSprite(
+					ChromeProvider.GetImage(digitCollection, (d - '0').ToString()),
+					new float2(x, 6));
+				x -= 14;
+			}
 
-            /*
+			/*
             if (SplitOreAndCash)
             {
                 x -= 14;
@@ -74,6 +71,6 @@ namespace OpenRA.Mods.Rg.Widgets
                 }
             }
              */
-        }
-    }
+		}
+	}
 }
