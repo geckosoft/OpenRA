@@ -219,3 +219,15 @@ rgnuke:
 	down: atomicdn
 		Start: 0
 		Length: *
+		
+minv:
+	idle:
+		Start: 0
+
+minp:
+	idle:
+		Start: 0
+		
+mine:
+	idle: minp
+		Start: 0

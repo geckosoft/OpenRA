@@ -215,8 +215,8 @@ SOLDIER:
 	IdleAnimation:
 		Animations: idle1,idle2,idle3	
 	Armor: 
-		Type: None		
-		
+		Type: None
+
 GDI_SOLDIER:
 	Inherits: ^Infantry
 	Valued:
@@ -438,6 +438,20 @@ GDI_ENGINEER:
 		Type: None
 	RgDisarmSuperPower:
 	RgIsEngineer:
+# Mine test
+	InvMine:
+		Max: 5
+		Amount: 5
+	RgPlaceMineAbility:
+		Image: e6icnh
+		ChargeTime: 0.001
+		Description: Place a mine
+		LongDesc: Places a mine at the current location. Does not stack.
+		BeginChargeSound: 
+		EndChargeSound:
+		SelectTargetSound:
+		LaunchSound:
+		Mine: mine
 
 NOD_ENGINEER:
 	Inherits: ^Infantry
@@ -604,3 +618,31 @@ NOD_SNIPER_1:
 	RgProne:
 		ProneSpeed: 0.5
 		DamageTakenModifier: 0.75
+		
+
+REFILL_INFANTRY:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 50
+	Tooltip:
+		Name: Refill
+		Description: Refills health and ammo.
+		Icon: ionicnh
+	-Buildable:
+	Buildable:
+		BuildPaletteOrder: 1
+		Owner: gdi,nod
+		Queue: Infantry
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 1
+	Health:
+		HP: 1
+#	AttackFrontal:
+#		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+	Armor: 
+		Type: None

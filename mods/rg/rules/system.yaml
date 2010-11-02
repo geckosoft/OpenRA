@@ -30,8 +30,6 @@ Player:
 #		EndChargeSound: airredy1.aud
 #		SelectTargetSound: select1.aud
 #		UnitType: a10
-	RgVictoryConditions:
-	RgPlayer:
 	PowerManager:	
 	PlayerResources:
 		InitialCash: 300
@@ -72,8 +70,14 @@ Player:
 	PlayerColorPalette:
 		BasePalette: terrain
 		PaletteFormat: cnc
-	RgScore:
 	SurrenderOnDisconnect:
+	RgVictoryConditions:
+	RgScore:
+	RgInventory:
+	RgPlayer:
+#	What items can the player carry 'by default' 
+	InvIonBeacon:
+	InvNukeBeacon:
 	
 World:
 	OpenWidgetAtGameStart:
@@ -204,6 +208,7 @@ World:
 		Minimum: 1
 		Maximum: 2
 		SpawnInterval: 90
+	RgIonFx:
 
 
 CRATE:

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using OpenRA.Mods.RA;
+using OpenRA.Mods.Rg.Traits.Inventory;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Traits
@@ -47,31 +49,65 @@ namespace OpenRA.Mods.Rg.Traits
 				var player = newPlayer.PlayerActor.TraitOrDefault<RgPlayer>();
 
 				Actor avatar = player.Avatar;
+				var inv = newPlayer.PlayerActor.TraitOrDefault<RgInventory>();
 
 				/* todo Add distance check? */
 				if (avatar != null && !avatar.Destroyed && avatar.IsInWorld && player.Container == null)
 				{
+
 					if (other.Info.Name == "gdi_ion_beacon" || other.Info.Name == "nod_nuke_beacon")
 					{
-						if (avatar.TraitOrDefault<RgSuperPowerLauncher>().Ammo == 0)
+						switch (other.Info.Name)
 						{
-							if (newPlayer == newPlayer.World.LocalPlayer)
-							{
-								Game.AddChatLine(Color.OrangeRed, "EVA",
-								                 "Beacon acquired!");
-							}
-							avatar.TraitOrDefault<RgSuperPowerLauncher>().Ammo++;
-						}
-						else
-						{
-							if (newPlayer == newPlayer.World.LocalPlayer)
-							{
-								Game.AddChatLine(Color.OrangeRed, "EVA",
-								                 "You can only carry one beacon at the same time!");
-							}
-							/* give back the money */
-							newPlayer.PlayerActor.TraitOrDefault<PlayerResources>().GiveCash(
-								other.Info.Traits.GetOrDefault<ValuedInfo>().Cost);
+							case "gdi_ion_beacon":
+								if (inv.Get<InvIonBeacon>().Amount == inv.Get<InvIonBeacon>().Max)
+								{
+									if (newPlayer == newPlayer.World.LocalPlayer)
+									{
+										Game.AddChatLine(Color.OrangeRed, "EVA",
+														 "You can only carry " + inv.Get<InvIonBeacon>().Max + "  at the same time!");
+									}
+
+									/* give back the money */
+									newPlayer.PlayerActor.TraitOrDefault<PlayerResources>().GiveCash(
+										other.Info.Traits.GetOrDefault<ValuedInfo>().Cost);
+									
+								}else
+								{
+									inv.Get<InvIonBeacon>().Give(1);
+
+									if (newPlayer == newPlayer.World.LocalPlayer)
+									{
+										Game.AddChatLine(Color.OrangeRed, "EVA",
+														 inv.Get<InvIonBeacon>().Name + " acquired!");
+									}
+								}
+								break;
+							case "nod_nuke_beacon":
+								if (inv.Get<InvNukeBeacon>().Amount == inv.Get<InvNukeBeacon>().Max)
+								{
+									if (newPlayer == newPlayer.World.LocalPlayer)
+									{
+										Game.AddChatLine(Color.OrangeRed, "EVA",
+														 "You can only carry " + inv.Get<InvNukeBeacon>().Max + "  at the same time!");
+									}
+
+									/* give back the money */
+									newPlayer.PlayerActor.TraitOrDefault<PlayerResources>().GiveCash(
+										other.Info.Traits.GetOrDefault<ValuedInfo>().Cost);
+
+								}
+								else
+								{
+									inv.Get<InvNukeBeacon>().Give(1);
+
+									if (newPlayer == newPlayer.World.LocalPlayer)
+									{
+										Game.AddChatLine(Color.OrangeRed, "EVA",
+														 inv.Get<InvNukeBeacon>().Name + " acquired!");
+									}
+								}
+								break;
 						}
 
 						other.World.Remove(other);
@@ -82,12 +118,20 @@ namespace OpenRA.Mods.Rg.Traits
 					{
 						avatar.CancelActivity();
 						self.World.Remove(other);
+
 						other.Owner = newPlayer;
 						self.World.Add(other);
 
 						self.World.Remove(avatar);
 
+						foreach (var nd in avatar.TraitsImplementing<IRNotifyUnitSwitch>().Concat(avatar.Owner.PlayerActor.TraitsImplementing<IRNotifyUnitSwitch>()))
+							nd.UnitSwitched(self, other);
 						avatar.Destroy();
+
+
+					}else
+					{
+						self.World.Remove(other);
 					}
 				}
 				else

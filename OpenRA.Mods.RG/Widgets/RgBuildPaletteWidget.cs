@@ -468,6 +468,13 @@ namespace OpenRA.Mods.Rg.Widgets
 				if (rect.Contains(Viewport.LastMousePos.ToPoint()))
 				{
 					string text = queue.Info.Type;
+
+					if (text.ToLower() == "defense")
+						text = "Beacons, ...";
+
+					if (text.ToLower() == "infantry")
+						text = "Classes";
+
 					int2 sz = Game.Renderer.BoldFont.Measure(text);
 					WidgetUtils.DrawPanelPartial("dialog4",
 					                             Rectangle.FromLTRB(rect.Left - sz.X - 30, rect.Top, rect.Left - 5, rect.Bottom),
@@ -536,8 +543,12 @@ namespace OpenRA.Mods.Rg.Widgets
 				if (lowpower)
 					cost *= 2; /* low power means double the cost */
 			}
-			DrawRightAligned("${0}".F(cost), pos + new int2(-5, 5),
-			                 (resources.DisplayCash >= cost ? Color.White : Color.Red));
+			if (cost > 0)
+				DrawRightAligned("${0}".F(cost), pos + new int2(-5, 5),
+								 (resources.DisplayCash >= cost ? Color.White : Color.Red));
+			else
+				DrawRightAligned("Free!", pos + new int2(-5, 5),
+								 Color.Green);
 
 			int time = CurrentQueue.GetBuildTime(info.Name)
 			           *((lowpower) ? CurrentQueue.Info.LowPowerSlowdown : 1);

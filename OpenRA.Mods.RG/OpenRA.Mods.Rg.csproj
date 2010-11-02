@@ -72,17 +72,35 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\RgPlaceMine.cs" />
+    <Compile Include="Activities\RgPlaceNukeBeacon.cs" />
+    <Compile Include="Activities\RgPlaceIonBeacon.cs" />
     <Compile Include="Activities\RgDisarmBeacon.cs" />
     <Compile Include="Activities\RgExitSteerable.cs" />
     <Compile Include="Activities\RgEnterTransport.cs" />
     <Compile Include="Activities\RgIdleAnimation.cs" />
-    <Compile Include="Activities\RgPlaceBeacon.cs" />
+    <Compile Include="Effects\RgIonFx.cs" />
     <Compile Include="Effects\RgPaletteFx.cs" />
     <Compile Include="Effects\Projectiles\HealZap.cs" />
     <Compile Include="Effects\RgFakeParachute.cs" />
     <Compile Include="Effects\RgIonCannon.cs" />
     <Compile Include="Effects\RgNukeLaunch.cs" />
+    <Compile Include="Generics\RgGenericSelectTargetWithBuilding.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\Abilities\RgPlaceMineAbility.cs" />
+    <Compile Include="Traits\Abilities\RgNukeBeacon.cs" />
+    <Compile Include="Traits\Inventory\InvMine.cs" />
+    <Compile Include="Traits\RgIndestructible.cs" />
+    <Compile Include="Traits\RgMine.cs" />
+    <Compile Include="Traits\RgNukeBeaconTarget.cs" />
+    <Compile Include="Traits\RgIonBeaconTarget.cs" />
+    <Compile Include="Traits\Inventory\InvNukeBeacon.cs" />
+    <Compile Include="Traits\Inventory\InvIonBeacon.cs" />
+    <Compile Include="Traits\Inventory\InventoryItem.cs" />
+    <Compile Include="Traits\Abilities\RgIonCannonBeacon.cs" />
+    <Compile Include="Traits\Abilities\IonCannonAbility.cs" />
+    <Compile Include="Traits\Abilities\RgAbility.cs" />
+    <Compile Include="Traits\Inventory\RgInventory.cs" />
     <Compile Include="Traits\RgProduceActorOnDeath.cs" />
     <Compile Include="Traits\Render\RgRenderInfantry.cs" />
     <Compile Include="Traits\RgFriendlyFire.cs" />
@@ -103,7 +121,6 @@
     <Compile Include="Traits\RgPlayer.cs" />
     <Compile Include="Traits\RgReplaceActorOnDeath.cs" />
     <Compile Include="Traits\RgSteerableEnterOrderTargeter.cs" />
-    <Compile Include="Traits\RgSuperPowerLauncher.cs" />
     <Compile Include="Traits\RgUnitOrderGenerator.cs" />
     <Compile Include="Traits\RgVictoryConditions.cs" />
     <Compile Include="Traits\RgSteerable.cs" />
@@ -118,6 +135,7 @@
     <Compile Include="Widgets\Delegates\RgMainMenuButtonsDelegate.cs" />
     <Compile Include="Widgets\RgBuildPaletteWidget.cs" />
     <Compile Include="Widgets\RgMoneyBinWidget.cs" />
+    <Compile Include="Widgets\RgAbilitiesWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Traits\Player\" />

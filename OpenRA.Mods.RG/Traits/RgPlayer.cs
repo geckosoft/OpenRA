@@ -4,11 +4,12 @@ using System.Linq;
 using OpenRA.FileFormats;
 using OpenRA.Mods.RA;
 using OpenRA.Mods.RA.Activities;
+using OpenRA.Mods.Rg.Traits.Inventory;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.Rg.Traits
 {
-	internal class RgPlayerInfo : TraitInfo<RgPlayer>
+	internal class RgPlayerInfo : TraitInfo<RgPlayer>, ITraitPrerequisite<RgInventoryInfo>
 	{
 	}
 
@@ -170,6 +171,18 @@ namespace OpenRA.Mods.Rg.Traits
 			Avatar = actor;
 		}
 
+		public void Refill()
+		{
+			if (Avatar == null)
+				return;
+
+			// Restore health
+			Avatar.TraitOrDefault<Health>().HP = Avatar.TraitOrDefault<Health>().MaxHP;
+
+			// Refill relevant items
+			Inventory.Refill();
+		}
+
 		public IEnumerable<Actor> ParentActors()
 		{
 			if (Parent == null)
@@ -186,6 +199,21 @@ namespace OpenRA.Mods.Rg.Traits
 			IEnumerable<Actor> units = Parent.World.Queries.OwnedBy[Parent].Where(a => !a.Destroyed && a.Info.Name == actor);
 
 			return units.Count() > 0;
+		}
+
+		public RgInventory Inventory
+		{
+			get { return Player.PlayerActor.TraitOrDefault<RgInventory>(); }
+		}
+
+		public static RgPlayer Get(Player player)
+		{
+			return player.PlayerActor.TraitOrDefault<RgPlayer>();
+		}
+
+		public static RgPlayer Get(Actor any)
+		{
+			return any.Owner.PlayerActor.TraitOrDefault<RgPlayer>();
 		}
 
 		private void DoParadrop(Player owner, int2 p, string[] items)
