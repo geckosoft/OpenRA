@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{93ACBFFA-8587-414D-8E57-8C7D4954B99F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenRA.Mods.Rg</RootNamespace>
+    <AssemblyName>OpenRA.Mods.Rg</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="cp ${TargetFile} ../mods/ra" workingdir="${ProjectDir}" />
+        <Command type="AfterBuild" command="mono RALint.exe ra" workingdir="${ProjectDir}/../" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenRA.FileFormats\OpenRA.FileFormats.csproj">
+      <Project>{BDAEAB25-991E-46A7-AF1E-4F0E03358DAA}</Project>
+      <Name>OpenRA.FileFormats</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRA.Game\OpenRA.Game.csproj">
+      <Project>{0DFB103F-2962-400F-8C6D-E2C28CCBA633}</Project>
+      <Name>OpenRA.Game</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRA.Mods.Cnc\OpenRA.Mods.Cnc.csproj">
+      <Project>{2881135D-4D62-493E-8F83-5EEE92CCC6BE}</Project>
+      <Name>OpenRA.Mods.Cnc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRA.Mods.RA\OpenRA.Mods.RA.csproj">
+      <Project>{4A8A43B5-A9EF-4ED0-99DD-4BAB10A0DB6E}</Project>
+      <Name>OpenRA.Mods.RA</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activities\RgDisarmBeacon.cs" />
+    <Compile Include="Activities\RgExitSteerable.cs" />
+    <Compile Include="Activities\RgEnterTransport.cs" />
+    <Compile Include="Activities\RgPlaceBeacon.cs" />
+    <Compile Include="Effects\Projectiles\HealZap.cs" />
+    <Compile Include="Effects\RgDestroyedFx.cs" />
+    <Compile Include="Effects\RgFakeParachute.cs" />
+    <Compile Include="Effects\RgIonCannon.cs" />
+    <Compile Include="Effects\RgNukeLaunch.cs" />
+    <Compile Include="Interfaces.cs" />
+    <Compile Include="Traits\RgDisarmSuperPower.cs" />
+    <Compile Include="Traits\RgAssignUnit.cs" />
+    <Compile Include="Traits\RgBeaconTarget.cs" />
+    <Compile Include="Traits\RgChooseBuildTabOnSelect.cs" />
+    <Compile Include="Traits\RgCreateMPPlayers.cs" />
+    <Compile Include="Traits\RgDestroyed.cs" />
+    <Compile Include="Traits\RgParaDrop.cs" />
+    <Compile Include="Traits\RgPlayerResources.cs" />
+    <Compile Include="Traits\RgProduction.cs" />
+    <Compile Include="Traits\RgProductionQueue.cs" />
+    <Compile Include="Traits\RgPlayer.cs" />
+    <Compile Include="Traits\RgReplaceActorOnDeath.cs" />
+    <Compile Include="Traits\RgSuperPowerLauncher.cs" />
+    <Compile Include="Traits\RgUnitOrderGenerator.cs" />
+    <Compile Include="Traits\RgVictoryConditions.cs" />
+    <Compile Include="Traits\RgSteerable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RgLoadScreen.cs" />
+    <Compile Include="Traits\RgPassenger.cs" />
+    <Compile Include="Traits\RgValidateOrder.cs" />
+    <Compile Include="Widgets\Delegates\RgMainMenuButtonsDelegate.cs" />
+    <Compile Include="Widgets\RgBuildPaletteWidget.cs" />
+    <Compile Include="Widgets\RgMoneyBinWidget.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(SolutionDir)mods/rg/"
+copy "$(TargetPath)" "$(SolutionDir)mods/rg/"
+cd "$(SolutionDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
