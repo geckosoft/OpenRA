@@ -43,7 +43,7 @@ namespace OpenRA.Widgets
 			var name = GetImageName();
 			var collection = GetImageCollection();
 
-			if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(collection)) return;
+			if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(collection)) return;
 
 			WidgetUtils.DrawRGBA(
 				ChromeProvider.GetImage(collection, name), 
