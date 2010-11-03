@@ -14,11 +14,9 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 		public static Color CurrentColorPreview1;
 		public static Color CurrentColorPreview2;
 		private readonly Dictionary<string, string> CountryNames;
-		private readonly ButtonWidget GDIButton;
-		private readonly LabelWidget GDILabel;
+		private readonly ButtonWidget GDIButton, NodButton, SpectatorButton;
+		private readonly LabelWidget GDILabel, NodLabel, SpectatorLabel;
 		private readonly Widget LocalPlayerTemplate;
-		private readonly ButtonWidget NodButton;
-		private readonly LabelWidget NodLabel;
 		private readonly Widget Players;
 		private readonly OrderManager orderManager;
 		private Widget EmptySlotTemplate, EmptySlotTemplateHost;
@@ -47,8 +45,9 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			NodButton = (ButtonWidget) lobby.GetWidget("NOD_BUTTON");
 			GDIButton = (ButtonWidget) lobby.GetWidget("GDI_BUTTON");
 
+			SpectatorButton = (ButtonWidget)lobby.GetWidget("SPECTATOR_BUTTON");
+			SpectatorLabel = (LabelWidget)lobby.GetWidget("SPECTATOR_LABEL");
 
-			// orderManager.IssueOrder(Order.Command("race " + nextCountry));
 			LocalPlayerTemplate = Players.GetWidget("TEMPLATE_LOCAL");
 
 			/* assign the event handlers */
@@ -58,7 +57,8 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			                      			return false; /* too many nods already (allow 1 overflow) */
 
 
-			                      		orderManager.IssueOrder(Order.Command("race nod"));
+										orderManager.IssueOrder(Order.Command("slot " + orderManager.LobbyInfo.Slots.Where(s => !s.Spectator && !s.Closed && GetClientInSlot(s) == null ).FirstOrDefault().Index));
+										orderManager.IssueOrder(Order.Command("race nod"));
 
 			                      		return true;
 			                      	};
@@ -69,11 +69,19 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			                      		if (CountPlayers("gdi") > CountPlayers("nod") + 1)
 			                      			return false; /* too many nods already (allow 1 overflow) */
 
-
+										orderManager.IssueOrder(Order.Command("slot " + orderManager.LobbyInfo.Slots.Where(s => !s.Spectator && !s.Closed && GetClientInSlot(s) == null).FirstOrDefault().Index));
+										
 			                      		orderManager.IssueOrder(Order.Command("race gdi"));
 
 			                      		return true;
 			                      	};
+
+			SpectatorButton.OnMouseUp = _ =>
+			                            	{
+												orderManager.IssueOrder(Order.Command("spectator"));
+
+			                            		return true;
+			                            	};
 			// players assigned / slots available
 			GDILabel.GetText =
 				() => { return CountPlayers("gdi") + " / " + Math.Round((float) (orderManager.LobbyInfo.Slots.Count/2 + 1), 0); };
@@ -81,6 +89,11 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			// players assigned / slots available
 			NodLabel.GetText =
 				() => { return CountPlayers("nod") + " / " + Math.Round((float) (orderManager.LobbyInfo.Slots.Count/2 + 1), 0); };
+
+			// spectators
+			// CountSpectators
+			SpectatorLabel.GetText =
+				() => { return CountSpectators() + " / " + orderManager.LobbyInfo.Slots.Where(s => s.Spectator).Count(); };
 
 			var mapPreview = lobby.GetWidget<MapPreviewWidget>("LOBBY_MAP_PREVIEW");
 			mapPreview.Map = () => Map;
@@ -248,6 +261,11 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			return orderManager.LobbyInfo.ClientInSlot(slot);
 		}
 
+		private int CountSpectators()
+		{
+			return orderManager.LobbyInfo.Slots.Where(s => s.Spectator && GetClientInSlot(s) != null).Count();
+		}
+
 		private int CountPlayers(string race)
 		{
 			int count = 0;
@@ -258,7 +276,7 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 				Session.Client c = GetClientInSlot(s);
 				Widget template;
 
-				if (c != null && c.Country == race)
+				if (c != null && c.Country == race && !s.Spectator)
 				{
 					count++;
 				}
@@ -317,19 +335,21 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 
 					var faction = template.GetWidget<ButtonWidget>("FACTION");
 					var factionname = faction.GetWidget<LabelWidget>("FACTIONNAME");
+					Session.Slot slot1 = slot;
 					factionname.GetText = () =>
-					                      	{
+					{
+						if (slot1.Spectator)
+							return "Spectator";
 					                      		if (c.Country.ToLower() == "random")
 					                      		{
-					                      			//c.Country = PickRace();
 					                      			orderManager.IssueOrder(Order.Command("race " + PickRace()));
 					                      		}
 					                      		return CountryNames[c.Country];
 					                      	};
 					var factionflag = faction.GetWidget<ImageWidget>("FACTIONFLAG");
 					factionflag.GetImageName = () => {
-						if (c.Country.ToLower() == "random")
-							return "gdi";
+						if (slot1.Spectator)
+							return "random"; // todo return spectator, and add a proper icon
 					                                 	return c.Country;
 					};
 					factionflag.GetImageCollection = () => "flags";

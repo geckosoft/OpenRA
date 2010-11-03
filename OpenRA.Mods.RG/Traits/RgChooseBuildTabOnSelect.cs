@@ -30,6 +30,9 @@ namespace OpenRA.Mods.Rg.Traits
 
 		public void SelectionChanged()
 		{
+			if (world.LocalPlayer == null)
+				return; // spectator
+
 			/* selected a producing fact */
 			Actor producer =
 				world.Selection.Actors.FirstOrDefault(

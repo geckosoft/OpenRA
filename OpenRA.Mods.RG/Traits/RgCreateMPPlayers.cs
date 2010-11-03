@@ -30,7 +30,7 @@ namespace OpenRA.Mods.Rg.Traits
 			// create the players which are bound through slots.
 			foreach (Session.Slot slot in w.LobbyInfo.Slots)
 			{
-				Session.Client client = w.LobbyInfo.Clients.FirstOrDefault(c => c.Slot == slot.Index);
+				Session.Client client = w.LobbyInfo.Clients.FirstOrDefault(c => c.Slot == slot.Index && slot.MapPlayer != null);
 				if (client != null)
 				{
 					/* spawn a real player in this slot. */

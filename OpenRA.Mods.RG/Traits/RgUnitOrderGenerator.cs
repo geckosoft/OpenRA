@@ -117,6 +117,9 @@ namespace OpenRA.Mods.Rg.Traits
 			if (self.Destroyed)
 				return null;
 
+			if (self.World.LocalPlayer == null)
+				return null;
+
 			if (self.Owner != self.World.LocalPlayer && self.Owner.Stances[self.World.LocalPlayer] != Stance.Ally)
 				return null; // Disallow for sure if we dont own this unit and its not an ally!
 

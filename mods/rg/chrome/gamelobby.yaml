@@ -289,6 +289,24 @@ Background@SERVER_LOBBY:
 					Height:25
 					Text:0 / 10
 					Align:Center
+					Bold:True	
+				Button@SPECTATOR_BUTTON:
+					Id:SPECTATOR_BUTTON
+					Visible:true
+					X:128+14
+					Y:32
+					Width:100
+					Height:25
+					Text:Spectate
+					Bold:True	
+				Label@SPECTATOR_LABEL:
+					Id:SPECTATOR_LABEL
+					X:128+14
+					Y:1
+					Width:100
+					Height:25
+					Text:0 / 10
+					Align:Center
 					Bold:True					
 				Image@LOGO_NOD
 					X:128*2
