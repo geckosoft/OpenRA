@@ -58,7 +58,7 @@ namespace OpenRA.Mods.Rg
 			Font.DrawText(text,
 			              new float2(Renderer.Resolution.Width - textSize.X - 20, Renderer.Resolution.Height - textSize.Y - 20),
 			              Color.White);
-			r.EndFrame();
+			r.EndFrame(new NullInputHandler());
 		}
 
 		#endregion
