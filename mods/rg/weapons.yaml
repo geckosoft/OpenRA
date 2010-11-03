@@ -1033,7 +1033,7 @@ EngineerHeal:
 	Range: 6
 	Report: HEAL2
 	Projectile: HealZap
-		BeamRadius: 20
+		BeamRadius: 1
 		Speed: 100
 	Warhead: 
 		Spread: 5
@@ -1051,7 +1051,7 @@ EngineerSuperHeal:
 	Range: 6
 	Report: HEAL2
 	Projectile: HealZap
-		BeamRadius: 20
+		BeamRadius: 1
 		Speed: 100
 	Warhead: 
 		Spread: 5
