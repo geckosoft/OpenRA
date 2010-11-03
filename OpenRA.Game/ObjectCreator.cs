@@ -1,19 +1,9 @@
-﻿#region Copyright & License Information
-/*
- * Copyright 2007-2010 The OpenRA Developers (see AUTHORS)
- * This file is part of OpenRA, which is free software. It is made 
- * available to you under the terms of the GNU General Public License
- * as published by the Free Software Foundation. For more information,
- * see LICENSE.
- */
-#endregion
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using OpenRA.FileFormats;
+using System.Collections.Generic;
 
 namespace OpenRA
 {
@@ -21,7 +11,7 @@ namespace OpenRA
 	{
 		Pair<Assembly, string>[] ModAssemblies;
 
-		public ObjectCreator( Manifest manifest )
+		public ObjectCreator(Manifest manifest)
 		{
 			// All the core namespaces
 			var asms = typeof(Game).Assembly.GetNamespaces()
@@ -29,13 +19,19 @@ namespace OpenRA
 				.ToList();
 
 			// Namespaces from each mod assembly
-			foreach (var a in manifest.Assemblies.Concat(manifest.LocalAssemblies))
+			foreach (var a in manifest.Assemblies)
 			{
 				var asm = Assembly.LoadFile(Path.GetFullPath(a));
 				asms.AddRange(asm.GetNamespaces().Select(ns => Pair.New(asm, ns)));
 			}
 
 			ModAssemblies = asms.ToArray();
+		}
+
+		public void AddAssembly(string path)
+		{
+			var asm = Assembly.LoadFile(Path.GetFullPath(path));
+			ModAssemblies =ModAssemblies.Concat(asm.GetNamespaces().Select(ns => Pair.New(asm, ns))).ToArray();
 		}
 
 		public static Action<string> MissingTypeAction = 

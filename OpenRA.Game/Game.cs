@@ -234,9 +234,7 @@ namespace OpenRA
 				// and a dll to the assemblies (to add those non synced traits)
 				if (!string.IsNullOrEmpty(Settings.Server.ExtensionDll))
 				{
-					var r = modData.Manifest.LocalAssemblies.ToList();
-					r.Add(Settings.Server.ExtensionDll);
-					modData.Manifest.LocalAssemblies = r.ToArray();
+					modData.ObjectCreator.AddAssembly(Settings.Server.ExtensionDll);
 				}
 
 				if (!string.IsNullOrEmpty(Settings.Server.ExtensionClass))
