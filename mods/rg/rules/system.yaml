@@ -200,32 +200,36 @@ World:
 	RgValidateOrder:
 	RgUnitOrderGenerator:
 	PathFinder:
+	RgCrateSpawner:
+		Minimum: 1
+		Maximum: 2
+		SpawnInterval: 90
 
 
 CRATE:
 	Tooltip:
 		Name: Crate
 	Crate:
-		Lifetime: 120
+		Lifetime: 3600
 		TerrainTypes: Clear, Rough, Road, Tiberium, BlueTiberium, Beach
 	GiveCashCrateAction:
 		Amount: 1000
 		SelectionShares: 20
 		Effect: dollar
-	RevealMapCrateAction:
-		SelectionShares: 1
-		Effect: reveal-map
-	HideMapCrateAction:
-		SelectionShares: 5
-		Effect: hide-map
+#	RevealMapCrateAction:
+#		SelectionShares: 1
+#		Effect: reveal-map
+#	HideMapCrateAction:
+#		SelectionShares: 5
+#		Effect: hide-map
 	LevelUpCrateAction:
 		SelectionShares: 20
 	ExplodeCrateAction@fire:
 		Weapon: Napalm.Crate
 		SelectionShares: 5
-	ExplodeCrateAction@boom:
-		Weapon: Atomic
-		SelectionShares: 5
+#	ExplodeCrateAction@boom:
+#		Weapon: Atomic
+#		SelectionShares: 5
 	CloakCrateAction:
 		SelectionShares: 5
 		InitialDelay: .4
@@ -233,10 +237,13 @@ CRATE:
 		CloakSound: appear1.aud
 		UncloakSound: appear1.aud
 		Effect: stealth
-		ExcludedActorTypes: e1,e2,e3,e4,e5,e6,rmbo,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10
-	GiveMcvCrateAction:
-		SelectionShares: 2
-		NoBaseSelectionShares: 9001
-		Unit: mcv
+#		ExcludedActorTypes: e1,e2,e3,e4,e5,e6,rmbo,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10
+#	GiveMcvCrateAction:
+#		SelectionShares: 2
+#		NoBaseSelectionShares: 9001
+#		Unit: mcv
 	RenderUnit:
-	BelowUnits:
+#	BelowUnits:
+	Scale:
+		Value: 2
+	HiddenUnderFog:

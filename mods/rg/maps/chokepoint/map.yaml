@@ -34,9 +34,9 @@ Players:
 		Color2: 255,20,22,3
 		InitialCash: 0
 		Allies: GDI
-		Enemies: NOD
-	PlayerReference@NOD:
-		Name: NOD
+		Enemies: Nod
+	PlayerReference@Nod:
+		Name: Nod
 		Palette:
 		OwnsWorld: True
 		NonCombatant: False
@@ -49,7 +49,7 @@ Players:
 		Color: 255,255,14,14
 		Color2: 255,37,0,0
 		InitialCash: 0
-		Allies: NOD
+		Allies: Nod
 		Enemies: GDI
 	PlayerReference@Neutral:
 		Name: Neutral
@@ -578,7 +578,7 @@ Actors:
 		Owner: Neutral
 	Actor35: nuke
 		Location: 76,44
-		Owner: NOD
+		Owner: Nod
 	Actor11: tc03
 		Location: 25,46
 		Owner: Neutral
@@ -653,16 +653,16 @@ Actors:
 		Owner: GDI
 	Actor76: gun
 		Location: 65,20
-		Owner: NOD
+		Owner: Nod
 	Actor80: fact
 		Location: 20,33
 		Owner: GDI
 	Actor72: afld
 		Location: 72,32
-		Owner: NOD
+		Owner: Nod
 	Actor73: hand
 		Location: 70,27
-		Owner: NOD
+		Owner: Nod
 	Actor60: split2
 		Location: 49,39
 		Owner: Neutral
@@ -674,16 +674,16 @@ Actors:
 		Owner: Neutral
 	Actor69: gtwr
 		Location: 67,18
-		Owner: NOD
+		Owner: Nod
 	Actor70: proc
 		Location: 63,26
-		Owner: NOD
+		Owner: Nod
 	Actor57: split2
 		Location: 35,38
-		Owner: NOD
+		Owner: Nod
 	Actor71: obli
 		Location: 65,33
-		Owner: NOD
+		Owner: Nod
 	Actor64: weap
 		Location: 18,27
 		Owner: GDI
@@ -692,10 +692,10 @@ Actors:
 		Owner: GDI
 	Actor79: fact
 		Location: 72,40
-		Owner: NOD
+		Owner: Nod
 	Actor68: gtwr
 		Location: 63,22
-		Owner: NOD
+		Owner: Nod
 	Actor81: pyle
 		Location: 20,23
 		Owner: GDI
@@ -716,16 +716,29 @@ Actors:
 		Owner: GDI
 	Actor84: gtwr
 		Location: 63,40
-		Owner: NOD
+		Owner: Nod
 	Actor85: gun
 		Location: 17,32
 		Owner: GDI
 	Actor2: tmpl
 		Location: 65,43
-		Owner: NOD
+		Owner: Nod
 	Actor23: eye
 		Location: 19,18
 		Owner: GDI
+# comment these and re-add these if you wish to edit it (mapeditor is bugged atm :p)
+	Actor10: crate_spawn
+		Location: 42,36
+		Owner: Neutral
+	Actor36: crate_spawn
+		Location: 46,36
+		Owner: Neutral
+	Actor37: crate_spawn
+		Location: 44,27
+		Owner: Neutral
+	Actor38: crate_spawn
+		Location: 48,28
+		Owner: Neutral
 
 Waypoints:
 	wpA0: 22,27
@@ -738,7 +751,6 @@ Waypoints:
 	wpA7: 23,29
 	wpA8: 23,30
 	wpA9: 23,31
-	
 	wpB0: 32,27
 	wpB1: 32,28
 	wpB2: 32,29
@@ -749,7 +761,6 @@ Waypoints:
 	wpB7: 33,29
 	wpB8: 33,30
 	wpB9: 33,31
-	
 	wpC0: 72,35
 	wpC1: 72,36
 	wpC2: 72,37

@@ -922,3 +922,17 @@ HAND_DESTROYED:
 	RgDestroyed:	
 	RenderBuilding:
 		HasMakeAnimation: false
+		
+CRATE_SPAWN:
+	InvisibleToOthers:
+	RgDestroyed:
+	Building:
+		Dimensions: 1,1
+		Footprint: _
+		Capturable: false
+		BaseNormal: no
+#	Selectable:
+#		Priority: 1
+#	RenderBuildingWall:
+#		HasMakeAnimation: false
+#		Palette: terrain
