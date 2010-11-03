@@ -34,7 +34,7 @@ namespace OpenRA.Server
 		public virtual bool OnPingMasterServer(Session lobbyInfo, bool gameStarted) { return true; }
 		public virtual bool OnIngameChat(Session.Client client, string message, bool teamChat) { return true; }
 		public virtual void OnIngameSetStance(Player player, Player stanceForPlayer, Stance newStance) { }
-		public virtual void OnLobbyUp() { }
+		public virtual void OnLobbyUp(OrderManager orderManager) { }
 		public virtual void OnRejoinLobby(World world) { }
 	}
 }

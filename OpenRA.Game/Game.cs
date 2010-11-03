@@ -291,7 +291,7 @@ namespace OpenRA
 							}
 
 							if (Game.Settings.Server.Extension != null)
-								Game.Settings.Server.Extension.OnLobbyUp(); 
+								Game.Settings.Server.Extension.OnLobbyUp(Game.orderManager); 
 							break;
                		}
                	};
@@ -334,7 +334,7 @@ namespace OpenRA
 							}
 
 							if (Game.Settings.Server.Extension != null)
-								Game.Settings.Server.Extension.OnLobbyUp(); 
+								Game.Settings.Server.Extension.OnLobbyUp(Game.orderManager); 
 							break;
 					}
 				};

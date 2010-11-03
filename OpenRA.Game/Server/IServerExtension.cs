@@ -78,7 +78,7 @@ namespace OpenRA.Server
 
 		void OnIngameSetStance(Player player, Player stanceForPlayer, Stance newStance);
 
-		void OnLobbyUp();
+		void OnLobbyUp(OrderManager orderManager);
 		void OnRejoinLobby(World world);
 	}
 }
