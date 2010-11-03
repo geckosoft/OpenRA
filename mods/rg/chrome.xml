@@ -127,49 +127,49 @@
 		<image name="nod-Plane" x="134" y="160" width="27" height="41" />
 		<image name="nod-Ship" x="134" y="200" width="27" height="41" />
 	</collection>
+	<collection name="dialog2" src="dialog.png">
+		<image name="background" x="513" y="1" width="126" height="126" />
+		<image name="border-r" x="639" y="1" width="1" height="126" />
+		<image name="border-l" x="512" y="1" width="1" height="126" />
+		<image name="border-b" x="513" y="127" width="126" height="1" />
+		<image name="border-t" x="513" y="0" width="126" height="1" />
+		<image name="corner-tl" x="512" y="0" width="1" height="1" />
+		<image name="corner-tr" x="594" y="0" width="1" height="1" />
+		<image name="corner-bl" x="512" y="82" width="1" height="1" />
+		<image name="corner-br" x="594" y="82" width="1" height="1" />
+	</collection>
+	<collection name="dialog3" src="dialog.png">
+		<image name="background" x="641" y="1" width="126" height="126" />
+		<image name="border-r" x="767" y="1" width="1" height="126" />
+		<image name="border-l" x="640" y="1" width="1" height="126" />
+		<image name="border-b" x="641" y="127" width="126" height="1" />
+		<image name="border-t" x="641" y="0" width="126" height="1" />
+		<image name="corner-tl" x="640" y="0" width="1" height="1" />
+		<image name="corner-tr" x="722" y="0" width="1" height="1" />
+		<image name="corner-bl" x="640" y="82" width="1" height="1" />
+		<image name="corner-br" x="722" y="82" width="1" height="1" />
+	</collection>
+	<collection name="dialog4" src="dialog.png">
+		<image name="border-t" x="773" y="0" width="52" height="6" />
+		<image name="border-b" x="773" y="58" width="52" height="6" />
+		<image name="border-l" x="768" y="5" width="6" height="54" />
+		<image name="border-r" x="826" y="5" width="6" height="54" />
+		<image name="corner-tl" x="768" y="0" width="6" height="6" />
+		<image name="corner-tr" x="826" y="0" width="6" height="6" />
+		<image name="corner-bl" x="768" y="58" width="6" height="6" />
+		<image name="corner-br" x="826" y="58" width="6" height="6" />
+		<image name="background" x="773" y="5" width="52" height="52" />
+	</collection>
 	<collection name="dialog" src="dialog.png">
-		<image name="background" x="46" y="46" width="36" height="36" />
-		<image name="border-r" x="82" y="46" width="46" height="36" />
-		<image name="border-l" x="0" y="46" width="46" height="36" />
-		<image name="border-b" x="46" y="82" width="36" height="46" />
-		<image name="border-t" x="46" y="0" width="36" height="46" />
-		<image name="corner-tl" x="0" y="0" width="46" height="46" />
-		<image name="corner-tr" x="82" y="0" width="46" height="46" />
-		<image name="corner-bl" x="0" y="82" width="46" height="46" />
-		<image name="corner-br" x="82" y="82" width="46" height="46" />
-	</collection>
-	<collection name="dialog2" src="dialog2.png">
-		<image name="background" x="1" y="1" width="126" height="126" />
-		<image name="border-r" x="127" y="1" width="1" height="126" />
-		<image name="border-l" x="0" y="1" width="1" height="126" />
-		<image name="border-b" x="1" y="127" width="126" height="1" />
-		<image name="border-t" x="1" y="0" width="126" height="1" />
-		<image name="corner-tl" x="0" y="0" width="1" height="1" />
-		<image name="corner-tr" x="82" y="0" width="1" height="1" />
-		<image name="corner-bl" x="0" y="82" width="1" height="1" />
-		<image name="corner-br" x="82" y="82" width="1" height="1" />
-	</collection>
-	<collection name="dialog3" src="dialog3.png">
-		<image name="background" x="1" y="1" width="126" height="126" />
-		<image name="border-r" x="127" y="1" width="1" height="126" />
-		<image name="border-l" x="0" y="1" width="1" height="126" />
-		<image name="border-b" x="1" y="127" width="126" height="1" />
-		<image name="border-t" x="1" y="0" width="126" height="1" />
-		<image name="corner-tl" x="0" y="0" width="1" height="1" />
-		<image name="corner-tr" x="82" y="0" width="1" height="1" />
-		<image name="corner-bl" x="0" y="82" width="1" height="1" />
-		<image name="corner-br" x="82" y="82" width="1" height="1" />
-	</collection>
-	<collection name="dialog4" src="dialog4.png">
-		<image name="border-t" x="5" y="0" width="52" height="6" />
-		<image name="border-b" x="5" y="58" width="52" height="6" />
-		<image name="border-l" x="0" y="5" width="6" height="54" />
-		<image name="border-r" x="58" y="5" width="6" height="54" />
-		<image name="corner-tl" x="0" y="0" width="6" height="6" />
-		<image name="corner-tr" x="58" y="0" width="6" height="6" />
-		<image name="corner-bl" x="0" y="58" width="6" height="6" />
-		<image name="corner-br" x="58" y="58" width="6" height="6" />
-		<image name="background" x="5" y="5" width="52" height="52" />
+		<image name="background" x="0" y="0" width="480" height="480" />
+		<image name="border-r" x="489" y="0" width="9" height="192" />
+		<image name="border-l" x="480" y="0" width="9" height="192" />
+		<image name="border-b" x="0" y="489" width="191" height="9" />
+		<image name="border-t" x="0" y="480" width="191" height="9" />
+		<image name="corner-tl" x="191" y="480" width="9" height="9" />
+		<image name="corner-tr" x="200" y="480" width="9" height="9" />
+		<image name="corner-bl" x="191" y="489" width="9" height="9" />
+		<image name="corner-br" x="200" y="489" width="9" height="9" />
 	</collection>
 	<collection name="spawnpoints" src="spawnpoints.png">
 		<image name="unowned" x="16" y="0" width="16" height="16" />
