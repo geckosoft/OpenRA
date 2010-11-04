@@ -1,0 +1,22 @@
+﻿World:
+	RgServerEvents:	
+Player:
+	RgServerEvents:
+^Vehicle:
+	RgServerEvents:
+^Infantry
+	RgServerEvents:
+^Tank:
+	RgServerEvents:
+^Ship:
+	RgServerEvents:
+^Plane:
+	RgServerEvents:
+^Building:
+	RgServerEvents:
+^CivBuilding:
+	RgServerEvents:
+^SteerableTank:
+	RgServerEvents:
+
+

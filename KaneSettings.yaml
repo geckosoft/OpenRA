@@ -1,0 +1,8 @@
+﻿Irc:
+	Server: irc.freenode.org
+	Nick: RgKaneLives
+	Name: Kane Lubs OpenRg
+	Bridge: true
+	Channels: #openrg
+	Enabled: true
+	OneWay: false

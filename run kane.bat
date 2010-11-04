@@ -1,0 +1,1 @@
+OpenRA.Game.exe Game.Mods=rg Server.IsDedicated=true Server.ExtensionClass=KaneServerExtension Server.ExtensionDll="OpenRg.Kane.dll" Graphics.UseNullRenderer=false Server.ExtensionYaml="KaneServerExtension.yaml"

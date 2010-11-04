@@ -13,7 +13,7 @@ namespace OpenRA.Mods.Rg.Traits
 	{
 	}
 
-	internal class RgPlayer : ITick, INotifyDamage
+	public class RgPlayer : ITick, INotifyDamage
 	{
 		public Actor Avatar;
 		public Actor Container; /* when in a vehicle */

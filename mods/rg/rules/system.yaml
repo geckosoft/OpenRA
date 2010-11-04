@@ -78,6 +78,7 @@ Player:
 #	What items can the player carry 'by default' 
 	InvIonBeacon:
 	InvNukeBeacon:
+	RgUniqueId:
 	
 World:
 	OpenWidgetAtGameStart:
