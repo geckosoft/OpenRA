@@ -246,8 +246,8 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 			Color c1 = Game.Settings.Player.Color1;
 			Color c2 = Game.Settings.Player.Color2;
 
-			if (orderManager.LocalClient.Color1 != c1 || orderManager.LocalClient.Color2 != c2)
-				orderManager.IssueOrder(Order.Command("color {0},{1},{2},{3},{4},{5}".F(c1.R, c1.G, c1.B, c2.R, c2.G, c2.B)));
+			//if (orderManager.LocalClient.Color1 != c1 || orderManager.LocalClient.Color2 != c2)
+			//	orderManager.IssueOrder(Order.Command("color {0},{1},{2},{3},{4},{5}".F(c1.R, c1.G, c1.B, c2.R, c2.G, c2.B)));
 		}
 
 		private void ResetConnectionState(OrderManager orderManager)
@@ -340,7 +340,7 @@ namespace OpenRA.Mods.Rg.Widgets.Delegates
 					{
 						if (slot1.Spectator)
 							return "Spectator";
-					                      		if (c.Country.ToLower() == "random")
+					                      		if (c.Country.ToLower() == "random" && orderManager.LobbyInfo.Clients.Count > 0)
 					                      		{
 					                      			orderManager.IssueOrder(Order.Command("race " + PickRace()));
 					                      		}
