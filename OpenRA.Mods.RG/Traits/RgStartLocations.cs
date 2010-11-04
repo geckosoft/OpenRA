@@ -39,6 +39,8 @@ namespace OpenRA.Mods.Rg.Traits
 				Start.Add(player, spid);
 			}
 
+			if (world.LocalPlayer == null)
+				return;
 			// Explore allied shroud
 			foreach (var p in Start)
 				if (p.Key == world.LocalPlayer || p.Key.Stances[world.LocalPlayer] == Stance.Ally)
