@@ -29,10 +29,10 @@ namespace OpenRA.GameRules
 		public bool AllowCheats = false;
 		public string ExtensionDll = "";
 		public string ExtensionClass = "";
+		public string ExtensionYaml = "";
 
 		/* not storeable */
 		public IServerExtension Extension { get; set; }
-		public string ExtensionYaml { get; set; }
 		public bool IsDedicated { get; set; }
 	}
 	
