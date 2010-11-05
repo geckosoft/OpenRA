@@ -63,13 +63,28 @@ namespace OpenRA.GameRules
 		public bool Shuffle = false;
 		public bool Repeat = false;
 	}
-	
+
 	public class PlayerSettings
 	{
 		public string Name = "Newbie";
-		public Color Color1 = Color.FromArgb(255,160,238);
-		public Color Color2 = Color.FromArgb(68,0,56);
+		public Color Color1 = Color.FromArgb(255, 160, 238);
+		public Color Color2 = Color.FromArgb(68, 0, 56);
 		public string LastServer = "localhost:1234";
+
+		public string Username = "";
+		public string Password = "";
+		public bool RememberPassword = false;
+	}
+
+	/// <summary>
+	/// Stores user account related settings
+	/// </summary>
+	public class UserSettings
+	{
+		public string Username = "Test";
+		public string Password = "Test";
+		public bool RememberPassword = true;
+		public bool AutoLogin = true;
 	}
 	
 	public class GameSettings
@@ -100,6 +115,7 @@ namespace OpenRA.GameRules
 		public GraphicSettings Graphics = new GraphicSettings();
 		public ServerSettings Server = new ServerSettings();
 		public DebugSettings Debug = new DebugSettings();
+		public UserSettings User = new UserSettings();
 		
 		Dictionary<string, object> Sections;
 		public Settings(string file, Arguments args)
@@ -112,7 +128,8 @@ namespace OpenRA.GameRules
 				{"Sound", Sound},
 				{"Graphics", Graphics},
 				{"Server", Server},
-				{"Debug", Debug}
+				{"Debug", Debug},
+				{"User", User}
 			};
 			
 			// Should we run in dedicated mode (use the server extension)

@@ -438,6 +438,8 @@ namespace OpenRA.Widgets.Delegates
 
 		bool CycleReady(MouseInput mi)
 		{
+			if (orderManager.LocalClient.State == Session.ClientState.NotValidated)
+				return true;
 			orderManager.IssueOrder(Order.Command("ready"));
 			return true;
 		}

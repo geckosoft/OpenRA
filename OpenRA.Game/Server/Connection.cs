@@ -49,7 +49,7 @@ namespace OpenRA.Server
 					else
 					{
 						if (len == 0)
-							Server.DropClient(this, null);
+							Server.DropClient(this, "Client dropped.");
 						break;
 					}
 						

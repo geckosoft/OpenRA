@@ -167,6 +167,11 @@ namespace OpenRA
 			return new Order("Chat", null, text) { IsImmediate = true };
 		}
 
+		public static Order Validate(string encryptedUserId)
+		{
+			return new Order("Validate", null, encryptedUserId) { IsImmediate = true };
+		}
+
 		public static Order TeamChat(string text)
 		{
 			return new Order("TeamChat", null, text) { IsImmediate = true };

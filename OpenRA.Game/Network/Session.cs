@@ -35,6 +35,7 @@ namespace OpenRA.Network
 		{
 			NotReady,
 			Ready,
+			NotValidated,
 			Disconnected = 1000
 		}
 
@@ -49,6 +50,7 @@ namespace OpenRA.Network
 			public ClientState State;
 			public int Team;
 			public int Slot;	//	which slot we're in, or -1 for `observer`.
+			public int UserId = 0; // 0 == not linked with ms
 		}
 
 		public class Slot
@@ -70,6 +72,8 @@ namespace OpenRA.Network
 			public int RandomSeed = 0;
 			public bool LockTeams = false;	// don't allow team changes after game start.
 			public bool AllowCheats = false;
+			public int GameId = 0;
+			public bool IsInternetGame = false; 
 		}
 
 		public Session(string[] mods)

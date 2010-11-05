@@ -209,15 +209,21 @@
     <Compile Include="ObjectCreator.cs" />
     <Compile Include="Network\SyncReport.cs" />
     <Compile Include="Server\IServerExtension.cs" />
+    <Compile Include="Server\MasterResult.cs" />
+    <Compile Include="Server\MasterServerSession.cs" />
+    <Compile Include="Server\UserSession.cs" />
     <Compile Include="Server\NullServerExtension.cs" />
     <Compile Include="Traits\BaseBuilding.cs" />
     <Compile Include="Traits\EditorAppearance.cs" />
+    <Compile Include="Support\Encryption.cs" />
+    <Compile Include="Support\HttpClient.cs" />
     <Compile Include="Traits\ValidateOrder.cs" />
     <Compile Include="Traits\Scale.cs" />
     <Compile Include="TraitDictionary.cs" />
     <Compile Include="Traits\Activities\CancelableActivity.cs" />
     <Compile Include="Traits\SharesCell.cs" />
     <Compile Include="Widgets\PasswordFieldWidget.cs" />
+    <Compile Include="Widgets\Delegates\UserLoginDelegate.cs" />
     <Compile Include="Widgets\Delegates\DeveloperModeDelegate.cs" />
     <Compile Include="Widgets\ScrollingTextWidget.cs" />
   </ItemGroup>

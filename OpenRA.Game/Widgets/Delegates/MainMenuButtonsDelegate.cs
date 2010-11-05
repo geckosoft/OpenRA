@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using OpenRA.FileFormats;
 using OpenRA.Server;
 
@@ -21,8 +22,15 @@ namespace OpenRA.Widgets.Delegates
 			// Main menu is the default window
 			widget.GetWidget( "MAINMENU_BUTTON_JOIN" ).OnMouseUp = mi => { Widget.OpenWindow( "JOINSERVER_BG" ); return true; };
 			widget.GetWidget( "MAINMENU_BUTTON_CREATE" ).OnMouseUp = mi => { Widget.OpenWindow( "CREATESERVER_BG" ); return true; };
-			widget.GetWidget( "MAINMENU_BUTTON_SETTINGS" ).OnMouseUp = mi => { Widget.OpenWindow( "SETTINGS_MENU" ); return true; };
-			widget.GetWidget( "MAINMENU_BUTTON_MUSIC" ).OnMouseUp = mi => { Widget.OpenWindow( "MUSIC_MENU" ); return true; };
+			widget.GetWidget("MAINMENU_BUTTON_SETTINGS").OnMouseUp = mi => { Widget.OpenWindow("SETTINGS_MENU"); return true; };
+			widget.GetWidget("MAINMENU_BUTTON_MUSIC").OnMouseUp = mi => { Widget.OpenWindow("MUSIC_MENU"); return true; };
+			widget.GetWidget("MAINMENU_BUTTON_LOGIN").OnMouseUp =
+				mi =>
+				{
+					Widget.OpenWindow("LOGIN_BG");
+					return true;
+				};
+
 			widget.GetWidget( "MAINMENU_BUTTON_QUIT" ).OnMouseUp = mi => { Game.Exit(); return true; };
 
 			var version = widget.GetWidget<LabelWidget>("VERSION_STRING");
@@ -48,6 +56,30 @@ namespace OpenRA.Widgets.Delegates
 			MasterServerQuery.ClientVersion = version.Text;
 
 			MasterServerQuery.GetMOTD(Game.Settings.Server.MasterServer);
+
+			// TODO Implement this so it pops up the login box, if auto login is on, but no password (or username) is stored!
+			if (Game.Settings.User.AutoLogin && !Game.User.Authenticated)
+			{
+				Game.User.OnAuthenticated =
+				(success) =>
+				{
+					if (success)
+					{
+
+					}
+					else
+					{
+
+					}
+				};
+
+				if (Game.Settings.User.RememberPassword && Game.Settings.User.Password != "" && Game.Settings.User.Username != "")
+					Game.User.Authenticate(Game.Settings.User.Username, Game.Settings.User.Password);
+				else
+				{
+					// show login box
+				}
+			}
 		}
 	}
 }

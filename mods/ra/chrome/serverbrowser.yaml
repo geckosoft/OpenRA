@@ -366,3 +366,90 @@ Background@CONNECTING_BG:
 			Height:25
 			Text:Abort
 			Bold:True
+Background@LOGIN_BG:
+	Id:LOGIN_BG
+	Delegate:UserLoginDelegate
+	X:(WINDOW_RIGHT - WIDTH)/2
+	Y:(WINDOW_BOTTOM - HEIGHT)/2
+	Width:400
+	Height:240
+	Children:
+		Label@LABEL_TITLE:
+			Id:LABEL_TITLE
+			X:0
+			Y:20
+			Width:400
+			Height:25
+			Text:Authentication Required
+			Align:Center
+			Bold:True
+		Label@USERNAME_LBL:
+			Id:USERNAME_LBL
+			X:50
+			Y:59
+			Width:95
+			Height:25
+			Align: Right
+			Text:Username:
+		TextField@GAME_TITLE:
+			Id:GAME_TITLE
+			X:150
+			Y:60
+			Width:210
+			MaxLength:16
+			Height:25
+			Text:
+		Label@PASSWORD_LBL:
+			Id:PASSWORD_LBL
+			X:50
+			Y:94
+			Width:95
+			Height:25
+			Align: Right
+			Text:Password:
+		PasswordField@EXTERNAL_PORT:
+			Id:EXTERNAL_PORT
+			X:150
+			Y:95
+			Width:210
+			MaxLength:32
+			Height:25
+			Text:
+		Checkbox@CHECKBOX_ONLINE:
+			Id:CHECKBOX_ONLINE
+			X:165
+			Y:130
+			Width:300
+			Height:20
+			Text:Remember Password
+		Checkbox@CHECKBOX_CHEATS:
+			Id:CHECKBOX_CHEATS
+			X:165
+			Y:160
+			Width:300
+			Height:20
+			Text:Auto-login
+		Button@BUTTON_CREATE:
+			Id:BUTTON_CREATE
+			X:300
+			Y:20
+			Width:80
+			Height:25
+			Text:Create
+			Bold:True
+		Button@BUTTON_START:
+			Id:BUTTON_START
+			X:130
+			Y:PARENT_BOTTOM - 45
+			Width:120
+			Height:25
+			Text:Authenticate
+			Bold:True
+		Button@BUTTON_CANCEL:
+			Id:BUTTON_CANCEL
+			X:260
+			Y:PARENT_BOTTOM - 45
+			Width:120
+			Height:25
+			Text:Cancel
+			Bold:True

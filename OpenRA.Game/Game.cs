@@ -43,6 +43,7 @@ namespace OpenRA
 
 		public static Renderer Renderer;
 		public static bool HasInputFocus = false;
+		public static UserSession User = new UserSession();
 		
 		public static void MoveViewport(float2 loc)
 		{
@@ -157,6 +158,27 @@ namespace OpenRA
 
 		internal static void SyncLobbyInfo()
 		{
+			if (orderManager.LobbyInfo.GlobalSettings.IsInternetGame)
+			{
+				if (orderManager.LocalClient.UserId == 0) // not verified yet
+				{
+					if ((!Game.IsHost || Server.Server.MasterServer.IsRegistered ) && User.UserId != 0)
+						Game.User.Inform(orderManager.LobbyInfo.GlobalSettings.GameId,
+							(success, result) =>
+							{
+								if (!success || result == null || result.EncryptedUserId == "")
+								{
+									// todo disconnect
+									Game.Disconnect();
+								}
+								else
+								{
+									// inform the server
+									orderManager.IssueOrder(Order.Validate(result.EncryptedUserId));
+								}
+							});
+				}
+			}
 			LobbyInfoChanged();
 		}
 
@@ -297,9 +319,6 @@ namespace OpenRA
 							break;
                		}
                	};
-
-				modData.WidgetLoader.LoadWidget(new Dictionary<string, object>(), Widget.RootWidget, "PERF_BG");
-				Widget.OpenWindow("MAINMENU_BG");
 			}else
 			{
 				JoinLocal();
@@ -340,10 +359,10 @@ namespace OpenRA
 							break;
 					}
 				};
-
-				modData.WidgetLoader.LoadWidget(new Dictionary<string, object>(), Widget.RootWidget, "PERF_BG");
-				Widget.OpenWindow("MAINMENU_BG");
 			}
+
+			modData.WidgetLoader.LoadWidget(new Dictionary<string, object>(), Widget.RootWidget, "PERF_BG");
+			var mainMenu = Widget.OpenWindow("MAINMENU_BG");
 
 			if (Settings.Server.IsDedicated)
 			{
