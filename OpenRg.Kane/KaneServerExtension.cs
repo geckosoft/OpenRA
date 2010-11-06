@@ -287,7 +287,7 @@ namespace OpenRg.Kane
 			if (player == null)
 				return "";
 
-			return player.PlayerActor.TraitOrDefault<RgUniqueId>().Serial;
+			return player.PlayerActor.TraitOrDefault<RgPlayerSerial>().Serial;
 		}
 
 		public override void OnServerStop(bool forced)

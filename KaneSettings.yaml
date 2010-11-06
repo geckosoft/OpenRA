@@ -6,3 +6,5 @@
 	Channels: #openrg
 	Enabled: true
 	OneWay: false
+Kane:
+	Storage: KaneDb.yaml

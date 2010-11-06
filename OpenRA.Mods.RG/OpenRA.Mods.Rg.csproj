@@ -87,9 +87,12 @@
     <Compile Include="Effects\RgNukeLaunch.cs" />
     <Compile Include="Generics\RgGenericSelectTargetWithBuilding.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="Support\Bytes.cs" />
+    <Compile Include="Support\Extensions.cs" />
+    <Compile Include="Support\RSACrypt.cs" />
     <Compile Include="Traits\Abilities\RgPlaceMineAbility.cs" />
     <Compile Include="Traits\Abilities\RgNukeBeacon.cs" />
-    <Compile Include="Traits\RgUniqueId.cs" />
+    <Compile Include="Traits\RgPlayerSerial.cs" />
     <Compile Include="Traits\Inventory\InvArmor.cs" />
     <Compile Include="Traits\Inventory\InvMine.cs" />
     <Compile Include="Traits\RgIndestructible.cs" />

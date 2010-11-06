@@ -68,14 +68,14 @@ namespace OpenRg.Kane
 		public StoredUser GetUser(Player player)
 		{
 			var entry = 
-				Users.Where(u => u.Key == player.PlayerName + "@" + player.PlayerActor.TraitOrDefault<RgUniqueId>().Serial).
+				Users.Where(u => u.Key == player.PlayerName + "@" + player.PlayerActor.TraitOrDefault<RgPlayerSerial>().Serial).
 					SingleOrDefault();
 			if (entry == null)
 			{
 				entry = new StoredUser();
-				entry.Key = player.PlayerName + "@" + player.PlayerActor.TraitOrDefault<RgUniqueId>().Serial;
+				entry.Key = player.PlayerName + "@" + player.PlayerActor.TraitOrDefault<RgPlayerSerial>().Serial;
 				entry.Nickname = player.PlayerName;
-				entry.Serial = player.PlayerActor.TraitOrDefault<RgUniqueId>().Serial;
+				entry.Serial = player.PlayerActor.TraitOrDefault<RgPlayerSerial>().Serial;
 				Users.Add(entry);
 			}
 			return entry;
