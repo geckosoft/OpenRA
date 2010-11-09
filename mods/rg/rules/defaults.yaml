@@ -134,6 +134,8 @@
 		Type: None
 	RevealsShroud:
 		Range: 8
+	RGRevealsShroud:
+		Range: 8
 	Mobile:
 		Crushes: crate, atmine, apmine
 		TerrainSpeeds:

@@ -295,6 +295,8 @@ GDI_SNIPER_1:
 	-RevealsShroud:
 	RevealsShroud:
 		Range: 20
+	RGRevealsShroud:
+		Range: 20
 	AttackFrontal:
 		PrimaryWeapon: RgSniperBasic
 #		FireDelay: 15
@@ -334,6 +336,8 @@ NOD_SNIPER_1:
 		HP: 150
 	-RevealsShroud:
 	RevealsShroud:
+		Range: 20
+	RGRevealsShroud:
 		Range: 20
 	AttackFrontal:
 		PrimaryWeapon: RgSniperBasic
@@ -403,6 +407,8 @@ GDI_ENGINEER:
 		Speed: 4
 	RevealsShroud:
 		Range: 6
+	RGRevealsShroud:
+		Range: 6
 	Passenger:
 		PipType: Yellow
 	AttackFrontal:
@@ -435,6 +441,8 @@ NOD_ENGINEER:
 		Speed: 4
 	RevealsShroud:
 		Range: 6
+	RGRevealsShroud:
+		Range: 6
 	Passenger:
 		PipType: Yellow
 	AttackFrontal:
@@ -466,6 +474,8 @@ GDI_HOTWIRE:
 	Mobile:
 		Speed: 4
 	RevealsShroud:
+		Range: 6
+	RGRevealsShroud:
 		Range: 6
 	Passenger:
 		PipType: Yellow
@@ -512,6 +522,8 @@ NOD_TECHNICIAN:
 	Mobile:
 		Speed: 4
 	RevealsShroud:
+		Range: 6
+	RGRevealsShroud:
 		Range: 6
 	Passenger:
 		PipType: Yellow
