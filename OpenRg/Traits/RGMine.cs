@@ -3,6 +3,7 @@ using OpenRA;
 using OpenRA.Mods.RA;
 using OpenRA.Mods.RA.Activities;
 using OpenRA.Traits;
+using OpenRg.Activities;
 
 namespace OpenRg.Traits
 {
@@ -28,7 +29,6 @@ namespace OpenRg.Traits
 			Self = init.self;
 			Info = info;
 			Location = init.Get<LocationInit, int2>();
-			Self.World.WorldActor.Trait<UnitInfluence>().Add(Self, this);
 		}
 
 		public void OnCrush(Actor crusher)
@@ -39,7 +39,7 @@ namespace OpenRg.Traits
 				return;
 
 			Combat.DoExplosion(Self, Info.Weapon, crusher.CenterLocation, 0);
-			Self.QueueActivity(new RemoveSelf());
+			Self.QueueActivity(new RGRemoveSelf());
 		}
 
 		// TODO: Re-implement friendly-mine avoidance

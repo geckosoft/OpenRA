@@ -4,6 +4,7 @@ using OpenRA.Mods.RA;
 using OpenRA.Mods.RA.Activities;
 using OpenRA.Mods.RA.Air;
 using OpenRA.Traits;
+using OpenRg.Activities;
 using OpenRg.Effects;
 
 namespace OpenRg.Traits
@@ -73,13 +74,13 @@ namespace OpenRg.Traits
 		{
 			self.CancelActivity();
 			self.QueueActivity(new FlyOffMap { Interruptible = false });
-			self.QueueActivity(new RemoveSelf());
+			self.QueueActivity(new RGRemoveSelf());
 
 			if (_flare != null)
 			{
 				_flare.CancelActivity();
 				_flare.QueueActivity(new Wait(300));
-				_flare.QueueActivity(new RemoveSelf());
+				_flare.QueueActivity(new RGRemoveSelf());
 			}
 		}
 	}
