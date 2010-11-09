@@ -60,7 +60,7 @@ Players:
 		DefaultStartingUnits: False
 		AllowBots: True
 		LockRace: True
-		Race: gdi
+		Race: neutral
 		LockColor: False
 		Color: 255,238,238,238
 		Color2: 255,44,28,24
