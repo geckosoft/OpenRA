@@ -202,29 +202,6 @@ namespace OpenRg.Widgets.Delegates
 			return (CountPlayers("gdi") > CountPlayers("nod")) ? "nod" : "gdi";
 		}
 
-		private void UpdatePlayerColor(float hf, float sf, float lf, float r)
-		{
-			Color c1 = PlayerColorRemap.ColorFromHSL(hf, sf, lf);
-			Color c2 = PlayerColorRemap.ColorFromHSL(hf, sf, r*lf);
-
-			Game.Settings.Player.Color1 = c1;
-			Game.Settings.Player.Color2 = c2;
-			Game.Settings.Save();
-			orderManager.IssueOrder(Order.Command("color {0},{1},{2},{3},{4},{5}".F(c1.R, c1.G, c1.B, c2.R, c2.G, c2.B)));
-		}
-
-		private void UpdateColorPreview(float hf, float sf, float lf, float r)
-		{
-			CurrentColorPreview1 = PlayerColorRemap.ColorFromHSL(hf, sf, lf);
-			CurrentColorPreview2 = PlayerColorRemap.ColorFromHSL(hf, sf, r*lf);
-		}
-
-		/*
-		int CountPlayerSlots()
-		{
-			//return orderManager.LobbyInfo.Slots.Where(a => a.Index)
-		}*/
-
 		private void UpdateCurrentMap()
 		{
 			if (MapUid == orderManager.LobbyInfo.GlobalSettings.Map) return;
@@ -244,8 +221,8 @@ namespace OpenRg.Widgets.Delegates
 			if (orderManager.LocalClient.Name != Game.Settings.Player.Name)
 				orderManager.IssueOrder(Order.Command("name " + Game.Settings.Player.Name));
 
-			Color c1 = Game.Settings.Player.Color1;
-			Color c2 = Game.Settings.Player.Color2;
+			//Color c1 = Game.Settings.Player.Color1;
+			//Color c2 = Game.Settings.Player.Color2;
 
 			//if (orderManager.LocalClient.Color1 != c1 || orderManager.LocalClient.Color2 != c2)
 			//	orderManager.IssueOrder(Order.Command("color {0},{1},{2},{3},{4},{5}".F(c1.R, c1.G, c1.B, c2.R, c2.G, c2.B)));
