@@ -217,6 +217,6 @@
 		<image name="sniper" x="0" y="0" width="2048" height="2048" />
 	</collection>
 	<collection name="" src="visors.png">
-		<image name="" x="0" y="0" width="2048" height="2048" />
+		<image name="" x="0" y="0" width="1" height="1" />
 	</collection>
 </chrome>
