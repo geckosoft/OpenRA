@@ -41,7 +41,7 @@ namespace OpenRg.Traits
 				if ((attacker.Owner.Stances[Self.Owner] == Stance.Ally && Self != attacker) && (warhead.Damage > 0))
 					return 0;
 
-				if (warhead.Damage < 0 && Self == attacker)
+				if (warhead != null && warhead.Damage < 0 && Self == attacker)
 				{
 					return 0; // Cannot heal self! // TODO move to its own trait!
 				}
