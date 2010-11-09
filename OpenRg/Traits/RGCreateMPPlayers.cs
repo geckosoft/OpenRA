@@ -82,6 +82,9 @@ namespace OpenRg.Traits
 		{
 			if (p == q) return Stance.Ally;
 
+			if (p.PlayerRef.Race == "neutral" || q.PlayerRef.Race == "neutral")
+				return Stance.Neutral;
+
 			if (p.Country.Race == q.Country.Race)
 				return Stance.Ally;
 			if (p.Country.Race != q.Country.Race && p.InternalName != "Neutral" && q.InternalName != "Neutral")
