@@ -79,6 +79,7 @@
     <Compile Include="Activities\RGPlaceIonBeacon.cs" />
     <Compile Include="Activities\RGPlaceMine.cs" />
     <Compile Include="Activities\RGPlaceNukeBeacon.cs" />
+    <Compile Include="Activities\RGRemoveSelf.cs" />
     <Compile Include="Effects\Projectiles\RGHealZap.cs" />
     <Compile Include="Effects\RGFakeParachute.cs" />
     <Compile Include="Effects\RGIonCannon.cs" />
