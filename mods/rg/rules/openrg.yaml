@@ -789,6 +789,8 @@ HAND_DESTROYED:
 		HasMakeAnimation: false
 		
 CRATE_SPAWN:
+	Tooltip:
+		Name: (Crate Spawn)
 	InvisibleToOthers:
 	RGIndestructible:
 	Building:
@@ -798,9 +800,9 @@ CRATE_SPAWN:
 		BaseNormal: no
 #	Selectable:
 #		Priority: 1
-#	RenderBuildingWall:
-#		HasMakeAnimation: false
-#		Palette: terrain
+	RenderBuildingWall:
+		HasMakeAnimation: false
+		Palette: terrain
 
 		
 WEAP_DESTROYED:

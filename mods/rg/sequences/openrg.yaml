@@ -1134,3 +1134,7 @@ gdi_medium_tank:
 	turret:mtnk
 		Start: 32
 		Facings: 32
+		
+CRATE_SPAWN:
+	idle: wcrate
+		Start: 0
