@@ -32,7 +32,7 @@ Player:
 #		UnitType: a10
 	PowerManager:	
 	PlayerResources:
-		InitialCash: 300
+		InitialCash: 500
 		AdviceInterval: 1000
 #	RGPlayerResources:
 #		InitialCash: 1000
