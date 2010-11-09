@@ -1,0 +1,1 @@
+Use the /ext folder to add asset packs

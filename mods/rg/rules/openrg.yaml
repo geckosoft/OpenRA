@@ -1,0 +1,1260 @@
+## INFANTRY
+SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Soldier
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nobody
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackFrontal:
+		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None
+
+GDI_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Soldier
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackFrontal:
+		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None
+	
+NOD_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Soldier
+		Description: General-purpose infantry.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e1icnh
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackFrontal:
+		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None
+		
+GDI_GRENADIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Grenadier
+		Description: Infantry armed with grenades. \n  Strong vs Buildings, Infantry\n  Weak vs Vehicles
+		Icon: e2icnh
+	Buildable:
+		BuildPaletteOrder: 40
+#		Prerequisites: hq
+		Owner: gdi
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 100
+	AttackFrontal:
+		PrimaryWeapon: RgGrenade
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 15
+#	TakeCover:	
+#	TakeCover:	
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+NOD_FLAMETHROWER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Flamethrower
+		Description: Advanced Anti-infantry unit.\n  Strong vs Infantry, Buildings\n  Weak vs Vehicles
+		Icon: e4icnh
+	Buildable:
+		BuildPaletteOrder: 40
+		Owner: nod
+#		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 90
+	AttackFrontal:
+		PrimaryWeapon: RgFlamethrower
+		PrimaryOffset: 0,0,0,-5
+		FireDelay: 3
+#	TakeCover:
+	-RenderInfantry:
+	RenderInfantry:
+	WithMuzzleFlash:
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+NOD_CHEM_WARRIOR:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 150
+	Tooltip:
+		Name: Chem Warrior
+		Description: Advanced Anti-infantry unit.\n  Strong vs Infantry\n  Weak vs Vehicles
+		Icon: e5icnh
+	Buildable:
+		BuildPaletteOrder: 50
+		Owner: nod
+# Requires the HAND (not the 'destroyed' HAND)
+		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 150
+	AttackFrontal:
+		PrimaryWeapon: RgChemspray
+		PrimaryOffset: 0,0,0,-5
+		FireDelay: 3
+#	TakeCover:
+	RenderInfantry:
+	WithMuzzleFlash:
+	-PoisonedByTiberium:
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+
+GDI_ROCKET_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 225
+	Tooltip:
+		Name: Rocket Officer
+		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Icon: e3icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: gdi
+		Prerequisites: pyle
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 3
+	Health:
+		HP: 150
+	AttackFrontal:
+		PrimaryWeapon: RgRocketLauncher
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 5
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2
+		
+
+NOD_ROCKET_SOLDIER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 225
+	Tooltip:
+		Name: Rocket Officer
+		Description: Anti-tank/Anti-aircraft infantry. \n  Strong vs Tanks, Aircraft\n  Weak vs Infantry
+		Icon: e3icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: nod
+		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 3
+	Health:
+		HP: 150
+	AttackFrontal:
+		PrimaryWeapon: RgRocketLauncher
+		PrimaryOffset: 0,0,0,-10
+		FireDelay: 5
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2
+
+NOD_NUKE_BEACON:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Nuke Beacon
+		Description: Buys a Nuke Beacon.\n Place on structures to launch a nuke.
+		Icon: atomicnh
+	-Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+		Queue: Defense
+		Prerequisites: tmpl
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 1
+	Health:
+		HP: 1
+#	AttackFrontal:
+#		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+	Armor: 
+		Type: None				
+		
+GDI_ION_BEACON:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: Ion Cannon Beacon
+		Description: Buys an Ion Cannon Beacon.\n Place to launch an Ion Cannon attack.
+		Icon: ionicnh
+	-Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi
+		Queue: Defense
+		Prerequisites: eye
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 1
+	Health:
+		HP: 1
+#	AttackFrontal:
+#		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+	Armor: 
+		Type: None	
+
+GDI_SNIPER_1:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Deadeye
+		Description: Long-distance sniper.\n  Strong vs Infantry\n  Weak vs Heavy Armor
+		Icon: gdi_sniper_1
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: gdi
+		Prerequisites: pyle
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 150
+	-RevealsShroud:
+	RevealsShroud:
+		Range: 20
+	AttackFrontal:
+		PrimaryWeapon: RgSniperBasic
+#		FireDelay: 15
+#	TakeCover:
+	RGIdleAnimation:
+		Animations: idle1,idle2,idle3	
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None	
+	-RenderInfantry:
+	RGRenderInfantry:
+	RGProne:
+		Speed: 0.30
+		DamageTakenModifier: 0.75
+	-RGRenderName:
+	RGRenderName:
+	RGSniperVisor:
+
+NOD_SNIPER_1:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Black Hand Sniper
+		Description: Long-distance sniper.\n  Strong vs Infantry\n  Weak vs Heavy Armor
+		Icon: nod_sniper_1
+	Buildable:
+		BuildPaletteOrder: 10
+		Owner: nod
+		Prerequisites: hand
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 4
+	Health:
+		HP: 150
+	-RevealsShroud:
+	RevealsShroud:
+		Range: 20
+	AttackFrontal:
+		PrimaryWeapon: RgSniperBasic
+#		FireDelay: 15
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3	
+	RGIdleAnimation:
+		Animations: idle1,idle2,idle3	
+	Armor: 
+		Type: None		
+	-RenderInfantry:
+	RGRenderInfantry:
+	RGProne:
+		Speed: 0.30
+		DamageTakenModifier: 0.75
+	-RGRenderName:
+	RGRenderName:
+	RGSniperVisor:
+		
+
+REFILL_INFANTRY:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 50
+	Tooltip:
+		Name: Refill
+		Description: Refills health and ammo.
+		Icon: generic_icon
+	-Buildable:
+	Buildable:
+		BuildPaletteOrder: 1
+		Owner: gdi,nod
+		Queue: Infantry
+	Selectable:
+		Bounds: 12,17,0,-6
+	Mobile:
+		Speed: 1
+	Health:
+		HP: 1
+#	AttackFrontal:
+#		PrimaryWeapon: RgAutoRifle
+#	TakeCover:
+	IdleAnimation:
+		Animations: idle1,idle2,idle3
+	Armor: 
+		Type: None
+		
+
+GDI_ENGINEER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Engineer
+		Description: Repairs nearby buildings and vehicles.\n Slowly heals infantry.\n Can disarm beacons.
+		Icon: e6icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: gdi
+	Selectable:
+		Voice: MedicVoice
+		Bounds: 12,17,0,-9
+	Health:
+		HP: 100
+	Mobile:
+		Speed: 4
+	RevealsShroud:
+		Range: 6
+	Passenger:
+		PipType: Yellow
+	AttackFrontal:
+		PrimaryWeapon: EngineerHeal
+#		SecondaryWeapon: RgWeakAutoRifle
+	IdleAnimation:
+		Animations: idle1,idle2
+	Armor: 
+		Type: None
+	RGDisarmBeacon:
+	RGIsEngineer:
+
+NOD_ENGINEER:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 0
+	Tooltip:
+		Name: Engineer
+		Description: Repairs nearby buildings and vehicles.\n Slowly heals infantry.\n Can disarm beacons.
+		Icon: e6icnh
+	Buildable:
+		BuildPaletteOrder: 20
+		Owner: nod
+	Selectable:
+		Voice: MedicVoice
+		Bounds: 12,17,0,-9
+	Health:
+		HP: 100
+	Mobile:
+		Speed: 4
+	RevealsShroud:
+		Range: 6
+	Passenger:
+		PipType: Yellow
+	AttackFrontal:
+		PrimaryWeapon: EngineerHeal
+#		SecondaryWeapon: RgWeakAutoRifle
+	IdleAnimation:
+		Animations: idle1,idle2
+	Armor: 
+		Type: None
+	RGDisarmBeacon:
+	RGIsEngineer:
+
+GDI_HOTWIRE:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Hotwire
+		Description: Repairs nearby buildings and vehicles.\n Slowly heals infantry.\n Can disarm beacons.\n Can place mines.
+		Icon: generic_icon
+	Buildable:
+		BuildPaletteOrder: 40
+		Owner: gdi
+	Selectable:
+		Voice: CivilianFemaleVoice
+		Bounds: 12,17,0,-9
+	Health:
+		HP: 150
+	Mobile:
+		Speed: 4
+	RevealsShroud:
+		Range: 6
+	Passenger:
+		PipType: Yellow
+	AttackFrontal:
+		PrimaryWeapon: EngineerSuperHeal
+	IdleAnimation:
+		Animations: idle1,idle2
+	Armor: 
+		Type: None
+	RGDisarmBeacon:
+	RGIsEngineer:	
+# Mine test
+	RGInvMine:
+		Max: 5
+		Amount: 5
+	RGPlaceMineAbility:
+		Image: placemine_icon
+		ChargeTime: 0.001
+		Description: Place a mine
+		LongDesc: Places a mine at the current location. Does not stack.
+		BeginChargeSound: 
+		EndChargeSound:
+		SelectTargetSound:
+		LaunchSound:
+		Mine: mine
+		
+
+NOD_TECHNICIAN:
+	Inherits: ^Infantry
+	Valued:
+		Cost: 350
+	Tooltip:
+		Name: Technician
+		Description: Repairs nearby buildings and vehicles.\n Slowly heals infantry.\n Can disarm beacons.\n Can place mines.
+		Icon: generic_icon
+	Buildable:
+		BuildPaletteOrder: 40
+		Owner: nod
+	Selectable:
+		Voice: EngineerVoice
+		Bounds: 12,17,0,-9
+	Health:
+		HP: 150
+	Mobile:
+		Speed: 4
+	RevealsShroud:
+		Range: 6
+	Passenger:
+		PipType: Yellow
+	AttackFrontal:
+		PrimaryWeapon: EngineerSuperHeal
+	IdleAnimation:
+		Animations: idle1,idle2
+	Armor: 
+		Type: None
+	RGDisarmBeacon:
+	RGIsEngineer:	
+# Mine test
+	RGInvMine:
+		Max: 5
+		Amount: 5
+	RGPlaceMineAbility:
+		Image: placemine_icon
+		ChargeTime: 0.001
+		Description: Place a mine
+		LongDesc: Places a mine at the current location. Does not stack.
+		BeginChargeSound: 
+		EndChargeSound:
+		SelectTargetSound:
+		LaunchSound:
+		Mine: mine
+		
+## STRUCTURES
+EYE:
+	Inherits: ^Building
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: Advanced Communications Center
+		Icon: eyeicnh
+		Description: Provides access to the Ion Cannon.\n
+		AlternateName: @Superweapon
+	Buildable:
+		BuildPaletteOrder: 100
+		Prerequisites: hq
+		Owner: gdi
+	Building:
+		Power: 0
+		Footprint: x_ xx
+		Dimensions: 2,2
+		Capturable: false
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	Health:
+		HP: 1000
+	RevealsShroud:
+		Range: 10
+	Bib:
+	ProvidesRadar:
+	IonControl:
+	RGProduction:
+		Produces: Defense
+	RGProductionQueue@Defense:
+		Type: Defense
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 1
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGMustBeDestroyed:
+	RGReplaceActorOnDeath:
+		Actor: eye_destroyed
+	
+TMPL:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Temple of Nod
+		Icon: tmplicnh
+		Description: Place of worship and secret missile silo.\n
+		AlternateName: @Superweapon
+	Buildable:
+		BuildPaletteOrder: 100
+		Prerequisites: hq
+		Owner: nod
+	Building:
+		Power: 0
+		Footprint: ___ xxx xxx
+		Dimensions: 3,3
+		Capturable: false
+	Health:
+		HP: 2000
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 6
+	Bib:
+	NukeSilo:
+		MissileWeapon: atomic
+	RGProduction:
+		Produces: Defense
+	RGProductionQueue@Defense:
+		Type: Defense
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 1
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGReplaceActorOnDeath:
+		Actor: tmpl_destroyed
+		
+EYE_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 1800
+	Tooltip:
+		Name: (destroyed) Advanced Communications Center
+		Icon: eyeicnh
+		Description: Provides access to the Ion Cannon.\n
+		AlternateName: @Superweapon
+	Buildable:
+		BuildPaletteOrder: 100
+		Prerequisites: hq
+		Owner: gdi
+	Building:
+		Power: 0
+		Footprint: x_ xx
+		Dimensions: 2,2
+		Capturable: false
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	Health:
+		HP: 1000
+	RevealsShroud:
+		Range: 10
+	Bib:
+	ProvidesRadar:
+	IonControl:
+	RGAssignUnit:
+	RGIndestructible:
+	RenderBuilding:
+		HasMakeAnimation: false
+	Scale:
+		Value: 2
+	
+TMPL_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: (destroyed) Temple of Nod
+		Icon: tmplicnh
+		Description: Place of worship and secret missile silo.\n
+		AlternateName: @Superweapon
+	Buildable:
+		BuildPaletteOrder: 100
+		Prerequisites: hq
+		Owner: nod
+	Building:
+		Power: 0
+		Footprint: ___ xxx xxx
+		Dimensions: 3,3
+		Capturable: false
+	Health:
+		HP: 2000
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 6
+	Bib:
+	NukeSilo:
+		MissileWeapon: atomic
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGIndestructible:
+	RenderBuilding:
+		HasMakeAnimation: false
+	
+PYLE_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: (destroyed) Barracks
+		Icon: pyleicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: gdi
+	Building:
+		Power: -30
+		Footprint: xx xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 1
+	RevealsShroud:
+		Range: 5
+	Bib:
+#	RallyPoint:
+	Exit@1:
+		SpawnOffset: -10,2
+		ExitCell: 0,1
+	Exit@2:
+		SpawnOffset: 7,7
+		ExitCell: 1,1	
+	RGProduction:		
+		Produces: Infantry
+	RGProductionQueue:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGIndestructible:
+	RenderBuilding:
+		HasMakeAnimation: false
+HAND_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: (destroyed) Hand of Nod
+		Icon: handicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: nod
+	Building:
+		Power: -30
+		Footprint: __ xx xx
+		Dimensions: 2,3
+		Capturable: false
+	Health:
+		HP: 1
+	RevealsShroud:
+		Range: 5
+	Bib:
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RGProduction:
+		Produces: Infantry
+	RGProductionQueue@Infantry:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGIndestructible:	
+	RenderBuilding:
+		HasMakeAnimation: false
+		
+CRATE_SPAWN:
+	InvisibleToOthers:
+	RGIndestructible:
+	Building:
+		Dimensions: 1,1
+		Footprint: _
+		Capturable: false
+		BaseNormal: no
+#	Selectable:
+#		Priority: 1
+#	RenderBuildingWall:
+#		HasMakeAnimation: false
+#		Palette: terrain
+
+		
+WEAP_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: (destroyed) Weapons Factory
+		Icon: weapicnh
+		AlternateName: @Vehicle Production
+		Description: Assembly point for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: gdi
+	Building:
+		Power: -100
+		Footprint: ______ ______ xxxxxx xxxxxx ====== ======
+		Dimensions: 6,6
+		Capturable: false
+	Health:
+		HP: 400
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 4
+	Bib:
+	RenderWarFactory:
+		HasMakeAnimation: false
+	RallyPoint:
+		RallyPoint: 0,8
+	Exit@1:
+		SpawnOffset: -8,-8
+		ExitCell: 0,6
+	Scale:
+		Value: 2
+	RGProduction:
+		Produces: Vehicle
+	RGProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.000001
+	RGIndestructible:
+	-RenderBuilding:	
+		
+AFLD_DESTROYED:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: (destroyed) Airstrip
+		Icon: afldicnh
+		AlternateName: @Vehicle Production
+		Description: Provides a dropzone for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: nod
+	Building:
+		Power: -100
+		Footprint: xxxx xxxx
+		Dimensions: 4,2
+		Capturable: false
+	Health:
+		HP: 1000
+	Armor: 
+		Type: Heavy
+	RevealsShroud:
+		Range: 7
+	Bib:
+	RallyPoint:
+		RallyPoint: 4,2
+	BelowUnits:
+	Exit@1:
+		SpawnOffset: -24,0
+		ExitCell: 3,1
+	RGProduction:
+		Produces: Vehicle
+	RGProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	Scale:
+		Value: 2
+	RGIndestructible:	
+	RenderBuilding:
+		HasMakeAnimation: false
+
+PYLE:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Barracks
+		Icon: pyleicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: gdi
+	Building:
+		Power: 0
+		Footprint: xx xx
+		Dimensions: 2,2
+		Capturable: false
+	Health:
+		HP: 800
+	RevealsShroud:
+		Range: 5
+	Bib:
+#	RallyPoint:
+	Exit@1:
+		SpawnOffset: -10,2
+		ExitCell: 0,1
+	Exit@2:
+		SpawnOffset: 7,7
+		ExitCell: 1,1	
+	RGProduction:		
+		Produces: Infantry
+	RGProductionQueue:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGReplaceActorOnDeath:
+		Actor: pyle_destroyed
+	RGMustBeDestroyed
+HAND:
+	Inherits: ^Building
+	Valued:
+		Cost: 300
+	Tooltip:
+		Name: Hand of Nod
+		Icon: handicnh
+		Description: Trains infantry
+		AlternateName: @Barracks
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: nuke
+		Owner: nod
+	Building:
+		Power: 0
+		Footprint: __ xx xx
+		Dimensions: 2,3
+		Capturable: false
+	Health:
+		HP: 800
+	RevealsShroud:
+		Range: 5
+	Bib:
+	RallyPoint:
+	Exit@1:
+		SpawnOffset: 12,24
+		ExitCell: 1,2
+	RGProduction:
+		Produces: Infantry
+	RGProductionQueue@Infantry:
+		Type: Infantry
+		BuildSpeed: 0.000001
+		LowPowerSlowdown: 3
+	RGAssignUnit:
+	Scale:
+		Value: 2
+	RGReplaceActorOnDeath:
+		Actor: hand_destroyed
+	RGMustBeDestroyed
+	
+AFLD:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Airstrip
+		Icon: afldicnh
+		AlternateName: @Vehicle Production
+		Description: Provides a dropzone for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: nod
+	Building:
+		Power: -30
+		Footprint: ________ xxx_____ xxx_____ ________
+		Dimensions: 8,4
+		Capturable: false
+	Health:
+		HP: 1000
+	Armor: 
+		Type: Heavy
+	RevealsShroud:
+		Range: 7
+	Bib:
+	RallyPoint:
+		RallyPoint: 7,6
+	BelowUnits:
+	Exit@1:
+		SpawnOffset: -24,0
+		ExitCell: 6,2
+	ProductionAirdrop:
+		Produces: Vehicle
+	ProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.02
+		LowPowerSlowdown: 2
+	RGProduction:
+		Produces: Vehicle
+	RGProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.1
+		LowPowerSlowdown: 2
+	Scale:
+		Value: 2
+	RGReplaceActorOnDeath:
+		Actor: afld_destroyed
+	RGMustBeDestroyed
+
+WEAP:
+	Inherits: ^Building
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: Weapons Factory
+		Icon: weapicnh
+		AlternateName: @Vehicle Production
+		Description: Assembly point for vehicle reinforcements
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: proc
+		Owner: gdi
+	Building:
+		Power: -30
+		Footprint: ______ ______ xxxxxx xxxxxx ====== ======
+		Dimensions: 6,6
+		Capturable: false
+	Health:
+		HP: 400
+	Armor: 
+		Type: Light
+	RevealsShroud:
+		Range: 4
+	Bib:
+	-RenderBuilding:
+	RenderWarFactory:
+	RallyPoint:
+		RallyPoint: 0,8
+	Exit@1:
+		SpawnOffset: -8,-8
+		ExitCell: 0,6
+	Scale:
+		Value: 2
+	RGProduction:
+		Produces: Vehicle
+	RGProductionQueue@Vehicle:
+		Type: Vehicle
+		BuildSpeed: 0.1
+		LowPowerSlowdown: 2
+	RGReplaceActorOnDeath:
+		Actor: weap_destroyed
+	RGMustBeDestroyed
+
+# VEHICLES
+		
+GDI_APC:
+	Inherits: ^SteerableTank
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Armored Personnel Carrier
+		Icon: apcicnh
+		Description: Tough infantry transport.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Aircraft
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: weap
+		Owner: gdi
+	Mobile:
+		ROT: 6
+		Speed: 8 
+	Health:
+		HP: 300
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8
+	AttackFrontal:
+		PrimaryWeapon: RgMachineGun
+		PrimaryOffset: 0,0,0,-4
+		MuzzleFlash: yes
+	RenderUnit:
+	WithMuzzleFlash:
+#	AutoTarget:
+#	Cargo:
+#		Types: Infantry
+#		Passengers: 5
+#		UnloadFacing: 220
+	RGSteerable:
+		Passengers: 5
+		
+	
+NOD_APC:
+	Inherits: ^SteerableTank
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: Armored Personnel Carrier
+		Icon: apcicnh
+		Description: Tough infantry transport.\n  Strong vs Infantry, Light Vehicles\n  Weak vs Tanks, Aircraft
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: afld
+		Owner: nod
+	Mobile:
+		ROT: 8
+		Speed: 8 
+	Health:
+		HP: 300
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8
+	AttackFrontal:
+		PrimaryWeapon: RgMachineGun
+		PrimaryOffset: 0,0,0,-4
+		MuzzleFlash: yes
+	RenderUnit:
+	WithMuzzleFlash:
+#	AutoTarget:
+#	Cargo:
+#		Types: Infantry
+#		Passengers: 5
+#		UnloadFacing: 220
+	RGSteerable:
+		Passengers: 5
+	Scale:
+		Value: 1.25
+		
+		
+NOD_STEALTH_TANK:
+	Inherits: ^SteerableTank
+	Valued:
+		Cost: 900
+	Tooltip:
+		Name: Stealth Tank
+		Icon: stnkicnh
+		Description: Missile tank that can bend light around \nitself to become invisible\n  Strong vs Infantry, Aircraft\n  Weak vs Tanks
+	Buildable:
+		BuildPaletteOrder: 90
+		Prerequisites: afld
+		Owner: nod
+	Mobile:
+		Speed: 10
+	Health:
+		HP: 200
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 10
+	Cloak:
+		InitialDelay: 0
+# was 2.0
+		CloakDelay: 4.0
+		CloakSound: appear1.aud
+		UncloakSound: appear1.aud
+	AttackFrontal:
+		PrimaryWeapon: RgStealth227mm
+	RenderUnit:
+#	AutoTarget:
+
+GDI_ARTILLERY:
+	Inherits: ^SteerableTank
+	Valued:
+		Cost: 450
+	Tooltip:
+		Name: Mobile Rocket Launcher
+		Icon: mlrsicnh
+		Description: Long range artillery.\n  Strong vs Infantry, Aircraft\n  Weak vs Tanks, Aircraft
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: weap
+		Owner: gdi
+	Mobile:
+		Speed: 6
+	Health:
+		HP: 200
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 10
+	Turreted:
+		ROT: 5
+	AttackTurreted:
+		PrimaryWeapon: RgGDIArtillery
+		SecondaryWeapon: RgGDIArtillery
+		PrimaryOffset: 0,3,0,-3
+		PrimaryLocalOffset: -4,0,0
+		SecondaryLocalOffset: 4,0,0
+		Recoil: 0
+		AlignIdleTurrets: true
+	RenderUnitTurretedAim:
+	Explodes:
+#	AutoTarget:
+#	LeavesHusk: 
+#		HuskActor: MLRS.Husk
+
+NOD_ARTILLERY:
+	Inherits: ^SteerableTank
+	Valued:
+		Cost: 450
+	Tooltip:
+		Name: Mobile Artillery
+		Icon:artyicnh
+		Description: Long-range artillery.\n  Strong vs Infantry, Buildings\n  Weak vs Tanks, Aircraft
+	Buildable:
+		BuildPaletteOrder: 40
+		Prerequisites: afld
+		Owner: nod
+	Mobile:
+		ROT: 2
+		Speed: 7
+	Health:
+		HP: 200
+	Armor:
+		Type: Light
+	RevealsShroud:
+		Range: 10
+	AttackFrontal:
+		PrimaryWeapon: RgNODArtillery
+	RenderUnit:
+	Explodes:
+
+GDI_MEDIUM_TANK:
+	Inherits: ^SteerableTank
+	Valued:
+		Cost: 800
+	Tooltip:
+		Name: Medium Tank
+		Icon: mtnkicnh
+		Description: General-Purpose GDI Tank.\n  Strong vs Tanks, Light Vehicles\n  Weak vs Infantry, Aircraft
+	Buildable:
+		BuildPaletteOrder: 60
+		Prerequisites: weap
+		Owner: gdi
+	Mobile:
+		Speed: 9
+	Health:
+		HP: 400
+	Armor:
+		Type: Heavy
+	RevealsShroud:
+		Range: 8
+	Turreted:
+		ROT: 5
+	AttackTurreted:
+		PrimaryWeapon: RgMediumTankBullet
+		Recoil: 3
+	RenderUnitTurreted:
+#AutoTarget:
+#	LeavesHusk: 
+#		HuskActor: MTNK.Husk
+	Explodes:
+		Weapon: UnitExplodeSmall
+		EmptyWeapon: UnitExplodeSmall
+	Selectable:
+		Bounds: 34,34
