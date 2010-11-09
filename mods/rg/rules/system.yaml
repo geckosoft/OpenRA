@@ -80,7 +80,7 @@ Player:
 	RGInvNukeBeacon:
 #	RGUniqueId:
 	RGWorldGameOver:
-		Delay: 15
+		Delay: 60
 		ReturnToLobby: yes
 		EndMessage: The game will end in {0} seconds.
 	
