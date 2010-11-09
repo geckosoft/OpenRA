@@ -18,24 +18,26 @@ namespace OpenRg.Activities
 			if (IsCanceled) return NextActivity;
 			if (transport == null || !transport.IsInWorld) return NextActivity;
 
+			var rgplayer = (RGPlayer) self;
+
 			var cargo = transport.Trait<RGSteerable>();
-			if (cargo.IsFull(transport))
+			if (rgplayer == null || cargo.IsFull(transport) || (!cargo.IsEmpty(transport) && transport.Owner != rgplayer.Faction))
 				return NextActivity;
 
-
-			// Todo: Queue a move order to the transport? need to be
-			// careful about units that can't path to the transport
 			if ((transport.Location - self.Location).Length > 2)
 				return NextActivity;
 
 			cargo.Load(transport, self);
 
-			/* tell the player that his avatar is now inside a steerable */
-			var rgplayer = (RGPlayer) self;
-			if (rgplayer != null)
+			// Update ownership of the vehicle
+			if (transport.Owner != rgplayer.Faction)
 			{
-				rgplayer.Container = transport;
+				RGUtil.SetOwner(transport, rgplayer.Faction);
 			}
+
+			/* tell the player that his avatar is now inside a steerable */
+			rgplayer.Container = transport;
+
 			self.World.AddFrameEndTask(w => w.Remove(self));
 
 			return this;
