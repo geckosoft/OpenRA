@@ -277,7 +277,7 @@ namespace OpenRg.Widgets.Delegates
 				Session.Client c = GetClientInSlot(s);
 				Widget template;
 
-				if (c != null && c.Index == orderManager.LocalClient.Index && c.State != Session.ClientState.Ready)
+				if (c != null && c.Index == orderManager.LocalClient.Index)// && c.State != Session.ClientState.Ready)
 				{
 					template = LocalPlayerTemplate.Clone();
 					var name = template.GetWidget<TextFieldWidget>("NAME");
@@ -320,7 +320,8 @@ namespace OpenRg.Widgets.Delegates
 							return "Spectator";
 					                      		if (c.Country.ToLower() == "random" && orderManager.LobbyInfo.Clients.Count > 0)
 					                      		{
-					                      			orderManager.IssueOrder(Order.Command("race " + PickRace()));
+					                      			c.Country = PickRace();
+													orderManager.IssueOrder(Order.Command("race " + c.Country));
 					                      		}
 					                      		return CountryNames[c.Country];
 					                      	};
