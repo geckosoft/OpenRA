@@ -19,7 +19,7 @@ namespace OpenRg.Traits
 		{
 			var modifier = 1f;
 
-			if (attacker.TraitsImplementing<RGSniperVisor>().Any() && !attacker.TraitsImplementing<RGSniperVisor>().Where(t => t.Enabled).Any())
+			if (!attacker.Destroyed && attacker.TraitsImplementing<RGSniperVisor>().Any() && !attacker.TraitsImplementing<RGSniperVisor>().Where(t => t.Enabled).Any())
 			{
 				// has a sniper visor AND is not enabled (ie not prone)
 				modifier *= 0.25f; // Only 25% damage when not prone with the sniper
