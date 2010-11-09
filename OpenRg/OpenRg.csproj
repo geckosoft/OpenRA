@@ -99,6 +99,7 @@
     <Compile Include="Traits\Abilities\RGNukeBeacon.cs" />
     <Compile Include="Traits\Abilities\RGPlaceMineAbility.cs" />
     <Compile Include="Traits\RGDamageRules.cs" />
+    <Compile Include="Traits\RGInvisible.cs" />
     <Compile Include="Traits\RGSniperVisor.cs" />
     <Compile Include="Traits\Inventory\RGInventory.cs" />
     <Compile Include="Traits\Inventory\RGInventoryItem.cs" />
