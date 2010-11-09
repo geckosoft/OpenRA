@@ -41,7 +41,7 @@ namespace OpenRg.Traits
 					!p.Value.NonCombatant && !p.Value.PlayerRef.OwnsWorld && p.Value != self.Owner &&
 					p.Value.Stances[self.Owner] == Stance.Enemy);
 
-			if (others.All(p => p.Value.WinState == WinState.Lost) && (others.Count() > 0) || (others.Count() == 0 && !Debugger.IsAttached))
+			if (others.All(p => p.Value.WinState == WinState.Lost) && (others.Count() > 0) || (others.Count() == 0))// && !Debugger.IsAttached))
 				Win(self);
 		}
 
