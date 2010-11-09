@@ -54,10 +54,5 @@ namespace OpenRg.Traits.System
 					})));
 			return;
 		}
-
-		public IEnumerable<Renderable> ModifyRender(Actor self, IEnumerable<Renderable> r)
-		{
-			yield break;
-		}
 	}
 }

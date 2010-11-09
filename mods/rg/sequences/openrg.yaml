@@ -1064,14 +1064,6 @@ pyle_destroyed:
 		Start: 0
 		Length: *
 
-crate_spawn:
-	idle:wood
-		Start: 0
-		Length: 16
-	damaged-idle:wood
-		Start: 16
-		Length: 16
-
 # VEHICLES
 
 gdi_apc:
@@ -1135,6 +1127,6 @@ gdi_medium_tank:
 		Start: 32
 		Facings: 32
 		
-CRATE_SPAWN:
+crate_spawn:
 	idle: wcrate
 		Start: 0

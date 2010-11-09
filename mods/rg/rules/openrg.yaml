@@ -791,7 +791,7 @@ HAND_DESTROYED:
 CRATE_SPAWN:
 	Tooltip:
 		Name: (Crate Spawn)
-	InvisibleToOthers:
+	RGInvisible:
 	RGIndestructible:
 	Building:
 		Dimensions: 1,1
