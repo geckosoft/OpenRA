@@ -159,7 +159,7 @@ namespace OpenRg.Traits
 						.Select(x => new { Trait = trait, Order = x }))
 					.OrderByDescending(x => x.Order.OrderPriority))
 				{
-					var actorsAt = uim.GetUnitsAt(xy).ToList();
+					var actorsAt = uim.GetUnitsAt(xy).Where(a => !a.Destroyed && a.IsInWorld).ToList();
 
 					string cursor = null;
 					if (underCursor != null)
