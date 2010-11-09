@@ -303,8 +303,6 @@ GDI_SNIPER_1:
 #	TakeCover:
 	RGIdleAnimation:
 		Animations: idle1,idle2,idle3	
-	IdleAnimation:
-		Animations: idle1,idle2,idle3	
 	Armor: 
 		Type: None	
 	-RenderInfantry:
@@ -343,8 +341,6 @@ NOD_SNIPER_1:
 		PrimaryWeapon: RgSniperBasic
 #		FireDelay: 15
 #	TakeCover:
-	IdleAnimation:
-		Animations: idle1,idle2,idle3	
 	RGIdleAnimation:
 		Animations: idle1,idle2,idle3	
 	Armor: 
@@ -515,7 +511,7 @@ NOD_TECHNICIAN:
 		BuildPaletteOrder: 40
 		Owner: nod
 	Selectable:
-		Voice: EngineerVoice
+		Voice: MedicVoice
 		Bounds: 12,17,0,-9
 	Health:
 		HP: 150
