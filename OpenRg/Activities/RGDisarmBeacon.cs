@@ -51,7 +51,7 @@ namespace OpenRg.Activities
 
 			if (ticks%(ulong) self.Info.Traits.GetOrDefault<RGDisarmBeaconInfo>().DisarmSpeed == 0)
 			{
-				target.Actor.TraitsImplementing<IRGBeaconTarget>().Where(bt => bt.TicksBeforeLaunch == 0).First().DoDisarm(self.Owner,
+				target.Actor.TraitsImplementing<IRGBeaconTarget>().Where(bt => bt.TicksBeforeLaunch > 0).First().DoDisarm(self.Owner,
 				                                                       self.Info.Traits.GetOrDefault<RGDisarmBeaconInfo>().
 				                                                       	ProgressPerDisarm);
 			}
