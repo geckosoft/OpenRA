@@ -38,7 +38,7 @@ namespace OpenRg.Traits
 			var size = Game.Renderer.BoldFont.Measure(toRender);
 			var dist = xy.X - xY.X;
 
-			var loc = new float2(xY.X + dist / 2 - size.X / 2, xy.Y - size.Y);
+			var loc = new float2(xY.X + dist / 2 - size.X / 2, xy.Y - size.Y - 4);
 			var color = Color.Red;
 			if (self.Owner.Country.Race.ToLower() == "gdi")
 				color = Color.Yellow;
