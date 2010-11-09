@@ -78,6 +78,9 @@ namespace OpenRA.Editor
 		}
 
 		static readonly Pen CordonPen = new Pen(Color.Red);
+		static readonly Brush CordonTextBrush = new SolidBrush(Color.White);
+		static readonly Brush CordonTextBrushShadow = new SolidBrush(Color.Black);
+		static readonly Font CordonTextFont = new Font("Verdana", 10, FontStyle.Bold);
 		int2 MousePos;
 
 		public void Scroll(int2 dx)
@@ -462,6 +465,21 @@ namespace OpenRA.Editor
 				t.Bitmap.Width * Zoom, t.Bitmap.Height * Zoom);
 		}
 
+
+		void DrawActorName(System.Drawing.Graphics g, int2 p, ActorTemplate t)
+		{
+			var centered = t.Appearance == null || !t.Appearance.RelativeToTopLeft;
+
+			float OffsetX = centered ? t.Bitmap.Width / 2 - TileSet.TileSize / 2 : 0;
+			float DrawX = TileSet.TileSize * p.X * Zoom + Offset.X - OffsetX;
+
+			float OffsetY = centered ? t.Bitmap.Height / 2 - TileSet.TileSize / 2 : 0;
+			float DrawY = TileSet.TileSize * p.Y * Zoom + Offset.Y - OffsetY;
+
+			g.DrawString(t.Info.Name, CordonTextFont, CordonTextBrushShadow, DrawX + 1, DrawY + 1);
+			g.DrawString(t.Info.Name, CordonTextFont, CordonTextBrush, DrawX, DrawY);
+		}
+
 		ColorPalette GetPaletteForPlayer(string name)
 		{
 			var pr = Map.Players[name];
@@ -544,7 +562,10 @@ namespace OpenRA.Editor
 			{
 				var x = Map.Actors.FirstOrDefault(a => a.Value.Location() == GetBrushLocation());
 				if (x.Key != null)
+				{
 					DrawActorBorder(e.Graphics, x.Value.Location(), ActorTemplates[x.Value.Type]);
+					DrawActorName(e.Graphics, x.Value.Location(), ActorTemplates[x.Value.Type]);
+				}
 			}
 		}
 	}
