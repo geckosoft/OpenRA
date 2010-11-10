@@ -10,9 +10,15 @@ namespace OpenRg
 	{
 		public static void SetOwner(Actor actor, Player owner)
 		{
-			actor.World.Remove(actor);
-			actor.Owner = owner;
-			actor.World.Add(actor);
+			actor.World.AddFrameEndTask(w =>
+			                            {
+			                            	w.Remove(actor);
+			                            	actor.Owner = owner;
+			                            	w.Add(actor);
+			                            }
+				);
+		)
+
 		}
 	}
 }
