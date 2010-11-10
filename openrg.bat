@@ -1,0 +1,1 @@
+OpenRA.Game.exe Game.Mods=rg
