@@ -46,6 +46,11 @@ namespace OpenRA.Mods.RA
 			DoAttack( self, target );
 		}
 
+		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
+		{
+			QueueAttack(self, newTarget);
+		}
+
 		protected override void QueueAttack( Actor self, Target newTarget )
 		{
 			if (self.TraitsImplementing<IDisable>().Any(d => d.Disabled))

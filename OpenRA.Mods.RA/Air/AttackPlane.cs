@@ -28,6 +28,11 @@ namespace OpenRA.Mods.RA.Air
 			self.QueueActivity(new FlyAttack(newTarget));
 		}
 
+		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
+		{
+			QueueAttack(self, newTarget);
+		}
+
 		protected override bool CanAttack(Actor self)
 		{
 			// dont fire while landed
