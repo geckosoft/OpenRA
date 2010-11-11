@@ -154,7 +154,7 @@ namespace OpenRA.Mods.RA
 				if (order.OrderString == "AttackHold")
 					QueueAttack(self, Target.FromOrder(order), false);
 				else
-					QueueAttack(self, Target.FromOrder(order));
+					QueueAttack(self, Target.FromOrder(order), true);
 
 				if (self.Owner == self.World.LocalPlayer)
 					self.World.AddFrameEndTask(w =>
@@ -199,11 +199,6 @@ namespace OpenRA.Mods.RA
 					new Activities.Attack(
 						newTarget,
 						Math.Max(0, (int)weapon.Info.Range), allowMovement));
-		}
-
-		protected virtual void QueueAttack(Actor self, Target newTarget)
-		{
-			QueueAttack(self, newTarget, true);
 		}
 
 		public bool HasAnyValidWeapons(Target t) { return Weapons.Any(w => w.IsValidAgainst(self.World, t)); }

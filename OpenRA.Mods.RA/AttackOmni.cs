@@ -31,18 +31,13 @@ namespace OpenRA.Mods.RA
 			return base.CanAttack( self ) && !isBuilding;
 		}
 
-		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
-		{
-			QueueAttack(self, newTarget);
-		}
-
 		public override void Tick(Actor self)
 		{
 			base.Tick(self);
 			DoAttack(self, target);
 		}
 
-		protected override void QueueAttack(Actor self, Target newTarget)
+		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
 		{
 			target = newTarget;
 		}
