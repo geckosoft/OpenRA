@@ -150,6 +150,18 @@ namespace OpenRA.Mods.RA
 		{
 			bool targetIsActor = target.IsActor;
 
+			// Show feedback (flashes the target or the location)
+			if (self.Owner == self.World.LocalPlayer)
+				self.World.AddFrameEndTask(
+					w =>
+					{
+						if (self.Destroyed) return;
+						if (target.IsValid && target.IsActor)
+							w.Add(new FlashTarget(target.Actor));
+						else if (target.IsValid)
+							w.Add(new MoveFlash(self.World, Util.CellContaining(target.CenterLocation)));
+					});
+
 			var ph = new QueuedActivity(
 				(qa) =>
 				{
@@ -168,8 +180,7 @@ namespace OpenRA.Mods.RA
 						self.World.AddFrameEndTask(w =>
 						{
 							if (self.Destroyed) return;
-							if (target.IsValid && target.IsActor)
-								w.Add(new FlashTarget(target.Actor));
+
 							var line = self.TraitOrDefault<DrawLineToTarget>();
 							if (line != null)
 								line.SetTarget(self, target, Color.Red);

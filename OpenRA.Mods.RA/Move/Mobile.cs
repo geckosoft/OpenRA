@@ -173,6 +173,17 @@ namespace OpenRA.Mods.RA.Move
 
 		protected void PerformMove(Actor self, int2 targetLocation, bool queued)
 		{
+
+			// Show feedback (flashes the target or the location)
+			if (self.Owner == self.World.LocalPlayer)
+				self.World.AddFrameEndTask(
+					w =>
+					{
+						if (self.Destroyed) return;
+
+						w.Add(new MoveFlash(w, targetLocation));
+					});
+
 			var ph = new QueuedActivity(
 				(qa) =>
 				{
@@ -195,7 +206,7 @@ namespace OpenRA.Mods.RA.Move
 							w =>
 							{
 								if (self.Destroyed) return;
-								w.Add(new MoveFlash(self.World, targetLocation));
+
 								var line = self.TraitOrDefault<DrawLineToTarget>();
 								if (line != null)
 									line.SetTarget(self, Target.FromCell(currentLocation),
