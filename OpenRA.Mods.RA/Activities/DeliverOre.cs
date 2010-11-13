@@ -17,7 +17,7 @@ namespace OpenRA.Mods.RA.Activities
 {
 	public class DeliverResources : IActivity
 	{
-		IActivity NextActivity { get; set; }
+		public IActivity NextActivity { get; protected set; }
 
 		bool isDocking;
 

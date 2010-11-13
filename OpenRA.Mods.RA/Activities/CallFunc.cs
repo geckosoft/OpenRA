@@ -25,7 +25,7 @@ namespace OpenRA.Mods.RA.Activities
 		
 		Action a;
 		bool interruptable;
-		IActivity NextActivity { get; set; }
+		public IActivity NextActivity { get; protected set; }
 
 		public IActivity Tick(Actor self)
 		{

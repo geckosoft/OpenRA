@@ -316,6 +316,8 @@ namespace OpenRA.Mods.RA.Move
 			{
 				return move.GetCurrentPath();
 			}
+
+			public virtual IActivity NextActivity { get; protected set; }
 		}
 
 		class MoveFirstHalf : MovePart

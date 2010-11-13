@@ -7,7 +7,7 @@ namespace OpenRA.Traits
 {
 	public abstract class CancelableActivity : IActivity
 	{
-		protected IActivity NextActivity { get; private set; }
+		public IActivity NextActivity { get; private set; }
 		protected bool IsCanceled { get; private set; }
 
 		public abstract IActivity Tick( Actor self );

@@ -200,6 +200,7 @@ namespace OpenRA.Traits
 		void Cancel(Actor self);
 		void Queue(IActivity activity);
 		IEnumerable<float2> GetCurrentPath();
+		IActivity NextActivity { get; }
 	}
 
 	public interface IRenderOverlay { void Render( WorldRenderer wr ); }

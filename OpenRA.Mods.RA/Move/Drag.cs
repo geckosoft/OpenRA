@@ -15,7 +15,7 @@ namespace OpenRA.Mods.RA.Move
 {
 	public class Drag : IActivity
 	{
-		IActivity NextActivity { get; set; }
+		public IActivity NextActivity { get; protected set; }
 
 		int2 endLocation;
 		int2 startLocation;

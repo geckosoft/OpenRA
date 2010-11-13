@@ -15,7 +15,7 @@ namespace OpenRA.Mods.RA.Buildings
 {
 	class Sell : IActivity
 	{
-		IActivity NextActivity { get; set; }
+		public IActivity NextActivity { get; protected set; }
 
 		bool started;
 
