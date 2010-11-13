@@ -44,7 +44,7 @@ namespace OpenRA.Mods.RA
 			{
 				var start = Traits.Util.CellContaining( target.CenterLocation );
 				self.World.OrderGenerator = new MinefieldOrderGenerator( self, start );
-				return new Order( "BeginMinefield", self, start );
+				return new Order( "BeginMinefield", self, start, order.IsQueued );
 			}
 			return null;
 		}

@@ -54,10 +54,10 @@ namespace OpenRA.Mods.RA.Air
 		public Order IssueOrder( Actor self, IOrderTargeter order, Target target )
 		{
 			if( order.OrderID == "Enter" )
-				return new Order( order.OrderID, self, target.Actor );
+				return new Order( order.OrderID, self, target.Actor, order.IsQueued );
 
 			if( order.OrderID == "Move" )
-				return new Order( order.OrderID, self, Util.CellContaining( target.CenterLocation ) );
+				return new Order(order.OrderID, self, Util.CellContaining(target.CenterLocation), order.IsQueued);
 
 			return null;
 		}

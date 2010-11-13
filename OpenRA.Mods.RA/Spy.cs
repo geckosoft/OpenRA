@@ -29,7 +29,7 @@ namespace OpenRA.Mods.RA
 		public Order IssueOrder( Actor self, IOrderTargeter order, Target target )
 		{
 			if( order.OrderID == "SpyInfiltrate" )
-				return new Order( order.OrderID, self, target.Actor );
+				return new Order(order.OrderID, self, target.Actor, order.IsQueued);
 
 			return null;
 		}

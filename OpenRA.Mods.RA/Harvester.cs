@@ -107,10 +107,10 @@ namespace OpenRA.Mods.RA
 		public Order IssueOrder( Actor self, IOrderTargeter order, Target target )
 		{
 			if( order.OrderID == "Deliver" )
-				return new Order( order.OrderID, self, target.Actor );
+				return new Order( order.OrderID, self, target.Actor, order.IsQueued );
 
 			if( order.OrderID == "Harvest" )
-				return new Order( order.OrderID, self, Util.CellContaining( target.CenterLocation ) );
+				return new Order(order.OrderID, self, Util.CellContaining(target.CenterLocation), order.IsQueued);
 
 			return null;
 		}

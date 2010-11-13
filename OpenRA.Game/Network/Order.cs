@@ -37,10 +37,14 @@ namespace OpenRA
 			this.Queued = queued;
 		}
 
-		public Order(string orderString, Actor subject) 
+		public Order(string orderString, Actor subject)
 			: this(orderString, subject, null, int2.Zero, null, false) { }
+		public Order(string orderString, Actor subject, bool queued)
+			: this(orderString, subject, null, int2.Zero, null, queued) { }
 		public Order(string orderString, Actor subject, Actor targetActor)
 			: this(orderString, subject, targetActor, int2.Zero, null, false) { }
+		public Order(string orderString, Actor subject, Actor targetActor, bool queued)
+			: this(orderString, subject, targetActor, int2.Zero, null, queued) { }
 		public Order(string orderString, Actor subject, int2 targetLocation)
 			: this(orderString, subject, null, targetLocation, null, false) { }
 		public Order(string orderString, Actor subject, int2 targetLocation, bool queued)

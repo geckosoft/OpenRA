@@ -59,7 +59,7 @@ namespace OpenRA.Mods.RA
 		public Order IssueOrder( Actor self, IOrderTargeter order, Target target )
 		{
 			if( order.OrderID == "DeployTransform" )
-				return new Order( order.OrderID, self );
+				return new Order( order.OrderID, self, order.IsQueued );
 
 			return null;
 		}

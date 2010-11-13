@@ -51,7 +51,7 @@ namespace OpenRA.Mods.RA
 		public Order IssueOrder( Actor self, IOrderTargeter order, Target target )
 		{
 			if( order.OrderID == "SetRallyPoint" )
-				return new Order( order.OrderID, self, Traits.Util.CellContaining( target.CenterLocation ) );
+				return new Order( order.OrderID, self, Traits.Util.CellContaining( target.CenterLocation ), order.IsQueued );
 
 			return null;
 		}

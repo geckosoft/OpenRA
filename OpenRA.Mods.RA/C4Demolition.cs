@@ -34,7 +34,7 @@ namespace OpenRA.Mods.RA
 		public Order IssueOrder( Actor self, IOrderTargeter order, Target target )
 		{
 			if( order.OrderID == "C4" )
-				return new Order( "C4", self, target.Actor );
+				return new Order("C4", self, target.Actor, order.IsQueued);
 
 			return null;
 		}
