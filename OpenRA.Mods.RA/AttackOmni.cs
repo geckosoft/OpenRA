@@ -8,6 +8,7 @@
  */
 #endregion
 
+using OpenRA.Mods.RA.Activities;
 using OpenRA.Mods.RA.Buildings;
 using OpenRA.Traits;
 
@@ -37,9 +38,9 @@ namespace OpenRA.Mods.RA
 			DoAttack(self, target);
 		}
 
-		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
+		protected override IActivity GetQueuedAttack(Actor self, Target newTarget, bool allowMovement)
 		{
-			target = newTarget;
+			return new QueuedActivity(true,(qa) => target = newTarget);
 		}
 	}
 }

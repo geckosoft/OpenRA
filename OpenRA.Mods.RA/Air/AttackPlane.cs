@@ -22,10 +22,14 @@ namespace OpenRA.Mods.RA.Air
 	{
 		public AttackPlane(Actor self, AttackPlaneInfo info) : base(self, info) { }
 
-		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
+		protected override IActivity GetQueuedAttack(Actor self, Target newTarget, bool allowMovement)
 		{
-			target = newTarget;
-			self.QueueActivity(new FlyAttack(newTarget));
+			return new QueuedActivity(
+				(qa) =>
+				{
+					target = newTarget;
+					qa.Insert(new FlyAttack(newTarget));
+				}, true, true);
 		}
 
 		protected override bool CanAttack(Actor self)

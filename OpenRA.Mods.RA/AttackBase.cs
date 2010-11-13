@@ -15,6 +15,7 @@ using System.Linq;
 using OpenRA.Effects;
 using OpenRA.FileFormats;
 using OpenRA.GameRules;
+using OpenRA.Mods.RA.Activities;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.RA
@@ -145,31 +146,50 @@ namespace OpenRA.Mods.RA
 			return null;
 		}
 
+		protected void PerformAttack(Actor self, Target target, bool hold, bool queued)
+		{
+			bool targetIsActor = target.IsActor;
+
+			var ph = new QueuedActivity(
+				(qa) =>
+				{
+					if (!queued || (targetIsActor && !target.IsValid))
+					{
+						self.CancelActivity();
+
+						// target was an actor, but it isnt valid anymore => cancel the chain
+						if (queued) 
+							return;
+					}
+					
+					qa.Insert(GetQueuedAttack(self, target, !hold));
+
+					if (self.Owner == self.World.LocalPlayer)
+						self.World.AddFrameEndTask(w =>
+						{
+							if (self.Destroyed) return;
+							if (target.IsValid && target.IsActor)
+								w.Add(new FlashTarget(target.Actor));
+							var line = self.TraitOrDefault<DrawLineToTarget>();
+							if (line != null)
+								line.SetTarget(self, target, Color.Red);
+						});
+				});
+
+			self.QueueActivity(queued ? ph : ph.Run(self));
+		}
+
 		public void ResolveOrder(Actor self, Order order)
 		{
 			if (order.OrderString == "Attack" || order.OrderString == "AttackHold")
 			{
-				self.CancelActivity();
-
-				if (order.OrderString == "AttackHold")
-					QueueAttack(self, Target.FromOrder(order), false);
-				else
-					QueueAttack(self, Target.FromOrder(order), true);
-
-				if (self.Owner == self.World.LocalPlayer)
-					self.World.AddFrameEndTask(w =>
-					{
-						if (self.Destroyed) return;
-						if (order.TargetActor != null)
-							w.Add(new FlashTarget(order.TargetActor));
-
-						var line = self.TraitOrDefault<DrawLineToTarget>();
-						if (line != null)
-							if (order.TargetActor != null) line.SetTarget(self, Target.FromOrder(order), Color.Red);
-							else line.SetTarget(self, Target.FromOrder(order), Color.Red);
-					});
+				PerformAttack(self, Target.FromOrder(order), order.OrderString == "AttackHold", order.Queued);
 				return;
 			} // else not an attack order
+
+			// Is a chained event
+			if (order.Queued)
+				return;
 
 			target = Target.None;
 
@@ -183,15 +203,16 @@ namespace OpenRA.Mods.RA
 			return (order.OrderString == "Attack" || order.OrderString == "AttackHold") ? "Attack" : null;
 		}
 
-		protected virtual void QueueAttack(Actor self, Target newTarget, bool allowMovement)
+		protected virtual IActivity GetQueuedAttack(Actor self, Target newTarget, bool allowMovement)
 		{
-			var weapon = ChooseWeaponForTarget(newTarget);
+			return new QueuedActivity(true,
+				(qa) =>
+				{
+					var weapon = ChooseWeaponForTarget(newTarget);
 
-			if (weapon != null)
-				self.QueueActivity(
-					new Activities.Attack(
-						newTarget,
-						Math.Max(0, (int)weapon.Info.Range), allowMovement));
+					if (weapon != null)
+						qa.Insert(new Activities.Attack(newTarget, Math.Max(0, (int) weapon.Info.Range), allowMovement));
+				});
 		}
 
 		public bool HasAnyValidWeapons(Target t) { return Weapons.Any(w => w.IsValidAgainst(self.World, t)); }

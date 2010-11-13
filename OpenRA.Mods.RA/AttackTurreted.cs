@@ -46,21 +46,25 @@ namespace OpenRA.Mods.RA
 			DoAttack( self, target );
 		}
 
-		protected override void QueueAttack(Actor self, Target newTarget, bool allowMovement)
+		protected override IActivity GetQueuedAttack(Actor self, Target newTarget, bool allowMovement)
 		{
-			if (self.TraitsImplementing<IDisable>().Any(d => d.Disabled))
-				return;
-			
-			const int RangeTolerance = 1;	/* how far inside our maximum range we should try to sit */
-			var weapon = ChooseWeaponForTarget(newTarget);
-			if (weapon == null)
-				return;
+			return new QueuedActivity(true,
+					(qa) =>
+					{
+						if (self.TraitsImplementing<IDisable>().Any(d => d.Disabled))
+							return;
 
-			target = newTarget;
+						const int RangeTolerance = 1; /* how far inside our maximum range we should try to sit */
+						var weapon = ChooseWeaponForTarget(newTarget);
+						if (weapon == null)
+							return;
 
-			if (self.HasTrait<Mobile>() && !self.Info.Traits.Get<MobileInfo>().OnRails)
-				self.QueueActivity( new Follow( newTarget,
-					Math.Max( 0, (int)weapon.Info.Range - RangeTolerance ) ) );
+						target = newTarget;
+
+						if (self.HasTrait<Mobile>() && !self.Info.Traits.Get<MobileInfo>().OnRails)
+							qa.Insert(new Follow(newTarget,
+							                     Math.Max(0, (int) weapon.Info.Range - RangeTolerance)));
+					});
 		}
 
 		bool buildComplete = false;
