@@ -202,11 +202,11 @@ namespace OpenRg.Widgets.Delegates
 			return (CountPlayers("gdi") > CountPlayers("nod")) ? "nod" : "gdi";
 		}
 
-		private void UpdateCurrentMap()
+		void UpdateCurrentMap()
 		{
 			if (MapUid == orderManager.LobbyInfo.GlobalSettings.Map) return;
 			MapUid = orderManager.LobbyInfo.GlobalSettings.Map;
-			Map = new Map(Game.modData.AvailableMaps[MapUid].Package);
+			Map = new Map(Game.modData.AvailableMaps[MapUid]);
 
 			var title = Widget.RootWidget.GetWidget<LabelWidget>("LOBBY_TITLE");
 			title.Text = "OpenRg Multiplayer Lobby - " + orderManager.LobbyInfo.GlobalSettings.ServerName;

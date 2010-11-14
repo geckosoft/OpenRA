@@ -17,8 +17,6 @@ namespace OpenRg
 			                            	w.Add(actor);
 			                            }
 				);
-		)
-
 		}
 	}
 }
