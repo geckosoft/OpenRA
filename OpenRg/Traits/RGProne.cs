@@ -58,10 +58,10 @@ namespace OpenRg.Traits
 			get { yield return new DeployOrderTargeter("RGSwitchProne", 5, CanGoProne); }
 		}
 
-		public Order IssueOrder(Actor self, IOrderTargeter order, Target target)
+		public Order IssueOrder(Actor self, IOrderTargeter order, Target target, bool queued)
 		{
 			if (order.OrderID == "RGSwitchProne")
-				return new Order(order.OrderID, self);
+				return new Order(order.OrderID, self, false);
 
 			return null;
 		}

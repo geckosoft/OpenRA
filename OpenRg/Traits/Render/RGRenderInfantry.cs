@@ -25,7 +25,7 @@ namespace OpenRg.Traits.Render
 
 		#region INotifyAttack Members
 
-		public void Attacking(Actor self)
+		public void Attacking(Actor self, Target target)
 		{
 			inAttack = true;
 

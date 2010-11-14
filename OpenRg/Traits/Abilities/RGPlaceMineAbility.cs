@@ -63,7 +63,7 @@ namespace OpenRg.Traits.Abilities
 			var beaconItm = inv.Get<RGInvMine>();
 			if (beaconItm != null && beaconItm.CanTake(1))
 			{
-				Self.World.IssueOrder(new Order("PlaceMine", Self));
+				Self.World.IssueOrder(new Order("PlaceMine", Self, false));
 			}
 		}
 

@@ -28,10 +28,10 @@ namespace OpenRg.Traits
 			get { yield return new DisarmSuperPowerOrderTargeter(); }
 		}
 
-		public Order IssueOrder(Actor self, IOrderTargeter order, Target target)
+		public Order IssueOrder(Actor self, IOrderTargeter order, Target target, bool queued)
 		{
 			if (order.OrderID == "DisarmBeacon")
-				return new Order(order.OrderID, self, target.Actor);
+				return new Order(order.OrderID, self, target.Actor, false);
 
 			return null;
 		}
@@ -81,9 +81,9 @@ namespace OpenRg.Traits
 			{
 			}
 
-			public override bool CanTargetUnit(Actor self, Actor target, bool forceAttack, bool forceMove, ref string cursor)
+			public override bool CanTargetUnit(Actor self, Actor target, bool forceAttack, bool forceMove, bool forceQueue, ref string cursor)
 			{
-				if (!base.CanTargetUnit(self, target, forceAttack, forceMove, ref cursor)) return false;
+				if (!base.CanTargetUnit(self, target, forceAttack, forceMove, forceQueue, ref cursor)) return false;
 
 				if (target.TraitOrDefault<RGIndestructible>() != null) return false; /* dead building */
 				if (!target.TraitsImplementing<IRGBeaconTarget>().Any()) return false; /* not a valid target */

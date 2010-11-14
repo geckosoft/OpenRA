@@ -24,24 +24,28 @@ namespace OpenRg.Traits
 
 		public IEnumerable<Order> Order(World world, int2 xy, MouseInput mi)
 		{
-			Actor underCursor = world.FindUnitsAtMouse(mi.Location)
+			var underCursor = world.FindUnitsAtMouse(mi.Location)
 				.Where(a => a.HasTrait<ITargetable>())
 				.OrderByDescending(
-					a => a.Info.Traits.Contains<SelectableInfo>() ? a.Info.Traits.Get<SelectableInfo>().Priority : int.MinValue)
+					a =>
+					a.Info.Traits.Contains<SelectableInfo>()
+						? a.Info.Traits.Get<SelectableInfo>().Priority
+						: int.MinValue)
 				.FirstOrDefault();
 
-			UnitOrderResult[] orders = world.Selection.Actors
+			var orders = world.Selection.Actors
 				.Select(a => OrderForUnit(a, xy, mi, underCursor))
 				.Where(o => o != null)
 				.ToArray();
 
-			IEnumerable<Actor> actorsInvolved = orders.Select(o => o.self).Distinct();
+			var actorsInvolved = orders.Select(o => o.self).Distinct();
 			if (actorsInvolved.Any())
 				yield return new Order("CreateGroup", actorsInvolved.First().Owner.PlayerActor,
-				                       string.Join(",", actorsInvolved.Select(a => a.ActorID.ToString()).ToArray()));
+									   string.Join(",", actorsInvolved.Select(a => a.ActorID.ToString()).ToArray()), false)
+					;
 
-			foreach (UnitOrderResult o in orders)
-				yield return CheckSameOrder(o.iot, o.trait.IssueOrder(o.self, o.iot, o.target));
+			foreach (var o in orders)
+				yield return CheckSameOrder(o.iot, o.trait.IssueOrder(o.self, o.iot, o.target, mi.Modifiers.HasModifier(Modifiers.Shift)));
 		}
 
 		public void Tick(World world)
@@ -163,9 +167,9 @@ namespace OpenRg.Traits
 
 					string cursor = null;
 					if (underCursor != null)
-						if (o.Order.CanTargetUnit(self, underCursor, forceAttack, mi.Modifiers.HasModifier(Modifiers.Alt), ref cursor))
+						if (o.Order.CanTargetUnit(self, underCursor, forceAttack, mi.Modifiers.HasModifier(Modifiers.Alt), false, ref cursor))
 							return new UnitOrderResult(self, o.Order, o.Trait, cursor, Target.FromActor(underCursor));
-					if (o.Order.CanTargetLocation(self, xy, actorsAt, forceAttack, mi.Modifiers.HasModifier(Modifiers.Alt), ref cursor))
+					if (o.Order.CanTargetLocation(self, xy, actorsAt, forceAttack, mi.Modifiers.HasModifier(Modifiers.Alt), false, ref cursor))
 						return new UnitOrderResult(self, o.Order, o.Trait, cursor, Target.FromCell(xy));
 				}
 			}

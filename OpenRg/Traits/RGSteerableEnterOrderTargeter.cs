@@ -17,9 +17,9 @@ namespace OpenRg.Traits
 			_useEnterCursor = useEnterCursor;
 		}
 
-		public override bool CanTargetUnit(Actor self, Actor target, bool forceAttack, bool forceMove, ref string cursor)
+		public override bool CanTargetUnit(Actor self, Actor target, bool forceAttack, bool forceMove, bool forceQueue, ref string cursor)
 		{
-			if (!base.CanTargetUnit(self, target, forceAttack, forceMove, ref cursor)) return false;
+			if (!base.CanTargetUnit(self, target, forceAttack, forceMove, false, ref cursor)) return false;
 			if (!_canTarget(target)) return false;
 
 			if (self.TraitOrDefault<RGIsEngineer>() != null && forceAttack)
