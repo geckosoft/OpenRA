@@ -263,7 +263,7 @@ Background@SERVER_LOBBY:
 			Visible:true
 			X:80
 			Height:250
-			Y:PARENT_TOP + 30
+			Y:120
 			Width:PARENT_RIGHT - 200
 			Children:				
 				Image@LOGO_GDI
