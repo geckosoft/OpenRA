@@ -53,7 +53,7 @@ namespace OpenRA
 		}
 		
 		string cachedTheatre = null;
-		bool previousMapHadSequences = true;
+		bool previousMapHadSequences = true; // true so it loads them the first time anyhow
 		IFolder previousMapMount = null;
 
 		public Map PrepareMap(string uid)
@@ -78,16 +78,17 @@ namespace OpenRA
 
 			Rules.LoadRules(Manifest, map);
 
-			if (map.Theater != cachedTheatre 
-				|| previousMapHadSequences || map.Sequences.Count > 0)
+			if (map.Theater != cachedTheatre)
 			{
 				SpriteSheetBuilder.Initialize( Rules.TileSets[map.Tileset] );
 				CursorProvider.Initialize(Manifest.Cursors);
-				SequenceProvider.Initialize(Manifest.Sequences, map.Sequences);
 				cachedTheatre = map.Theater;
 			}
 
-			previousMapHadSequences = map.Sequences.Count > 0;
+			if (previousMapHadSequences || map.Sequences.Any())
+				SequenceProvider.Initialize(Manifest.Sequences, map.Sequences);
+
+			previousMapHadSequences = map.Sequences.Any();
 
 			return map;
 		}
