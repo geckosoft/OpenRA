@@ -22,7 +22,7 @@ namespace OpenRA.Mods.RA
 	class IronCurtainPowerInfo : SupportPowerInfo
 	{
 		public readonly float Duration = 0f;
-		public readonly float Range = 3f;
+		public readonly float Range = 2f;
 
 		public override object Create(ActorInitializer init) { return new IronCurtainPower(init.self, this); }
 	}
