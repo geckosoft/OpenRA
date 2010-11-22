@@ -1,4 +1,5 @@
-﻿using OpenRA;
+﻿using System;
+using OpenRA;
 using OpenRA.Traits;
 
 namespace OpenRg.Traits
@@ -37,14 +38,10 @@ namespace OpenRg.Traits
 
 		#endregion
 
-		#region INotifyIdle Members
-
-		public void Idle(Actor self)
+		public void TickIdle(Actor self)
 		{
 			self.QueueActivity(new Activities.RGIdleAnimation(Info.Animations.Random(self.World.SharedRandom),
 															  Info.IdleWaitTicks));
 		}
-
-		#endregion
 	}
 }
