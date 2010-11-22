@@ -105,10 +105,14 @@ namespace OpenRA.Mods.RA.Widgets
 					Location = (loc * Game.CellSize - Game.viewport.Location).ToInt2()
 				};
 
-				Widget.HandleInput(fakemi);
-
-				fakemi.Event = MouseInputEvent.Up;
-				Widget.HandleInput(fakemi);
+				var wicw = Parent.Children.Where(c => c is WorldInteractionControllerWidget).FirstOrDefault();
+				
+				if (wicw != null)
+				{
+					wicw.HandleInputInner(fakemi);
+					fakemi.Event = MouseInputEvent.Up;
+					wicw.HandleInputInner(fakemi);
+				}
 			}
 
 			return true;
