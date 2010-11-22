@@ -10,29 +10,34 @@
 
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 using OpenRA.Graphics;
 
 namespace OpenRA.Widgets
 {
 	public class TextFieldWidget : Widget
 	{
-		public string Text = "";
+		public string Text;
 		public int MaxLength = 0;
 		public bool Bold = false;
 		public int VisualHeight = 1;
 		public Func<bool> OnEnterKey = () => false;
 		public Func<bool> OnTabKey = () => false;
 		public Action OnLoseFocus = () => { };
+		public int CursorPosition { get; protected set; }
+		public string PasswordChar = "";
+		protected bool FirstFocusRender = true;
 
 		public TextFieldWidget()
 			: base()
 		{
+			SetText(Text);
 		}
 
 		protected TextFieldWidget(TextFieldWidget widget)
 			: base(widget)
 		{
-			Text = widget.Text;
+			SetText(widget.Text);
 			MaxLength = widget.MaxLength;
 			Bold = widget.Bold;
 			VisualHeight = widget.VisualHeight;
@@ -43,6 +48,12 @@ namespace OpenRA.Widgets
 			OnLoseFocus();
 			var lose = base.LoseFocus(mi);
 			return lose;
+		}
+
+		public void SetText(string text)
+		{
+			Text = text ?? "";
+			CursorPosition = Text.Length;
 		}
 
 		public override bool HandleInputInner(MouseInput mi)
@@ -76,23 +87,76 @@ namespace OpenRA.Widgets
 			if (e.KeyChar == '\t' && OnTabKey())
 				return true;
 
+			// ctrl-v => paste
+			if ((e.KeyChar == 22 || e.KeyName == "v") && e.Modifiers == Modifiers.Ctrl)
+			{
+				if (Clipboard.ContainsText())
+				{
+					var text = Text;
+					var clipText = Clipboard.GetText();
+
+					Text = text.Substring(0, CursorPosition) + clipText;
+					
+					if (text.Length > CursorPosition + 1)
+					{
+						Text += text.Substring(CursorPosition + 1);
+					}
+
+					CursorPosition += clipText.Length;
+				}
+
+				return true;
+			}
+
+			if (e.KeyName == "left")
+			{
+				if (CursorPosition > 0)
+					CursorPosition--;
+
+				return true;
+			}
+
+			if (e.KeyName == "right")
+			{
+				if (CursorPosition <= Text.Length-1)
+					CursorPosition++;
+
+				return true;
+			}
+
+			if (e.KeyName == "delete")
+			{
+				if (Text.Length > 0 && CursorPosition < Text.Length)
+				{
+					Text = Text.Remove(CursorPosition, 1);
+				}
+				return true;
+			}
+
 			TypeChar(e.KeyChar);
 			return true;
 		}
 
 		public void TypeChar(char c)
 		{
+			// backspace
 			if (c == '\b' || c == 0x7f)
 			{
-				if (Text.Length > 0)
-					Text = Text.Remove(Text.Length - 1);
+				if (Text.Length > 0 && CursorPosition > 0)
+				{
+					Text = Text.Remove(CursorPosition - 1, 1);
+
+					CursorPosition--;
+				}
 			}
 			else if (!char.IsControl(c))
 			{
 				if (MaxLength > 0 && Text.Length >= MaxLength)
 					return;
 
-				Text += c;
+				Text = Text.Insert(CursorPosition, c.ToString());
+
+				CursorPosition++;
 			}
 		}
 
@@ -105,6 +169,7 @@ namespace OpenRA.Widgets
 				blinkCycle = 20;
 				showCursor ^= true;
 			}
+
 			base.Tick();
 		}
 
@@ -112,9 +177,23 @@ namespace OpenRA.Widgets
 		{
 			int margin = 5;
 			var font = (Bold) ? Game.Renderer.BoldFont : Game.Renderer.RegularFont;
-			var cursor = (showCursor && Focused) ? "|" : "";
-			var textSize = font.Measure(Text + "|");
 			var pos = RenderOrigin;
+			var text = Text;
+
+			if (FirstFocusRender && Focused) // workaround 
+			{
+				FirstFocusRender = false;
+				SetText(Text);
+			}
+
+			if (CursorPosition > Text.Length)
+				CursorPosition = Text.Length;
+
+			if (!string.IsNullOrEmpty(PasswordChar)) text = new string(PasswordChar[0], text.Length);
+			text = ((showCursor && Focused)? text.Insert(CursorPosition, "|"): (Focused) ? text.Insert(CursorPosition, " ") : text) ?? "";
+
+
+			var textSize = font.Measure(text + "|");
 
 			WidgetUtils.DrawPanel("dialog3",
 				new Rectangle(pos.X, pos.Y, Bounds.Width, Bounds.Height));
@@ -131,7 +210,7 @@ namespace OpenRA.Widgets
 				Game.Renderer.EnableScissor(pos.X + margin, pos.Y, Bounds.Width - 2 * margin, Bounds.Bottom);
 			}
 
-			font.DrawText(Text + cursor, textPos, Color.White);
+			font.DrawText(text, textPos, Color.White);
 
 			if (textSize.X > Bounds.Width - 2 * margin)
 				Game.Renderer.DisableScissor();
