@@ -129,8 +129,14 @@ namespace OpenRA
 				w.Write(OrderString);
 				w.Write(UIntFromActor(Subject));
 				w.Write(OrderClass);
-				(this as CustomOrder).OnSerialize(w);
 
+				var retCustom = new MemoryStream();
+				var wCustom = new BinaryWriter(retCustom);
+
+				(this as CustomOrder).OnSerialize(wCustom);
+				var bCustom = retCustom.ToArray();
+				w.Write((uint)bCustom.Length);
+				w.Write(bCustom);
 				return ret.ToArray();
 			}
 
@@ -207,6 +213,7 @@ namespace OpenRA
 						var order = r.ReadString();
 						var subjectId = r.ReadUInt32();
 						var orderClass = r.ReadString();
+						uint packSize = r.ReadUInt32();
 
 						Actor subject;
 						if (!TryGetActorFromUInt(world, subjectId, out subject))
