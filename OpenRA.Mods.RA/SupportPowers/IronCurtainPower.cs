@@ -66,29 +66,25 @@ namespace OpenRA.Mods.RA
 
 		}
 
-
 		public static IEnumerable<Actor> FindUnitsInCircle(World world, int2 xy, float range)
 		{
 			return world.FindUnitsInCircle(xy * Game.CellSize, range * Game.CellSize)
-					.Where(a => a.Owner != null
-								&& a.HasTrait<IronCurtainable>()
+					.Where(a => a.HasTrait<IronCurtainable>()
 								&& a.HasTrait<Selectable>());
 		}
 
 		class SelectTarget : IOrderGenerator
 		{
-			IronCurtainPowerInfo _info;
+			IronCurtainPowerInfo info;
 
-			public SelectTarget(IronCurtainPowerInfo info) { _info = info; }
+			public SelectTarget(IronCurtainPowerInfo info) { this.info = info; }
 
 			public IEnumerable<Order> Order(World world, int2 xy, MouseInput mi)
 			{
 				if (mi.Button == MouseButton.Right)
-				{
 					world.CancelInputMode();
-				}
 
-				world.Effects.ToArray().Where(e => e is HighlightTarget).Do(world.Remove); 
+				world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove); 
 
 				return OrderInner(world, xy, mi);
 			}
@@ -97,7 +93,7 @@ namespace OpenRA.Mods.RA
 			{
 				if (mi.Button == MouseButton.Left)
 				{
-					var targetUnits = FindUnitsInCircle(world, xy, _info.Range);
+					var targetUnits = FindUnitsInCircle(world, xy, info.Range);
 
 					if( targetUnits.Any() )
 						yield return new IronCurtainOrder("IronCurtain", world.LocalPlayer.PlayerActor, xy);
@@ -112,7 +108,7 @@ namespace OpenRA.Mods.RA
 
 				if (!hasStructure)
 				{
-					world.Effects.ToArray().Where(e => e is HighlightTarget).Do(world.Remove); 
+					world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove); 
 					world.CancelInputMode();
 				}
 			}
@@ -123,13 +119,13 @@ namespace OpenRA.Mods.RA
 			{
 				if (_lastMouseInput == null) return;
 
-				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), _info.Range);
+				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), info.Range);
 
-				world.Effects.ToArray().Where(e => e is HighlightTarget).Do(world.Remove); 
+				world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove); 
 				targetUnits.Do(a => world.Add(new HighlightTarget(a)));
 
-				if (_info.Range >= 1f)
-					wr.DrawRangeCircle(Color.Red, Game.viewport.Location + _lastMouseInput.Value.Location, _info.Range - 0.5f);
+				if (info.Range >= 1f)
+					wr.DrawRangeCircle(Color.Red, Game.viewport.Location + _lastMouseInput.Value.Location, info.Range - 0.5f);
 			}
 
 			public void RenderBeforeWorld(WorldRenderer wr, World world) { }
