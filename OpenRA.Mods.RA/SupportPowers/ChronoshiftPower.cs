@@ -73,28 +73,27 @@ namespace OpenRA.Mods.RA
 		public static IEnumerable<Actor> FindUnitsInCircle(World world, int2 xy, float range)
 		{
 			return world.FindUnitsInCircle(xy * Game.CellSize, range * Game.CellSize)
-					.Where(a => a.Owner != null
-								&& a.HasTrait<Chronoshiftable>()
+					.Where(a => a.HasTrait<Chronoshiftable>()
 								&& a.HasTrait<Selectable>());
 		}
 
 		class SelectTarget : IOrderGenerator
 		{
-			ChronoshiftPowerInfo _info;
+			ChronoshiftPowerInfo info;
 
-			public SelectTarget(ChronoshiftPowerInfo info) { _info = info; }
+			public SelectTarget(ChronoshiftPowerInfo info) { this.info = info; }
 
 			public IEnumerable<Order> Order(World world, int2 xy, MouseInput mi)
 			{
 				if (mi.Button == MouseButton.Right)
 					world.CancelInputMode();
 
-				world.Effects.ToArray().Where(e => e is HighlightTarget).Do(world.Remove); 
+				world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove); 
 
 				var ret = OrderInner( world, xy, mi ).ToList();
 				foreach( var order in ret )
 				{
-					world.OrderGenerator = new SelectDestination(xy, _info.Range);
+					world.OrderGenerator = new SelectDestination(xy, info.Range);
 					break;
 				}
 				return ret;
@@ -105,7 +104,7 @@ namespace OpenRA.Mods.RA
 			{
 				if (mi.Button == MouseButton.Left)
 				{
-					if (FindUnitsInCircle(world, xy, _info.Range).Any())
+					if (FindUnitsInCircle(world, xy, info.Range).Any())
 						yield return new Order("ChronosphereSelect", world.LocalPlayer.PlayerActor, "", false);
 				}
 
@@ -122,7 +121,7 @@ namespace OpenRA.Mods.RA
 				{
 					world.CancelInputMode();
 
-					world.Effects.ToArray().Where(e => e is HighlightTarget).Do(world.Remove);
+					world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove);
 				}
 			}
 
@@ -130,13 +129,13 @@ namespace OpenRA.Mods.RA
 			{
 				if (_lastMouseInput == null) return;
 
-				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), _info.Range);
+				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), info.Range);
 
-				world.Effects.ToArray().Where(e => e is HighlightTarget).Do(world.Remove);
+				world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove);
 				targetUnits.Do(a => world.Add(new HighlightTarget(a)));
 
-				if (_info.Range >= 1f)
-					wr.DrawRangeCircle(Color.Green, Game.viewport.Location + _lastMouseInput.Value.Location, _info.Range - 0.5f);
+				if (info.Range >= 1f)
+					wr.DrawRangeCircle(Color.Green, Game.viewport.Location + _lastMouseInput.Value.Location, info.Range - 0.5f);
 				
 			}
 			public void RenderBeforeWorld( WorldRenderer wr, World world ) { }
@@ -154,8 +153,8 @@ namespace OpenRA.Mods.RA
 
 		class SelectDestination : IOrderGenerator
 		{
-			private readonly int2 _sourceLocation;
-			private readonly float _range;
+			readonly int2 _sourceLocation;
+			readonly float _range;
 
 			public SelectDestination(int2 source, float range)
 			{
