@@ -168,12 +168,12 @@ namespace OpenRA.Mods.RA
 
 		public override void OnSerialize(BinaryWriter w)
 		{
-			Write(w, TargetLocation);
+			w.Write(TargetLocation);
 		}
 
 		public override bool OnDeserialize(World world, BinaryReader r)
 		{
-			TargetLocation = ReadInt2(r);
+			TargetLocation = r.ReadInt2();
 
 			return true;
 		}

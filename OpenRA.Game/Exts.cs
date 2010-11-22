@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using OpenRA.Support;
 
@@ -65,6 +66,31 @@ namespace OpenRA
 				if (dt > time)
 					Log.Write("perf", text, x, dt * 1000, Game.LocalTick);
 			});
+		}
+
+		public static void Write(this BinaryWriter w, int2 data)
+		{
+			w.Write(data.X);
+			w.Write(data.Y);
+		}
+
+		public static void Write(this BinaryWriter w, string data, bool addBoolean)
+		{
+			if (addBoolean)
+				w.Write(data != null);
+
+			if (addBoolean && data != null)
+				w.Write(data);
+		}
+
+		public static int2 ReadInt2(this BinaryReader r)
+		{
+			return new int2(r.ReadInt32(), r.ReadInt32());
+		}
+
+		public static string ReadString(this BinaryReader r, bool readBoolean)
+		{
+			return readBoolean ? (r.ReadBoolean() ? r.ReadString() : null) : r.ReadString();
 		}
 	}
 }
