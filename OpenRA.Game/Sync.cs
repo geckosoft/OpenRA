@@ -48,6 +48,11 @@ namespace OpenRA
 				il.EmitCall(OpCodes.Call, ((Func<int2, int>)hash_int2).Method, null);
 				il.Emit(OpCodes.Xor);
 			}
+			else if (type == typeof(string))
+			{
+				il.EmitCall(OpCodes.Call, ((Func<string, int>)hash_string).Method, null);
+				il.Emit(OpCodes.Xor);
+			}
 			else if (type == typeof(TypeDictionary))
 			{
 				il.EmitCall(OpCodes.Call, ((Func<TypeDictionary, int>)hash_tdict).Method, null);
@@ -106,6 +111,11 @@ namespace OpenRA
 		public static int hash_int2( int2 i2 )
 		{
 			return ( ( i2.X * 5 ) ^ ( i2.Y * 3 ) ) / 4;
+		}
+
+		public static int hash_string(string str)
+		{
+			return str.GetHashCode();
 		}
 
 		public static int hash_tdict( TypeDictionary d )
