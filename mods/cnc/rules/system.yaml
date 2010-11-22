@@ -223,3 +223,5 @@ CRATE:
 		Unit: mcv
 	RenderUnit:
 	BelowUnits:
+	ActorType:
+		Types:Crate

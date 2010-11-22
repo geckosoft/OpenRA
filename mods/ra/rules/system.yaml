@@ -241,6 +241,8 @@ MINP:
 	InvisibleToOthers:
 	Tooltip:
 		Name: Anti-Personnel Mine
+	ActorType:
+		Types:Mine
 
 MINV:
 	Mine:
@@ -254,6 +256,8 @@ MINV:
 	InvisibleToOthers:
 	Tooltip:
 		Name: Anti-Tank Mine
+	ActorType:
+		Types:Mine
 
 CRATE:
 	Tooltip:
@@ -313,13 +317,17 @@ CRATE:
 		Unit: 4tnk
 	RenderUnit:
 	BelowUnits:
+	ActorType:
+		Types:Crate
 
 CAMERA:
 	Aircraft:
 	Health:
 		HP:1000
 	RevealsShroud:
-		Range: 10
+		Range: 10	
+	ActorType:
+		Types:Camera
 
 FLARE:
 	Aircraft:
@@ -330,3 +338,5 @@ FLARE:
 	RenderFlare:
 		Image: smokland
 	HiddenUnderFog:
+	ActorType:
+		Types:Flare

@@ -25,7 +25,9 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlst1.aud
-
+	ActorType:
+		Types:Vehicle
+		
 ^Tank:
 	AppearsOnRadar:
 	Mobile:
@@ -53,6 +55,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlst1.aud
+	ActorType:
+		Types:Tank
 
 ^Infantry:
 	AppearsOnRadar:
@@ -85,6 +89,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlst1.aud
+	ActorType:
+		Types:Infantry
 
 ^Ship:
 	AppearsOnRadar:
@@ -105,6 +111,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: navylst1.aud
+	ActorType:
+		Types:Ship
 
 ^Plane:
 	AppearsOnRadar:
@@ -120,6 +128,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: aunitl1.aud
+	ActorType:
+		Types:Plane
 
 ^Building:
 	AppearsOnRadar:
@@ -141,6 +151,8 @@
 		Notification: strucap1.aud
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Building
 
 ^Wall:
 	AppearsOnRadar:
@@ -167,6 +179,8 @@
 	GivesExperience:
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Wall
 
 ^CivBuilding:
 	Inherits: ^Building
@@ -177,12 +191,17 @@
 		Type: Wood
 	Tooltip:
 		Name: Civilian Building
+	ActorType:
+		Types:CivilianBuilding
 
 ^CivField:
 	Inherits: ^CivBuilding
 	-Selectable:
 	Tooltip:
 		Name: Field
+	-ActorType:
+	ActorType:
+		Types:CivilianField
 
 ^Tree:
 	Tooltip:
@@ -197,6 +216,8 @@
 		Terrain: Tree
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Tree
 
 ^Husk:
 	Health:
@@ -209,6 +230,8 @@
 	HiddenUnderFog:
 	AppearsOnRadar:
 	Burns:
+	ActorType:
+		Types:Husk
 
 ^Bridge:
 	Tooltip:
@@ -221,3 +244,5 @@
 		Dimensions: 4,2
 	Health:
 		HP: 1000
+	ActorType:
+		Types:Bridge

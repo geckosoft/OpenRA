@@ -28,6 +28,8 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
+	ActorType:
+		Types:Vehicle
 
 ^Tank:
 	AppearsOnRadar:
@@ -59,6 +61,8 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
+	ActorType:
+		Types:Tank
 
 ^Helicopter:
 	AppearsOnRadar:
@@ -79,6 +83,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
+	ActorType:
+		Types:Helicopter
 
 ^Infantry:
 	AppearsOnRadar:
@@ -117,6 +123,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
+	ActorType:
+		Types:Infantry
 
 ^CivInfantry:
 	Inherits: ^Infantry
@@ -140,6 +148,8 @@
 #	ActorLostNotification:
 #		Notification: civdead1.aud
 #		NotifyAll: true
+	ActorType:
+		Types:CivilianInfantry
 
 ^Plane:
 	AppearsOnRadar:
@@ -154,6 +164,8 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
+	ActorType:
+		Types:Plane
 
 ^Ship:
 	AppearsOnRadar:
@@ -172,6 +184,8 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
+	ActorType:
+		Types:Ship
 
 ^Building:
 	AppearsOnRadar:
@@ -207,6 +221,8 @@
 		Notification: strclost.aud
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Building
 
 ^CivBuilding:
 	Inherits: ^Building
@@ -221,6 +237,8 @@
 	-RepairableBuilding:
 	Tooltip:
 		Name: Civilian Building
+	ActorType:
+		Types:CivilianBuilding
 
 ^CivField:
 	Inherits: ^CivBuilding
@@ -232,6 +250,9 @@
 	RenderBuilding:
 		OverrideTheater: DESERT
 		OverrideImage: v23
+	-ActorType:
+	ActorType:
+		Types:CivilianField
 
 ^Wall:
 	AppearsOnRadar:
@@ -258,6 +279,8 @@
 	GivesExperience:
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Wall
 
 ^Tree:
 	Tooltip:
@@ -272,6 +295,8 @@
 		Terrain: Tree
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Tree
 		
 ^Rock:
 	Tooltip:
@@ -286,6 +311,8 @@
 		Terrain: Tree
 	EditorAppearance:
 		RelativeToTopLeft: yes
+	ActorType:
+		Types:Rock
 
 ^Husk:
 	Health:
@@ -298,6 +325,8 @@
 	HiddenUnderFog:
 	AppearsOnRadar:
 	Burns:
+	ActorType:
+		Types:Husk
 
 ^Bridge:
 	Tooltip:
@@ -312,3 +341,5 @@
 		DestroyedSound: xplobig4.aud
 		Footprint: ______ ______ ______ ______
 		Dimensions: 6,4
+	ActorType:
+		Types:Bridge
