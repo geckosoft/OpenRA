@@ -12,6 +12,7 @@ namespace OpenRA.Mods.RA
 		public readonly bool Permanent = false;
 		public readonly int Range = 5;
 		public readonly bool MustBeClear = false;
+		public readonly string[] ActorTypes = {"Vehicle", "Tank", "Infantry"};
 
 		public object Create(ActorInitializer init) { return new ProximityCapturable(init.self, this); }
 	}
@@ -38,6 +39,13 @@ namespace OpenRA.Mods.RA
 		[Sync]
 		public bool MustBeClear = false;
 
+		public string[] ActorTypes = {};
+
+		[Sync]
+		public int ActorTypesHash
+		{
+			get { return string.Join(",", ActorTypes).GetHashCode(); }
+		}
 		public Actor Self;
 
 		public ProximityCapturable(Actor self, ProximityCapturableInfo info)
@@ -48,6 +56,7 @@ namespace OpenRA.Mods.RA
 			MustBeClear = info.MustBeClear;
 			Self = self;
 			OriginalOwner = self.Owner;
+			ActorTypes = info.ActorTypes;
 		}
 
 		public void Tick(Actor self)
@@ -58,11 +67,11 @@ namespace OpenRA.Mods.RA
 
 			if (!Captured)
 			{
-				var captor = GetInRange(self, OriginalOwner, Range);
+				var captor = GetInRange(self, OriginalOwner, Range, ActorTypes);
 
 				if (captor != null)
 				{
-					if (MustBeClear && !IsClear(self, captor.Owner, Range, OriginalOwner)) return;
+					if (MustBeClear && !IsClear(self, captor.Owner, Range, OriginalOwner, ActorTypes)) return;
 
 					ChangeOwnership(self, captor, OriginalOwner);
 				}
@@ -71,7 +80,7 @@ namespace OpenRA.Mods.RA
 			}
 
 			// if the area must be clear, and there is more than 1 player nearby => return ownership to default
-			if (MustBeClear && !IsClear(self, Owner, Range, OriginalOwner))
+			if (MustBeClear && !IsClear(self, Owner, Range, OriginalOwner, ActorTypes))
 			{
 				// Revert Ownership
 				ChangeOwnership(self, Owner, OriginalOwner);
@@ -79,10 +88,10 @@ namespace OpenRA.Mods.RA
 			}
 
 			// See if the 'temporary' owner still is in range
-			if (!IsStillInRange(self, self.Owner, Range))
+			if (!IsStillInRange(self, self.Owner, Range, ActorTypes))
 			{
 				// no.. So find a new one
-				var captor = GetInRange(self, OriginalOwner, Range);
+				var captor = GetInRange(self, OriginalOwner, Range, ActorTypes);
 
 				if (captor != null) // got one
 				{
@@ -137,25 +146,29 @@ namespace OpenRA.Mods.RA
 			});
 		}
 
-		public static bool IsClear(Actor self, Player currentOwner, int range, Player originalOwner)
+		public static bool IsClear(Actor self, Player currentOwner, int range, Player originalOwner, string[] actorTypes)
 		{
 			var unitsInRange = self.World.FindUnitsInCircle(self.CenterLocation, Game.CellSize * range);
 
-			return unitsInRange.Where(a => !a.Destroyed && a.IsInWorld && a != self && !a.Owner.NonCombatant && a.Owner != originalOwner).Where(a => a.Owner != currentOwner).All(a => (a.Owner.Stances[currentOwner] == Stance.Ally) && (currentOwner.Stances[a.Owner] == Stance.Ally));
+			return unitsInRange
+				.Where(a => !a.Destroyed && a.IsInWorld && a != self && !a.Owner.NonCombatant && a.Owner != originalOwner)
+				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
+				.Where(a => a.Owner != currentOwner).All(a => (a.Owner.Stances[currentOwner] == Stance.Ally) && (currentOwner.Stances[a.Owner] == Stance.Ally));
 		}
 
 		// TODO exclude other NeutralActor that arent permanent
-		public static bool IsStillInRange(Actor self, Player currentOwner, int range)
+		public static bool IsStillInRange(Actor self, Player currentOwner, int range, string[] actorTypes)
 		{
 			var unitsInRange = self.World.FindUnitsInCircle(self.CenterLocation, Game.CellSize * range);
 
 			return unitsInRange
 				.Where(a => a.Owner == currentOwner && !a.Destroyed && a.IsInWorld && a != self)
+				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
 				.Any();
 		}
 
 		// TODO exclude other NeutralActor that arent permanent
-		public static Actor GetInRange(Actor self, Player originalOwner, int range)
+		public static Actor GetInRange(Actor self, Player originalOwner, int range, string[] actorTypes)
 		{
 			var unitsInRange = self.World.FindUnitsInCircle(self.CenterLocation, Game.CellSize * range);
 
@@ -163,11 +176,12 @@ namespace OpenRA.Mods.RA
 				.Where(a => a.Owner != originalOwner && !a.Destroyed && a.IsInWorld && a != self)
 				.Where(a => !a.Owner.PlayerRef.OwnsWorld)
 				.Where(a => !a.Owner.PlayerRef.NonCombatant)
+				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
 				.OrderBy(a => (a.CenterLocation - self.CenterLocation).LengthSquared)
 				.FirstOrDefault();
 		}
 
-		public static int CountPlayersNear(Actor self, Player ignoreMe, int range)
+		public static int CountPlayersNear(Actor self, Player ignoreMe, int range, string[] actorTypes)
 		{
 			var unitsInRange = self.World.FindUnitsInCircle(self.CenterLocation, Game.CellSize * range);
 
@@ -175,6 +189,7 @@ namespace OpenRA.Mods.RA
 				.Where(a => a.Owner != ignoreMe && !a.Destroyed && a.IsInWorld && a != self)
 				.Where(a => !a.Owner.PlayerRef.OwnsWorld)
 				.Where(a => !a.Owner.PlayerRef.NonCombatant)
+				.Where(a =>actorTypes.Length == 0 || (  a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
 				.Select(a => a.Owner)
 				.Distinct()
 				.Count();
