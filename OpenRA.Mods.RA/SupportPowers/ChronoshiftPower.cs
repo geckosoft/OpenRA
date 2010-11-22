@@ -293,14 +293,14 @@ namespace OpenRA.Mods.RA
 
 		public override void OnSerialize(BinaryWriter w)
 		{
-			Write(w, SourceLocation);
-			Write(w, TargetLocation);
+			w.Write(SourceLocation);
+			w.Write(TargetLocation);
 		}
 
 		public override bool OnDeserialize(World world, BinaryReader r)
 		{
-			SourceLocation = ReadInt2(r);
-			TargetLocation = ReadInt2(r);
+			SourceLocation = r.ReadInt2();
+			TargetLocation = r.ReadInt2();
 
 			return true;
 		}
