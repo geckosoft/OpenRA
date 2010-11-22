@@ -78,5 +78,6 @@ namespace OpenRA.Mods.RA.Orders
 		}
 
 		public string GetCursor(World world, int2 xy, MouseInput mi) { return "default"; }
+		public IEnumerable<Renderable> Render(World world) { yield break; }
 	}
 }

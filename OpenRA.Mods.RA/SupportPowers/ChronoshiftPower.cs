@@ -149,6 +149,10 @@ namespace OpenRA.Mods.RA
 				return OrderInner(world, xy, mi).Any()
 					? "chrono-select" : "move-blocked";
 			}
+			public IEnumerable<Renderable> Render(World world)
+			{
+				yield break;
+			}
 		}
 
 		class SelectDestination : IOrderGenerator
@@ -231,6 +235,7 @@ namespace OpenRA.Mods.RA
 
 				return "move-blocked";
 			}
+			public IEnumerable<Renderable> Render(World world) { yield break; }
 		}
 	}
 	

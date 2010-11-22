@@ -62,5 +62,6 @@ namespace OpenRA.Mods.RA.Orders
 			return OrderInner(world, xy, mi).Any() 
 				? "repair" : "repair-blocked";
 		}
+		public IEnumerable<Renderable> Render(World world) { yield break; }
 	}
 }

@@ -136,6 +136,8 @@ namespace OpenRA.Mods.RA
 			public void RenderBeforeWorld(WorldRenderer wr, World world) { }
 
 			public string GetCursor(World world, int2 xy, MouseInput mi) { lastMousePos = xy; return "ability"; }	/* todo */
+
+			public IEnumerable<Renderable> Render(World world) { yield break; }
 		}
 
 		public void RenderAfterWorld(WorldRenderer wr, Actor self)

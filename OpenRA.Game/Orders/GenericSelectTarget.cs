@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Graphics;
@@ -88,6 +89,10 @@ namespace OpenRA.Orders
 		}
 
 		public string GetCursor(World world, int2 xy, MouseInput mi) { return world.Map.IsInMap(xy) ? cursor : "generic-blocked"; }
+		public IEnumerable<Renderable> Render(World world)
+		{
+			yield break;
+		}
 	}
 
 	// variant that requires a tag trait (T) to be present on some actor owned

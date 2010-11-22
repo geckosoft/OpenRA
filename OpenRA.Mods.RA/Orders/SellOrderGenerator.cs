@@ -52,5 +52,6 @@ namespace OpenRA.Mods.RA.Orders
 			return OrderInner(world, xy, mi).Any()
 				? "sell" : "sell-blocked";
 		}
+		public IEnumerable<Renderable> Render(World world) { yield break; }
 	}
 }

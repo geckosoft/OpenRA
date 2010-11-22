@@ -52,5 +52,6 @@ namespace OpenRA.Mods.RA.Orders
 			var movement = self.TraitOrDefault<IMove>();
 			return (movement.CanEnterCell(xy)) ? "chrono-target" : "move-blocked";
 		}
+		public IEnumerable<Renderable> Render(World world) { yield break; }
 	}
 }

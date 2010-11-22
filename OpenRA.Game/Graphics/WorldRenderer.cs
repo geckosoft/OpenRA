@@ -86,7 +86,7 @@ namespace OpenRA.Graphics
 
 			var effects = world.Effects.SelectMany(e => e.Render());
 
-			return renderables.Concat(effects);
+			return renderables.Concat(effects).Concat(world.OrderGenerator.Render(world));
 		}
 
 		public void Draw()

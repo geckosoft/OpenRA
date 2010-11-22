@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using OpenRA.Graphics;
+using OpenRA.Traits;
 
 namespace OpenRA
 {
@@ -20,5 +21,6 @@ namespace OpenRA
 		void RenderBeforeWorld(WorldRenderer wr, World world);
 		void RenderAfterWorld(WorldRenderer wr, World world);
 		string GetCursor(World world, int2 xy, MouseInput mi);
+		IEnumerable<Renderable> Render(World world);
 	}
 }

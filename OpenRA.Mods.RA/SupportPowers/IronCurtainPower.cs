@@ -139,6 +139,10 @@ namespace OpenRA.Mods.RA
 				return OrderInner(world, xy, mi).Any()
 					? "ability" : "move-blocked";
 			}
+			public IEnumerable<Renderable> Render(World world)
+			{
+				yield break;
+			}
 		}
 	}
 

@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Graphics;
@@ -125,6 +126,11 @@ namespace OpenRA.Orders
 			if( orders.Length == 0 ) return (useSelect) ? "select" : "default";
 
 			return orders[0].cursor ?? ((useSelect) ? "select" : "default");
+		}
+
+		public IEnumerable<Renderable> Render(World world)
+		{
+			yield break;
 		}
 
 		static UnitOrderResult OrderForUnit( Actor self, int2 xy, MouseInput mi, Actor underCursor )

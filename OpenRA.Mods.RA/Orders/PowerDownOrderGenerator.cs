@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Graphics;
 using OpenRA.Mods.RA.Buildings;
+using OpenRA.Traits;
 
 namespace OpenRA.Mods.RA.Orders
 {
@@ -49,5 +50,6 @@ namespace OpenRA.Mods.RA.Orders
 			return OrderInner(world, xy, mi).Any()
 				? "powerdown" : "powerdown-blocked";
 		}
+		public IEnumerable<Renderable> Render(World world) { yield break; }
 	}
 }
