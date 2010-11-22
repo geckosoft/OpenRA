@@ -36,32 +36,6 @@ namespace OpenRA
 
 		public abstract void OnSerialize(BinaryWriter w);
 		public abstract bool OnDeserialize(World world, BinaryReader r);
-
-		protected void Write(BinaryWriter w, int2 data)
-		{
-			w.Write(data.X);
-			w.Write(data.Y);
-		}
-
-		protected void Write(BinaryWriter w, string data)
-		{
-			w.Write(data != null);
-
-			if (data != null)
-				w.Write(data);
-		}
-
-		protected int2 ReadInt2(BinaryReader r)
-		{
-			return new int2(r.ReadInt32(), r.ReadInt32());
-		}
-
-		protected string ReadString(BinaryReader r)
-		{
-			var hasString = r.ReadBoolean();
-
-			return !hasString ? null : r.ReadString();
-		}
 	}
 
 	public class Order
@@ -122,7 +96,9 @@ namespace OpenRA
 				return ret.ToArray();
 			}
 
-			if (this is CustomOrder)
+			var corder = this as CustomOrder;
+
+			if (corder != null)
 			{
 				// Custom order : 0xFC
 				w.Write((byte)0xFC);
@@ -133,7 +109,7 @@ namespace OpenRA
 				var retCustom = new MemoryStream();
 				var wCustom = new BinaryWriter(retCustom);
 
-				(this as CustomOrder).OnSerialize(wCustom);
+				corder.OnSerialize(wCustom);
 				var bCustom = retCustom.ToArray();
 				w.Write((uint)bCustom.Length);
 				w.Write(bCustom);

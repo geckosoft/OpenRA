@@ -1,4 +1,4 @@
-﻿#region Copyright & License Information
+#region Copyright & License Information
 /*
  * Copyright 2007-2010 The OpenRA Developers (see AUTHORS)
  * This file is part of OpenRA, which is free software. It is made 
@@ -9,8 +9,11 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using OpenRA.Graphics;
+using OpenRA.Mods.RA.Effects;
 using OpenRA.Mods.RA.Render;
 using OpenRA.Traits;
 
@@ -19,6 +22,8 @@ namespace OpenRA.Mods.RA
 	class IronCurtainPowerInfo : SupportPowerInfo
 	{
 		public readonly float Duration = 0f;
+		public readonly float Range = 2f;
+
 		public override object Create(ActorInitializer init) { return new IronCurtainPower(init.self, this); }
 	}
 
@@ -30,7 +35,7 @@ namespace OpenRA.Mods.RA
 		protected override void OnFinishCharging() { Sound.PlayToPlayer(Owner, "ironrdy1.aud"); }
 		protected override void OnActivate()
 		{
-			Self.World.OrderGenerator = new SelectTarget();
+			Self.World.OrderGenerator = new SelectTarget(Info as IronCurtainPowerInfo);
 			Sound.Play("slcttgt1.aud");
 		}
 
@@ -46,18 +51,33 @@ namespace OpenRA.Mods.RA
 				if (curtain != null)
 					curtain.Trait<RenderBuilding>().PlayCustomAnim(curtain, "active");
 
-				Sound.Play("ironcur9.aud", order.TargetActor.CenterLocation);
-				
-				order.TargetActor.Trait<IronCurtainable>().Activate(order.TargetActor,
-					(int)((Info as IronCurtainPowerInfo).Duration * 25 * 60));
-				
+				Sound.Play("ironcur9.aud", Game.CellSize * order.TargetLocation);
+
+				var targets = FindUnitsInCircle(self.World, order.TargetLocation, (Info as IronCurtainPowerInfo).Range);
+
+				foreach (var target in targets)
+				{
+					if (target.HasTrait<IronCurtainable>())
+						target.Trait<IronCurtainable>().Activate(target, (int)((Info as IronCurtainPowerInfo).Duration * 25 * 60));
+				}
+
 				FinishActivate();
 			}
+
+		}
+
+		public static IEnumerable<Actor> FindUnitsInCircle(World world, int2 xy, float range)
+		{
+			return world.FindUnitsInCircle(xy * Game.CellSize, range * Game.CellSize)
+					.Where(a => a.HasTrait<IronCurtainable>()
+								&& a.HasTrait<Selectable>());
 		}
 
 		class SelectTarget : IOrderGenerator
 		{
-			public SelectTarget() {	}
+			IronCurtainPowerInfo info;
+
+			public SelectTarget(IronCurtainPowerInfo info) { this.info = info; }
 
 			public IEnumerable<Order> Order(World world, int2 xy, MouseInput mi)
 			{
@@ -71,13 +91,10 @@ namespace OpenRA.Mods.RA
 			{
 				if (mi.Button == MouseButton.Left)
 				{
-					var underCursor = world.FindUnitsAtMouse(mi.Location)
-						.Where(a => a.Owner != null
-							&& a.HasTrait<IronCurtainable>()
-							&& a.HasTrait<Selectable>()).FirstOrDefault();
+					var targetUnits = FindUnitsInCircle(world, xy, info.Range);
 
-					if( underCursor != null )
-						yield return new Order( "IronCurtain", underCursor.Owner.PlayerActor, underCursor, false );
+					if( targetUnits.Any() )
+						yield return new IronCurtainOrder("IronCurtain", world.LocalPlayer.PlayerActor, xy);
 				}
 			}
 
@@ -88,17 +105,46 @@ namespace OpenRA.Mods.RA
 					.Any();
 
 				if (!hasStructure)
+				{
 					world.CancelInputMode();
+				}
 			}
 
-			public void RenderAfterWorld(WorldRenderer wr, World world) { }
+			MouseInput? _lastMouseInput = null;
+
+			public void RenderAfterWorld(WorldRenderer wr, World world)
+			{
+				if (_lastMouseInput == null) return;
+
+				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), info.Range);
+
+				if (info.Range >= 1f)
+					wr.DrawRangeCircle(Color.Red, Game.viewport.Location + _lastMouseInput.Value.Location, info.Range - 0.5f);
+			}
+
 			public void RenderBeforeWorld(WorldRenderer wr, World world) { }
+
 
 			public string GetCursor(World world, int2 xy, MouseInput mi)
 			{
+				_lastMouseInput = mi; // Store the mouse location so we can render a circles
+
 				mi.Button = MouseButton.Left;
 				return OrderInner(world, xy, mi).Any()
 					? "ability" : "move-blocked";
+			}
+			public IEnumerable<Renderable> Render(World world)
+			{
+				if (_lastMouseInput == null) yield break;
+
+				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), info.Range);
+
+				foreach (var r in targetUnits.SelectMany(a => a.Render()))
+				{
+					yield return r.WithPalette("highlight");
+				}
+
+				yield break;
 			}
 		}
 	}
@@ -106,4 +152,30 @@ namespace OpenRA.Mods.RA
 	// tag trait for the building
 	class IronCurtainInfo : TraitInfo<IronCurtain> { }
 	class IronCurtain { }
+
+	// custom order
+	public class IronCurtainOrder : CustomOrder
+	{
+		public IronCurtainOrder() // required
+		{
+			
+		}
+
+		public IronCurtainOrder(string orderString, Actor subject, int2 xy) : base(orderString, subject)
+		{
+			TargetLocation = xy;
+		}
+
+		public override void OnSerialize(BinaryWriter w)
+		{
+			Write(w, TargetLocation);
+		}
+
+		public override bool OnDeserialize(World world, BinaryReader r)
+		{
+			TargetLocation = ReadInt2(r);
+
+			return true;
+		}
+	}
 }
