@@ -10,6 +10,7 @@
 
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 using OpenRA.Graphics;
 
 namespace OpenRA.Widgets
@@ -96,6 +97,19 @@ namespace OpenRA.Widgets
 
 			if (e.KeyChar == '\t' && OnTabKey())
 				return true;
+
+			// ctrl-v => paste
+			if ((e.KeyChar == 22 || e.KeyName == "v") && e.Modifiers == Modifiers.Ctrl)
+			{
+				if (Clipboard.ContainsText())
+				{
+					var clipText = Clipboard.GetText();
+					Text = Text.Insert(CursorPosition, clipText);
+					CursorPosition += clipText.Length;
+				}
+
+				return true;
+			}
 
 			if (e.KeyName == "left")
 			{
