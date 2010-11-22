@@ -9,22 +9,78 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace OpenRA
 {
-	public sealed class Order
+	public abstract class CustomOrder : Order
 	{
-		public readonly string OrderString;
-		public readonly Actor Subject;
-		public readonly Actor TargetActor;
-		public readonly int2 TargetLocation;
-		public readonly string TargetString;
-		public readonly bool Queued;
-		public bool IsImmediate;
-		
+		[ObjectCreator.UseCtorAttribute]
+		protected CustomOrder()
+		{
+
+		}
+
+		protected CustomOrder(string orderString, Actor subject)
+		{
+			Init(orderString, subject);
+		}
+
+		internal void Init(string orderString, Actor subject)
+		{
+			OrderString = orderString;
+			Subject = subject;
+		}
+
+		public abstract void OnSerialize(BinaryWriter w);
+		public abstract bool OnDeserialize(World world, BinaryReader r);
+
+		protected void Write(BinaryWriter w, int2 data)
+		{
+			w.Write(data.X);
+			w.Write(data.Y);
+		}
+
+		protected void Write(BinaryWriter w, string data)
+		{
+			w.Write(data != null);
+
+			if (data != null)
+				w.Write(data);
+		}
+
+		protected int2 ReadInt2(BinaryReader r)
+		{
+			return new int2(r.ReadInt32(), r.ReadInt32());
+		}
+
+		protected string ReadString(BinaryReader r)
+		{
+			var hasString = r.ReadBoolean();
+
+			return !hasString ? null : r.ReadString();
+		}
+	}
+
+	public class Order
+	{
+		public string OrderString { get; protected set; }
+		public Actor Subject { get; protected set; }
+		public Actor TargetActor { get; protected set; }
+		public int2 TargetLocation { get; protected set; }
+		public string TargetString { get; protected set; }
+		public bool Queued { get; protected set; }
+		public bool IsImmediate { get; protected set; }
+		public string OrderClass { get; protected set; }
+
 		public Player Player { get { return Subject.Owner; } }
+
+		internal Order()
+		{
+			this.OrderClass = GetType().Name;
+		}
 
 		public Order(string orderString, Actor subject, 
 			Actor targetActor, int2 targetLocation, string targetString, bool queued)
@@ -35,6 +91,7 @@ namespace OpenRA
 			this.TargetLocation = targetLocation;
 			this.TargetString = targetString;
 			this.Queued = queued;
+			this.OrderClass = GetType().Name;
 		}
 
 		public Order(string orderString, Actor subject, bool queued) 
@@ -54,47 +111,79 @@ namespace OpenRA
 
 		public byte[] Serialize()
 		{
+			var ret = new MemoryStream();
+			var w = new BinaryWriter(ret);
+
 			if (IsImmediate)		/* chat, whatever */
 			{
-				var ret = new MemoryStream();
-				var w = new BinaryWriter(ret);
 				w.Write((byte)0xfe);
 				w.Write(OrderString);
 				w.Write(TargetString);
 				return ret.ToArray();
 			}
 
-			switch (OrderString)
+			if (this is CustomOrder)
 			{
-				// Format:
-				//		u8    : orderID.
-				//		            0xFF: Full serialized order.
-				//		varies: rest of order.
-				default:
-					// TODO: specific serializers for specific orders.
-					{
-						var ret = new MemoryStream();
-						var w = new BinaryWriter(ret);
-						w.Write( (byte)0xFF );
-						w.Write(OrderString);
-						w.Write(UIntFromActor(Subject));
-						w.Write(UIntFromActor(TargetActor));
-						w.Write(TargetLocation.X);
-						w.Write(TargetLocation.Y);
-						w.Write(TargetString != null);
-						if (TargetString != null)
-							w.Write(TargetString);
-						w.Write(Queued);
-						return ret.ToArray();
-					}
+				// Custom order : 0xFC
+				w.Write((byte)0xFC);
+				w.Write(OrderString);
+				w.Write(UIntFromActor(Subject));
+				w.Write(OrderClass);
+				(this as CustomOrder).OnSerialize(w);
+
+				return ret.ToArray();
 			}
+
+			// Regular order : 0xFF
+			
+			// Format:
+			//		u8    : orderID.
+			//		            0xFF: Full serialized order.
+			//		varies: rest of order.
+
+			w.Write((byte)0xFF);
+			w.Write(OrderString);
+			w.Write(UIntFromActor(Subject));
+			Serialize(w);
+			return ret.ToArray();
+		}
+
+		protected void Serialize(BinaryWriter w)
+		{
+			w.Write(UIntFromActor(TargetActor));
+			w.Write(TargetLocation.X);
+			w.Write(TargetLocation.Y);
+			w.Write(TargetString != null);
+			if (TargetString != null)
+				w.Write(TargetString);
+			w.Write(Queued);
+		}
+
+		public void SerializeDefault(BinaryWriter w)
+		{
+			Serialize(w);
+		}
+		public bool DeserializeDefault(World world, BinaryReader r)
+		{
+			var targetActorId = r.ReadUInt32();
+			TargetLocation = new int2(r.ReadInt32(), r.ReadInt32());
+			if (r.ReadBoolean())
+				TargetString = r.ReadString();
+			Queued = r.ReadBoolean();
+			Actor targetActor;
+			if (!TryGetActorFromUInt(world, targetActorId, out targetActor))
+				return false;
+
+			TargetActor = targetActor;
+
+			return true;
 		}
 
 		public static Order Deserialize(World world, BinaryReader r)
 		{
 			switch (r.ReadByte())
 			{
-				case 0xFF:
+				case 0xFF: // regular order
 					{
 						var order = r.ReadString();
 						var subjectId = r.ReadUInt32();
@@ -107,10 +196,26 @@ namespace OpenRA
 						var queued = r.ReadBoolean();
 
 						Actor subject, targetActor;
-						if( !TryGetActorFromUInt( world, subjectId, out subject ) || !TryGetActorFromUInt( world, targetActorId, out targetActor ) )
+						if (!TryGetActorFromUInt(world, subjectId, out subject) || !TryGetActorFromUInt(world, targetActorId, out targetActor))
 							return null;
 
-						return new Order( order, subject, targetActor, targetLocation, targetString, queued);
+						return new Order(order, subject, targetActor, targetLocation, targetString, queued);
+					}
+
+				case 0xFC: // custom order
+					{
+						var order = r.ReadString();
+						var subjectId = r.ReadUInt32();
+						var orderClass = r.ReadString();
+
+						Actor subject;
+						if (!TryGetActorFromUInt(world, subjectId, out subject))
+							return null;
+
+						var o = Game.CreateObject<CustomOrder>(orderClass);
+						o.Init(order, subject);
+
+						return o.OnDeserialize(world, r) ? o : null;
 					}
 
 				case 0xfe:
@@ -125,7 +230,7 @@ namespace OpenRA
 					throw new NotImplementedException();
 			}
 		}
-		
+
 		public override string ToString()
 		{
 			return ("OrderString: \"{0}\" \n\t Subject: \"{1}\". \n\t TargetActor: \"{2}\" \n\t TargetLocation: {3}." +
@@ -133,13 +238,13 @@ namespace OpenRA
 				OrderString, Subject, TargetActor != null ? TargetActor.Info.Name : null , TargetLocation, TargetString, IsImmediate, Player != null ? Player.PlayerName : null);
 		}
 
-		static uint UIntFromActor(Actor a)
+		protected static uint UIntFromActor(Actor a)
 		{
 			if (a == null) return 0xffffffff;
 			return a.ActorID;
 		}
 
-		static bool TryGetActorFromUInt(World world, uint aID, out Actor ret )
+		protected static bool TryGetActorFromUInt(World world, uint aID, out Actor ret )
 		{
 			if( aID == 0xFFFFFFFF )
 			{
