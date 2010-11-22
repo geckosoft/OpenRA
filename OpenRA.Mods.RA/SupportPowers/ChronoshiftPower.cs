@@ -51,13 +51,13 @@ namespace OpenRA.Mods.RA
 
 				var corder = order as ChronoshiftOrder;
 
-				var units = FindUnitsInCircle(self.World, corder.SourceLocation, ((ChronoshiftPowerInfo) Info).Range);
+				var units = FindUnitsInCircle(self.World, corder.Source, ((ChronoshiftPowerInfo) Info).Range);
 
 				foreach (var unit in units)
 				{
-					var tl = order.TargetLocation;
+					var tl = corder.Target;
 
-					var diff = corder.SourceLocation - unit.Location ;
+					var diff = corder.Source - unit.Location ;
 
 					var movement = unit.TraitOrDefault<IMove>();
 					if (movement == null || !movement.CanEnterCell(tl - diff))
@@ -278,32 +278,17 @@ namespace OpenRA.Mods.RA
 
 	public class ChronoshiftOrder : CustomOrder
 	{
-		public int2 SourceLocation { get; protected set; }
+		[CustomOrderField] public int2 Source;
+		[CustomOrderField] public int2 Target;
 
-		public ChronoshiftOrder() // required
-		{
-
-		}
+		[ObjectCreator.UseCtor]
+		public ChronoshiftOrder([ObjectCreator.Param("orderString")] string orderString, [ObjectCreator.Param("subject")] Actor subject) : base(orderString, subject) { } 
 
 		public ChronoshiftOrder(string orderString, Actor subject, int2 src, int2 target)
 			: base(orderString, subject)
 		{
-			SourceLocation = src;
-			TargetLocation = target;
-		}
-
-		public override void OnSerialize(BinaryWriter w)
-		{
-			w.Write(SourceLocation);
-			w.Write(TargetLocation);
-		}
-
-		public override bool OnDeserialize(World world, BinaryReader r)
-		{
-			SourceLocation = r.ReadInt2();
-			TargetLocation = r.ReadInt2();
-
-			return true;
+			Source = src;
+			Target = target;
 		}
 	}
 }

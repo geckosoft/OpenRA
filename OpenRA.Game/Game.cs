@@ -290,9 +290,14 @@ namespace OpenRA
 			get { return baseSupportDir; }
 		}
 
-		public static T CreateObject<T>( string name )
+		public static T CreateObject<T>(string name)
 		{
-			return modData.ObjectCreator.CreateObject<T>( name );
+			return modData.ObjectCreator.CreateObject<T>(name);
+		}
+
+		public static T CreateObject<T>(string name, Dictionary<string, object> args)
+		{
+			return modData.ObjectCreator.CreateObject<T>(name, args);
 		}
 
 		public static void RejoinLobby(World world)

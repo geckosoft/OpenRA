@@ -12,30 +12,140 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace OpenRA
 {
-	public abstract class CustomOrder : Order
+
+	public class CustomOrder : Order
 	{
+		public class CustomOrderFieldAttribute : Attribute
+		{
+
+		}
+
 		[ObjectCreator.UseCtorAttribute]
-		protected CustomOrder()
-		{
-
-		}
-
-		protected CustomOrder(string orderString, Actor subject)
-		{
-			Init(orderString, subject);
-		}
-
-		internal void Init(string orderString, Actor subject)
+		protected CustomOrder([ObjectCreator.Param("orderString")] string orderString, [ObjectCreator.Param("subject")] Actor subject)
 		{
 			OrderString = orderString;
 			Subject = subject;
 		}
 
-		public abstract void OnSerialize(BinaryWriter w);
-		public abstract bool OnDeserialize(World world, BinaryReader r);
+		public void OnSerialize(BinaryWriter w)
+		{
+			const BindingFlags bf = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+			foreach (var field in GetType().GetFields(bf).Where(x => x.HasAttribute<CustomOrderFieldAttribute>()))
+			{
+				Write(w, field.FieldType, field.GetValue(this));
+			}
+
+			foreach (var prop in GetType().GetProperties(bf).Where(x => x.HasAttribute<CustomOrderFieldAttribute>()))
+			{
+				Write(w, prop.PropertyType, prop.GetValue(this, null));
+			}
+		}
+
+		public bool OnDeserialize(World world, BinaryReader r)
+		{
+			bool result = true;
+
+			const BindingFlags bf = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+			foreach (var field in GetType().GetFields(bf).Where(x => x.HasAttribute<CustomOrderFieldAttribute>()))
+			{
+				field.SetValue(this, Read(world, r, field.FieldType, ref result));
+			}
+
+			foreach (var prop in GetType().GetProperties(bf).Where(x => x.HasAttribute<CustomOrderFieldAttribute>()))
+			{
+				prop.SetValue(this, Read(world, r, prop.PropertyType, ref result), null);
+			}
+
+			return result;
+		}
+
+		static object Read(World world, BinaryReader r, Type t, ref bool result)
+		{
+			if (t == typeof(byte))
+				return r.ReadByte();
+
+			if (t == typeof(sbyte))
+				return r.ReadSByte();
+
+			if (t == typeof(char))
+				return r.ReadChar();
+
+			if (t == typeof(int))
+				return r.ReadInt32();
+
+			if (t == typeof(uint))
+				return r.ReadUInt32();
+
+			if (t == typeof(bool))
+				return r.ReadBoolean();
+
+			if (t == typeof(string))
+				return r.ReadString(true);
+
+			if (t == typeof(int2))
+				return r.ReadInt2();
+
+			if (t == typeof(long))
+				return r.ReadInt64();
+
+			if (t == typeof(ulong))
+				return r.ReadUInt64();
+
+			if (t == typeof(short))
+				return r.ReadInt16();
+
+			if (t == typeof(ushort))
+				return r.ReadUInt16();
+
+			if (t == typeof(Actor))
+			{
+				Actor ret;
+				if (result)
+					result = TryGetActorFromUInt(world, r.ReadUInt32(), out ret);
+				else
+					TryGetActorFromUInt(world, r.ReadUInt32(), out ret);
+
+				return ret;
+			}
+
+			throw new Exception("Tried to deserialize unhandled type.");
+		}
+
+		void Write(BinaryWriter w, Type t, object obj)
+		{
+			if (t == typeof(byte))
+				w.Write((byte)obj);
+			else if (t == typeof(sbyte))
+				w.Write((sbyte)obj);
+			else if (t == typeof(char))
+				w.Write((char)obj);
+			else if (t == typeof(int))
+				w.Write((int)obj);
+			else if (t == typeof(uint))
+				w.Write((uint)obj);
+			else if (t == typeof(bool))
+				w.Write((bool)obj);
+			else if (t == typeof(string))
+				w.Write((string)obj, true);
+			else if (t == typeof(int2))
+				w.Write((int2)obj);
+			else if (t == typeof(long))
+				w.Write((long)obj);
+			else if (t == typeof(ulong))
+				w.Write((ulong)obj);
+			else if (t == typeof(short))
+				w.Write((short)obj);
+			else if (t == typeof(ushort))
+				w.Write((ushort)obj);
+			else if (t == typeof(Actor))
+				w.Write(UIntFromActor((Actor)obj));
+			else
+				throw new Exception("Tried to serialize unhandled type.");
+		}
 	}
 
 	public class Order
@@ -195,8 +305,7 @@ namespace OpenRA
 						if (!TryGetActorFromUInt(world, subjectId, out subject))
 							return null;
 
-						var o = Game.CreateObject<CustomOrder>(orderClass);
-						o.Init(order, subject);
+						var o = Game.CreateObject<CustomOrder>(orderClass, new Dictionary<string, object> { { "orderString", order }, { "subject", subject } });
 
 						return o.OnDeserialize(world, r) ? o : null;
 					}

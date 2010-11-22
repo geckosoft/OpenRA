@@ -94,7 +94,7 @@ namespace OpenRA.Mods.RA
 					var targetUnits = FindUnitsInCircle(world, xy, info.Range);
 
 					if( targetUnits.Any() )
-						yield return new IronCurtainOrder("IronCurtain", world.LocalPlayer.PlayerActor, xy);
+						yield return new Order("IronCurtain", world.LocalPlayer.PlayerActor, xy, false);
 				}
 			}
 
@@ -152,30 +152,4 @@ namespace OpenRA.Mods.RA
 	// tag trait for the building
 	class IronCurtainInfo : TraitInfo<IronCurtain> { }
 	class IronCurtain { }
-
-	// custom order
-	public class IronCurtainOrder : CustomOrder
-	{
-		public IronCurtainOrder() // required
-		{
-			
-		}
-
-		public IronCurtainOrder(string orderString, Actor subject, int2 xy) : base(orderString, subject)
-		{
-			TargetLocation = xy;
-		}
-
-		public override void OnSerialize(BinaryWriter w)
-		{
-			w.Write(TargetLocation);
-		}
-
-		public override bool OnDeserialize(World world, BinaryReader r)
-		{
-			TargetLocation = r.ReadInt2();
-
-			return true;
-		}
-	}
 }
