@@ -53,7 +53,7 @@ namespace OpenRA
 		}
 		
 		string cachedTheatre = null;
-		bool previousMapHadSequences = true; // true so it loads them the first time anyhow
+		bool previousMapHadSequences = true;
 		IFolder previousMapMount = null;
 
 		public Map PrepareMap(string uid)
@@ -62,7 +62,7 @@ namespace OpenRA
 
 			if (!AvailableMaps.ContainsKey(uid))
 				throw new InvalidDataException("Invalid map uid: {0}".F(uid));
-			
+
 			var map = new Map(AvailableMaps[uid]);
 
 			// unload the previous map mount if we have one
@@ -78,17 +78,16 @@ namespace OpenRA
 
 			Rules.LoadRules(Manifest, map);
 
-			if (map.Theater != cachedTheatre)
+			if (map.Theater != cachedTheatre
+				|| previousMapHadSequences || map.Sequences.Count > 0)
 			{
 				SpriteSheetBuilder.Initialize( Rules.TileSets[map.Tileset] );
 				CursorProvider.Initialize(Manifest.Cursors);
+				SequenceProvider.Initialize(Manifest.Sequences, map.Sequences);
 				cachedTheatre = map.Theater;
 			}
 
-			if (previousMapHadSequences || map.Sequences.Any())
-				SequenceProvider.Initialize(Manifest.Sequences, map.Sequences);
-
-			previousMapHadSequences = map.Sequences.Any();
+			previousMapHadSequences = map.Sequences.Count > 0;
 
 			return map;
 		}
