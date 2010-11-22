@@ -10,6 +10,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using OpenRA.Graphics;
 using OpenRA.Mods.RA.Effects;
@@ -73,6 +74,7 @@ namespace OpenRA.Mods.RA
 								&& a.HasTrait<IronCurtainable>()
 								&& a.HasTrait<Selectable>());
 		}
+
 		class SelectTarget : IOrderGenerator
 		{
 			IronCurtainPowerInfo _info;
@@ -98,7 +100,7 @@ namespace OpenRA.Mods.RA
 					var targetUnits = FindUnitsInCircle(world, xy, _info.Range);
 
 					if( targetUnits.Any() )
-						yield return new Order("IronCurtain", world.LocalPlayer.PlayerActor, xy, false);
+						yield return new IronCurtainOrder("IronCurtain", world.LocalPlayer.PlayerActor, xy);
 				}
 			}
 
@@ -147,4 +149,30 @@ namespace OpenRA.Mods.RA
 	// tag trait for the building
 	class IronCurtainInfo : TraitInfo<IronCurtain> { }
 	class IronCurtain { }
+
+	// custom order
+	public class IronCurtainOrder : CustomOrder
+	{
+		public IronCurtainOrder() // required
+		{
+			
+		}
+
+		public IronCurtainOrder(string orderString, Actor subject, int2 xy) : base(orderString, subject)
+		{
+			TargetLocation = xy;
+		}
+
+		public override void OnSerialize(BinaryWriter w)
+		{
+			Write(w, TargetLocation);
+		}
+
+		public override bool OnDeserialize(World world, BinaryReader r)
+		{
+			TargetLocation = ReadInt2(r);
+
+			return true;
+		}
+	}
 }
