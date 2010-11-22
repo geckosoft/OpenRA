@@ -88,8 +88,6 @@ namespace OpenRA.Mods.RA
 				if (mi.Button == MouseButton.Right)
 					world.CancelInputMode();
 
-				HighlightTarget.Cleanup(world);
-
 				var ret = OrderInner( world, xy, mi ).ToList();
 				foreach( var order in ret )
 				{
@@ -120,8 +118,6 @@ namespace OpenRA.Mods.RA
 				if (!hasChronosphere)
 				{
 					world.CancelInputMode();
-
-					HighlightTarget.Cleanup(world);
 				}
 			}
 
@@ -130,9 +126,6 @@ namespace OpenRA.Mods.RA
 				if (_lastMouseInput == null) return;
 
 				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), info.Range);
-
-				HighlightTarget.Cleanup(world);
-				targetUnits.Do(a => world.Add(new HighlightTarget(a)));
 
 				if (info.Range >= 1f)
 					wr.DrawRangeCircle(Color.Green, Game.viewport.Location + _lastMouseInput.Value.Location, info.Range - 0.5f);
@@ -151,6 +144,15 @@ namespace OpenRA.Mods.RA
 			}
 			public IEnumerable<Renderable> Render(World world)
 			{
+				if (_lastMouseInput == null) yield break;
+
+				var targetUnits = FindUnitsInCircle(world, Game.viewport.ViewToWorld(_lastMouseInput.Value).ToInt2(), info.Range);
+
+				foreach (var r in targetUnits.SelectMany(a => a.Render()))
+				{
+					yield return r.WithPalette("highlight");
+				}
+
 				yield break;
 			}
 		}
