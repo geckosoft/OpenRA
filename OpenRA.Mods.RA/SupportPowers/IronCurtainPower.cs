@@ -52,7 +52,7 @@ namespace OpenRA.Mods.RA
 
 				Sound.Play("ironcur9.aud", Game.CellSize * order.TargetLocation);
 
-				var targets = SelectTarget.FindUnitsInCircle(self.World, order.TargetLocation, (Info as IronCurtainPowerInfo).Range);
+				var targets = FindUnitsInCircle(self.World, order.TargetLocation, (Info as IronCurtainPowerInfo).Range);
 
 				foreach (var target in targets)
 				{
@@ -62,8 +62,17 @@ namespace OpenRA.Mods.RA
 
 				FinishActivate();
 			}
+
 		}
 
+
+		public static IEnumerable<Actor> FindUnitsInCircle(World world, int2 xy, float range)
+		{
+			return world.FindUnitsInCircle(xy * Game.CellSize, range * Game.CellSize)
+					.Where(a => a.Owner != null
+								&& a.HasTrait<IronCurtainable>()
+								&& a.HasTrait<Selectable>());
+		}
 		class SelectTarget : IOrderGenerator
 		{
 			IronCurtainPowerInfo _info;
@@ -91,14 +100,6 @@ namespace OpenRA.Mods.RA
 					if( targetUnits.Any() )
 						yield return new Order("IronCurtain", world.LocalPlayer.PlayerActor, xy, false);
 				}
-			}
-
-			public static IEnumerable<Actor> FindUnitsInCircle(World world, int2 xy, float range)
-			{
-				return world.FindUnitsInCircle(xy * Game.CellSize, range * Game.CellSize)
-						.Where(a => a.Owner != null
-									&& a.HasTrait<IronCurtainable>()
-									&& a.HasTrait<Selectable>());
 			}
 
 			public void Tick(World world)
