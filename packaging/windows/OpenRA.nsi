@@ -20,6 +20,7 @@
 !include "FileFunc.nsh"
 !include "WordFunc.nsh"
 
+!define srcdir "../../"
 Name "OpenRA"
 OutFile "OpenRA.exe"
 
@@ -99,6 +100,8 @@ Section "Client" Client
 			"$OUTDIR\OpenRA.ico" "" "" "" ""
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\OpenRA - Command & Conquer.lnk" $OUTDIR\OpenRA.Game.exe "Game.Mods=cnc" \
 			"$OUTDIR\OpenRA.ico" "" "" "" ""
+		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\OpenRenegade.lnk" $OUTDIR\OpenRA.Game.exe "Game.Mods=rg" \
+			"$OUTDIR\OpenRA.ico" "" "" "" ""
 	!insertmacro MUI_STARTMENU_WRITE_END
 	
 	SetOutPath "$INSTDIR\cg"
@@ -117,6 +120,8 @@ Section "Editor" Editor
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\OpenRA Editor (RA).lnk" $OUTDIR\OpenRA.Editor.exe "ra" \
 			"$OUTDIR\OpenRA.ico" "" "" "" ""
 		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\OpenRA Editor (CNC).lnk" $OUTDIR\OpenRA.Editor.exe "cnc" \
+			"$OUTDIR\OpenRA.ico" "" "" "" ""
+		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\OpenRA Editor (OpenRenegade).lnk" $OUTDIR\OpenRA.Editor.exe "rg" \
 			"$OUTDIR\OpenRA.ico" "" "" "" ""
 	!insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -177,6 +182,21 @@ SectionGroup /e "Mods"
 				ZipDLL::extractall "cnc-packages.zip" "$OUTDIR"
 				Delete cnc-packages.zip
 			done:
+		SectionEnd
+	SectionGroupEnd
+	SectionGroup "OpenRenegade (openrg)" RG
+		Section "-OpenRenegade"
+			SetOutPath "$INSTDIR\mods\rg"
+			File "${SRCDIR}\mods\rg\*.*"
+			File /r "${SRCDIR}\mods\rg\bits"
+			File /r "${SRCDIR}\mods\rg\chrome"
+			File /r "${SRCDIR}\mods\rg\ext"
+			File /r "${SRCDIR}\mods\rg\maps"
+			File /r "${SRCDIR}\mods\rg\packages"	
+			File /r "${SRCDIR}\mods\rg\rules"
+			File /r "${SRCDIR}\mods\rg\sequences"
+			File /r "${SRCDIR}\mods\rg\tilesets"
+			File /r "${SRCDIR}\mods\rg\uibits"
 		SectionEnd
 	SectionGroupEnd
 SectionGroupEnd
@@ -325,11 +345,13 @@ SectionEnd
 LangString DESC_Client ${LANG_ENGLISH} "OpenRA client and dependencies"
 LangString DESC_RA ${LANG_ENGLISH} "Base Red Alert mod"
 LangString DESC_CNC ${LANG_ENGLISH} "Base Command and Conquer mod"
+LangString DESC_RG ${LANG_ENGLISH} "Mod: OpenRenegade (openrg)"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 	!insertmacro MUI_DESCRIPTION_TEXT ${Client} $(DESC_Client)
 	!insertmacro MUI_DESCRIPTION_TEXT ${RA} $(DESC_RA)
 	!insertmacro MUI_DESCRIPTION_TEXT ${CNC} $(DESC_CNC)
+	!insertmacro MUI_DESCRIPTION_TEXT ${RG} $(DESC_RG)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;***************************
