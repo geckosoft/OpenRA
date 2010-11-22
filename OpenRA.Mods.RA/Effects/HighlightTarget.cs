@@ -28,6 +28,11 @@ namespace OpenRA.Mods.RA.Effects
 				world.AddFrameEndTask(w => w.Remove(this));
 		}
 
+		public static void Cleanup(World world)
+		{
+			world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove); 
+		}
+
 		public IEnumerable<Renderable> Render()
 		{
 			if (Target.Destroyed || !Target.IsInWorld || PendingRemoval)
