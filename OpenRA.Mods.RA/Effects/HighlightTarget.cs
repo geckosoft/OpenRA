@@ -30,7 +30,7 @@ namespace OpenRA.Mods.RA.Effects
 
 		public static void Cleanup(World world)
 		{
-			world.Effects.Where(e => e is HighlightTarget).ToArray().Do(world.Remove); 
+			world.Effects.Where(e => e is HighlightTarget).Do(e => (e as HighlightTarget).Remove()); 
 		}
 
 		public IEnumerable<Renderable> Render()
