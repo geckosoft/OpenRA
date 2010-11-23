@@ -50,9 +50,14 @@ namespace OpenRA.Graphics
 			return uvhax[ k ];
 		}
 
-		public void DrawAt( WorldRenderer wr, float2 location, string palette )
+		public void DrawAt(WorldRenderer wr, float2 location, string palette)
 		{
-			Game.Renderer.SpriteRenderer.DrawSprite( this, location, wr, palette, this.size );
+			DrawAt(wr, location, palette, 1f);
+		}
+
+		public void DrawAt(WorldRenderer wr, float2 location, string palette, float scale)
+		{
+			Game.Renderer.SpriteRenderer.DrawSprite(this, location, wr, palette, this.size * scale);
 		}
 
 		public void DrawAt( float2 location, int paletteIndex )
