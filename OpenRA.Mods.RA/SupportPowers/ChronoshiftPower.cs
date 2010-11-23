@@ -227,6 +227,10 @@ namespace OpenRA.Mods.RA
 					var canEnter = unit.Trait<Chronoshiftable>().CanChronoshiftTo(unit,targetCell);
 					var tile = canEnter ? validTile : invalidTile;
 					tile.DrawAt( wr, Game.CellSize * targetCell, "terrain" );
+
+					if (canEnter)
+						foreach (var r in unit.Render())
+								r.Sprite.DrawAt(wr, Game.CellSize * targetCell, r.Palette,  r.Scale);
 				}
 			}
 
