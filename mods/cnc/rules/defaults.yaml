@@ -28,7 +28,7 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
-	ActorType:
+	ProximityCaptor:
 		Types:Vehicle
 
 ^Tank:
@@ -61,7 +61,7 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
-	ActorType:
+	ProximityCaptor:
 		Types:Tank
 
 ^Helicopter:
@@ -83,7 +83,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Helicopter
 
 ^Infantry:
@@ -123,7 +123,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Infantry
 
 ^CivInfantry:
@@ -148,7 +148,7 @@
 #	ActorLostNotification:
 #		Notification: civdead1.aud
 #		NotifyAll: true
-	ActorType:
+	ProximityCaptor:
 		Types:CivilianInfantry
 
 ^Plane:
@@ -164,7 +164,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlost.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Plane
 
 ^Ship:
@@ -184,7 +184,7 @@
 	ActorLostNotification:
 		Notification: unitlost.aud
 	AttackMove:
-	ActorType:
+	ProximityCaptor:
 		Types:Ship
 
 ^Building:
@@ -221,7 +221,7 @@
 		Notification: strclost.aud
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Building
 
 ^CivBuilding:
@@ -237,7 +237,7 @@
 	-RepairableBuilding:
 	Tooltip:
 		Name: Civilian Building
-	ActorType:
+	ProximityCaptor:
 		Types:CivilianBuilding
 
 ^CivField:
@@ -250,8 +250,8 @@
 	RenderBuilding:
 		OverrideTheater: DESERT
 		OverrideImage: v23
-	-ActorType:
-	ActorType:
+	-ProximityCaptor:
+	ProximityCaptor:
 		Types:CivilianField
 
 ^Wall:
@@ -279,7 +279,7 @@
 	GivesExperience:
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Wall
 
 ^Tree:
@@ -295,7 +295,7 @@
 		Terrain: Tree
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Tree
 		
 ^Rock:
@@ -311,7 +311,7 @@
 		Terrain: Tree
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Rock
 
 ^Husk:
@@ -325,7 +325,7 @@
 	HiddenUnderFog:
 	AppearsOnRadar:
 	Burns:
-	ActorType:
+	ProximityCaptor:
 		Types:Husk
 
 ^Bridge:
@@ -341,5 +341,5 @@
 		DestroyedSound: xplobig4.aud
 		Footprint: ______ ______ ______ ______
 		Dimensions: 6,4
-	ActorType:
+	ProximityCaptor:
 		Types:Bridge

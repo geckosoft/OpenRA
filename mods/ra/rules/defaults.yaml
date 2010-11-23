@@ -25,7 +25,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlst1.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Vehicle
 		
 ^Tank:
@@ -55,7 +55,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlst1.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Tank
 
 ^Infantry:
@@ -89,7 +89,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: unitlst1.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Infantry
 
 ^Ship:
@@ -111,7 +111,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: navylst1.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Ship
 
 ^Plane:
@@ -128,7 +128,7 @@
 	DrawLineToTarget:
 	ActorLostNotification:
 		Notification: aunitl1.aud
-	ActorType:
+	ProximityCaptor:
 		Types:Plane
 
 ^Building:
@@ -151,7 +151,7 @@
 		Notification: strucap1.aud
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Building
 
 ^Wall:
@@ -179,7 +179,7 @@
 	GivesExperience:
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Wall
 
 ^CivBuilding:
@@ -191,7 +191,7 @@
 		Type: Wood
 	Tooltip:
 		Name: Civilian Building
-	ActorType:
+	ProximityCaptor:
 		Types:CivilianBuilding
 
 ^CivField:
@@ -199,8 +199,8 @@
 	-Selectable:
 	Tooltip:
 		Name: Field
-	-ActorType:
-	ActorType:
+	-ProximityCaptor:
+	ProximityCaptor:
 		Types:CivilianField
 
 ^Tree:
@@ -216,7 +216,7 @@
 		Terrain: Tree
 	EditorAppearance:
 		RelativeToTopLeft: yes
-	ActorType:
+	ProximityCaptor:
 		Types:Tree
 
 ^Husk:
@@ -230,7 +230,7 @@
 	HiddenUnderFog:
 	AppearsOnRadar:
 	Burns:
-	ActorType:
+	ProximityCaptor:
 		Types:Husk
 
 ^Bridge:
@@ -244,5 +244,5 @@
 		Dimensions: 4,2
 	Health:
 		HP: 1000
-	ActorType:
+	ProximityCaptor:
 		Types:Bridge

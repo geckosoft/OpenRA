@@ -279,8 +279,8 @@ C1:
 		Range: 2
 	AttackFrontal:
 		PrimaryWeapon: Pistol
-	-ActorType:
-	ActorType:
+	-ProximityCaptor:
+	ProximityCaptor:
 		Types:CivilianInfantry
 
 C2:
@@ -300,8 +300,8 @@ C2:
 		Range: 2
 	AttackFrontal:
 		PrimaryWeapon: Pistol
-	-ActorType:
-	ActorType:
+	-ProximityCaptor:
+	ProximityCaptor:
 		Types:CivilianInfantry
 
 SHOK:

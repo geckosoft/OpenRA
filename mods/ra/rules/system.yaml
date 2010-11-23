@@ -241,7 +241,7 @@ MINP:
 	InvisibleToOthers:
 	Tooltip:
 		Name: Anti-Personnel Mine
-	ActorType:
+	ProximityCaptor:
 		Types:Mine
 
 MINV:
@@ -256,7 +256,7 @@ MINV:
 	InvisibleToOthers:
 	Tooltip:
 		Name: Anti-Tank Mine
-	ActorType:
+	ProximityCaptor:
 		Types:Mine
 
 CRATE:
@@ -317,7 +317,7 @@ CRATE:
 		Unit: 4tnk
 	RenderUnit:
 	BelowUnits:
-	ActorType:
+	ProximityCaptor:
 		Types:Crate
 
 CAMERA:
@@ -326,7 +326,7 @@ CAMERA:
 		HP:1000
 	RevealsShroud:
 		Range: 10	
-	ActorType:
+	ProximityCaptor:
 		Types:Camera
 
 FLARE:
@@ -338,5 +338,5 @@ FLARE:
 	RenderFlare:
 		Image: smokland
 	HiddenUnderFog:
-	ActorType:
+	ProximityCaptor:
 		Types:Flare

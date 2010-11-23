@@ -12,7 +12,7 @@ namespace OpenRA.Mods.RA
 		public readonly bool Permanent = false;
 		public readonly int Range = 5;
 		public readonly bool MustBeClear = false;
-		public readonly string[] ActorTypes = {"Vehicle", "Tank", "Infantry"};
+		public readonly string[] CaptorTypes = {"Vehicle", "Tank", "Infantry"};
 
 		public object Create(ActorInitializer init) { return new ProximityCapturable(init.self, this); }
 	}
@@ -39,12 +39,12 @@ namespace OpenRA.Mods.RA
 		[Sync]
 		public bool MustBeClear = false;
 
-		public string[] ActorTypes = {};
+		public string[] CaptorTypes = {};
 
 		[Sync]
 		public int ActorTypesHash
 		{
-			get { return string.Join(",", ActorTypes).GetHashCode(); }
+			get { return string.Join(",", CaptorTypes).GetHashCode(); }
 		}
 		public Actor Self;
 
@@ -56,7 +56,7 @@ namespace OpenRA.Mods.RA
 			MustBeClear = info.MustBeClear;
 			Self = self;
 			OriginalOwner = self.Owner;
-			ActorTypes = info.ActorTypes;
+			CaptorTypes = info.CaptorTypes;
 		}
 
 		public void Tick(Actor self)
@@ -67,11 +67,11 @@ namespace OpenRA.Mods.RA
 
 			if (!Captured)
 			{
-				var captor = GetInRange(self, OriginalOwner, Range, ActorTypes);
+				var captor = GetInRange(self, OriginalOwner, Range, CaptorTypes);
 
 				if (captor != null)
 				{
-					if (MustBeClear && !IsClear(self, captor.Owner, Range, OriginalOwner, ActorTypes)) return;
+					if (MustBeClear && !IsClear(self, captor.Owner, Range, OriginalOwner, CaptorTypes)) return;
 
 					ChangeOwnership(self, captor, OriginalOwner);
 				}
@@ -80,7 +80,7 @@ namespace OpenRA.Mods.RA
 			}
 
 			// if the area must be clear, and there is more than 1 player nearby => return ownership to default
-			if (MustBeClear && !IsClear(self, Owner, Range, OriginalOwner, ActorTypes))
+			if (MustBeClear && !IsClear(self, Owner, Range, OriginalOwner, CaptorTypes))
 			{
 				// Revert Ownership
 				ChangeOwnership(self, Owner, OriginalOwner);
@@ -88,10 +88,10 @@ namespace OpenRA.Mods.RA
 			}
 
 			// See if the 'temporary' owner still is in range
-			if (!IsStillInRange(self, self.Owner, Range, ActorTypes))
+			if (!IsStillInRange(self, self.Owner, Range, CaptorTypes))
 			{
 				// no.. So find a new one
-				var captor = GetInRange(self, OriginalOwner, Range, ActorTypes);
+				var captor = GetInRange(self, OriginalOwner, Range, CaptorTypes);
 
 				if (captor != null) // got one
 				{
@@ -152,7 +152,7 @@ namespace OpenRA.Mods.RA
 
 			return unitsInRange
 				.Where(a => !a.Destroyed && a.IsInWorld && a != self && !a.Owner.NonCombatant && a.Owner != originalOwner)
-				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
+				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ProximityCaptor>() && a.Trait<ProximityCaptor>().HasAny(actorTypes)))
 				.Where(a => a.Owner != currentOwner).All(a => (a.Owner.Stances[currentOwner] == Stance.Ally) && (currentOwner.Stances[a.Owner] == Stance.Ally));
 		}
 
@@ -163,7 +163,7 @@ namespace OpenRA.Mods.RA
 
 			return unitsInRange
 				.Where(a => a.Owner == currentOwner && !a.Destroyed && a.IsInWorld && a != self)
-				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
+				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ProximityCaptor>() && a.Trait<ProximityCaptor>().HasAny(actorTypes)))
 				.Any();
 		}
 
@@ -176,7 +176,7 @@ namespace OpenRA.Mods.RA
 				.Where(a => a.Owner != originalOwner && !a.Destroyed && a.IsInWorld && a != self)
 				.Where(a => !a.Owner.PlayerRef.OwnsWorld)
 				.Where(a => !a.Owner.PlayerRef.NonCombatant)
-				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
+				.Where(a => actorTypes.Length == 0 || (a.HasTrait<ProximityCaptor>() && a.Trait<ProximityCaptor>().HasAny(actorTypes)))
 				.OrderBy(a => (a.CenterLocation - self.CenterLocation).LengthSquared)
 				.FirstOrDefault();
 		}
@@ -189,7 +189,7 @@ namespace OpenRA.Mods.RA
 				.Where(a => a.Owner != ignoreMe && !a.Destroyed && a.IsInWorld && a != self)
 				.Where(a => !a.Owner.PlayerRef.OwnsWorld)
 				.Where(a => !a.Owner.PlayerRef.NonCombatant)
-				.Where(a =>actorTypes.Length == 0 || (  a.HasTrait<ActorType>() && a.Trait<ActorType>().HasAny(actorTypes)))
+				.Where(a =>actorTypes.Length == 0 || (  a.HasTrait<ProximityCaptor>() && a.Trait<ProximityCaptor>().HasAny(actorTypes)))
 				.Select(a => a.Owner)
 				.Distinct()
 				.Count();
