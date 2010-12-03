@@ -71,6 +71,17 @@ namespace OpenRA.FileFormats
 		{
 			colors = (uint[])p.colors.Clone();
 		}
+
+		public static ColorPalette CreateSystemPalette(Palette p)
+		{
+			ColorPalette pal;
+			using (var b = new Bitmap(1, 1, PixelFormat.Format8bppIndexed))
+				pal = b.Palette;
+
+			for (var i = 0; i < 256; i++)
+				pal.Entries[i] = p.GetColor(i);
+			return pal;
+		}
 	}
 
 	public interface IPaletteRemap { Color GetRemappedColor(Color original, int index);	}
