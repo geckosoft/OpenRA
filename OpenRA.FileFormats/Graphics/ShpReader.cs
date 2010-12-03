@@ -8,10 +8,12 @@
  */
 #endregion
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace OpenRA.FileFormats
 {
@@ -26,6 +28,10 @@ namespace OpenRA.FileFormats
 
 		public byte[] Image;
 
+		public ImageHeader()
+		{
+			
+		}
 		public ImageHeader( BinaryReader reader )
 		{
 			Offset = reader.ReadUInt32();
@@ -39,6 +45,8 @@ namespace OpenRA.FileFormats
 
 	public enum Format
 	{
+		Format00 = 0x00,
+		Format01 = 0x01,
 		Format20 = 0x20,
 		Format40 = 0x40,
 		Format80 = 0x80,
@@ -58,7 +66,7 @@ namespace OpenRA.FileFormats
 
 		public ShpReader( Stream stream )
 		{
-			BinaryReader reader = new BinaryReader( stream );
+			var reader = new BinaryReader( stream );
 
 			ImageCount = reader.ReadUInt16();
 			reader.ReadUInt16();
@@ -73,9 +81,7 @@ namespace OpenRA.FileFormats
 			new ImageHeader( reader ); // end-of-file header
 			new ImageHeader( reader ); // all-zeroes header
 
-			Dictionary<uint, ImageHeader> offsets = new Dictionary<uint, ImageHeader>();
-			foreach( ImageHeader h in headers )
-				offsets.Add( h.Offset, h );
+			var offsets = headers.ToDictionary(h => h.Offset);
 
 			for( int i = 0 ; i < ImageCount ; i++ )
 			{
@@ -106,6 +112,12 @@ namespace OpenRA.FileFormats
 
 			switch( h.Format )
 			{
+				case Format.Format00:
+					h.Image = Format00.Process(stream, h);
+					break;
+				case Format.Format01:
+					h.Image = Format01.Process(stream, h);
+					break;
 				case Format.Format20:
 				case Format.Format40:
 					{

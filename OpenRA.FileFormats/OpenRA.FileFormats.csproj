@@ -63,8 +63,11 @@
     <Compile Include="Evaluator.cs" />
     <Compile Include="Exts.cs" />
     <Compile Include="FieldLoader.cs" />
+    <Compile Include="FileFormats\Format01.cs" />
+    <Compile Include="FileFormats\Format00.cs" />
     <Compile Include="Graphics\IGraphicsDevice.cs" />
     <Compile Include="Graphics\IInputHandler.cs" />
+    <Compile Include="Graphics\ShpWriter.cs" />
     <Compile Include="Graphics\Vertex.cs" />
     <Compile Include="Manifest.cs" />
     <Compile Include="MiniYaml.cs" />

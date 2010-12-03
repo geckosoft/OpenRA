@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRA.Renderer.Gl", "OpenR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenRA.Launcher", "OpenRA.Launcher\OpenRA.Launcher.csproj", "{2EA6C9C7-28A8-46C6-A42C-9275692EB285}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gfx2shp", "gfx2shp\gfx2shp.csproj", "{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -202,6 +204,14 @@ Global
 		{2EA6C9C7-28A8-46C6-A42C-9275692EB285}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2EA6C9C7-28A8-46C6-A42C-9275692EB285}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2EA6C9C7-28A8-46C6-A42C-9275692EB285}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0E2892B6-63B7-4A3C-A5E2-32012C1BC516}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2EA6C9C7-28A8-46C6-A42C-9275692EB285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2EA6C9C7-28A8-46C6-A42C-9275692EB285}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EA6C9C7-28A8-46C6-A42C-9275692EB285}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

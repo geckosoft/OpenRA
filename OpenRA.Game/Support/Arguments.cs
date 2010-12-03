@@ -30,6 +30,11 @@ namespace OpenRA
 			}
 		}
 
+		public int Count
+		{
+			get { return args.Count; } 
+		}
+
 		public bool Contains(string key) { return args.ContainsKey(key); }
 
 		public string GetValue(string key, string defaultValue) { return Contains(key) ? args[key] : defaultValue; }

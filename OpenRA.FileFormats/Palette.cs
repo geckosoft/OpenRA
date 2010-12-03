@@ -8,8 +8,11 @@
  */
 #endregion
 
+using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 
 namespace OpenRA.FileFormats
 {
@@ -21,6 +24,26 @@ namespace OpenRA.FileFormats
 			return Color.FromArgb((int)colors[index]);
 		}
 		
+		public uint GetNearestColorRGBA(Color original)
+		{
+			return Values.OrderBy(v => GetColorDistance(original, Color.FromArgb((int) v))).First();
+		}
+
+
+		public int GetNearestColorIndex(Color color)
+		{
+			return Values.ToList().IndexOf(GetNearestColorRGBA(color));
+		}
+
+		public static int GetColorDistance(Color original, Color target)
+		{
+			var redDistance = original.R - target.R;
+			var greenDistance = original.G - target.G;
+			var blueDistance = original.B - target.B;
+
+			return (redDistance * redDistance) + (greenDistance * greenDistance) + (blueDistance * blueDistance);
+		}
+
 		public void SetColor(int index, Color color)
 		{
 			colors[index] = (uint)color.ToArgb();
