@@ -31,7 +31,7 @@ namespace OpenRA
 			// Namespaces from each mod assembly
 			foreach (var a in manifest.Assemblies)
 			{
-				var asm = Assembly.LoadFile(Path.GetFullPath(a));
+				var asm = Assembly.LoadFile(Path.GetFullPath(Path.Combine(Game.SupportDir, a)));
 				asms.AddRange(asm.GetNamespaces().Select(ns => Pair.New(asm, ns)));
 			}
 

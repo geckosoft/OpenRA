@@ -56,9 +56,9 @@ namespace OpenRA.Graphics
 			WorldSpriteRenderer = new SpriteRenderer( this, WorldSpriteShader );
 			LineRenderer = new LineRenderer(this);
 
-			RegularFont = new SpriteFont("FreeSans.ttf", 14);
-			BoldFont = new SpriteFont("FreeSansBold.ttf", 14);
-			TitleFont = new SpriteFont("titles.ttf", 48);
+			RegularFont = new SpriteFont(Path.Combine(Game.SupportDir, "FreeSans.ttf"), 14);
+			BoldFont = new SpriteFont(Path.Combine(Game.SupportDir, "FreeSansBold.ttf"), 14);
+			TitleFont = new SpriteFont(Path.Combine(Game.SupportDir, "titles.ttf"), 48);
 
 			for( int i = 0 ; i < TempBufferCount ; i++ )
 			{
@@ -129,11 +129,39 @@ namespace OpenRA.Graphics
 		static IGraphicsDevice device;
 
 		public static Size Resolution { get { return device.WindowSize; } }
-
+		public static Assembly Plug = null;
 		internal static void Initialize( OpenRA.FileFormats.Graphics.WindowMode windowMode )
 		{
 			var resolution = GetResolution( windowMode );
-			device = CreateDevice( Assembly.LoadFile( Path.GetFullPath( "OpenRA.Renderer.{0}.dll".F(Game.Settings.Graphics.Renderer) ) ), resolution.Width, resolution.Height, windowMode, false );
+			try
+			{
+				device =
+					CreateDevice(Plug,
+						resolution.Width, resolution.Height, windowMode, false);
+					}
+			catch
+			{
+				try
+				{
+					device =
+					   CreateDevice(
+						   Assembly.LoadFile(
+							   Path.GetFullPath(Path.Combine(Game.SupportDir, "OpenRA.Renderer.{0}.dll".F(Game.Settings.Graphics.Renderer)))),
+						   resolution.Width, resolution.Height, windowMode, false);
+		
+				
+				}
+				catch (Exception)
+				{
+					device =
+						CreateDevice(
+							Assembly.LoadFile(
+								Path.GetFullPath("OpenRA.Renderer.{0}.dll".F(Game.Settings.Graphics.Renderer))),
+							resolution.Width, resolution.Height, windowMode, false);
+
+				}
+
+			}
 		}
 
 		static Size GetResolution(WindowMode windowmode)

@@ -20,9 +20,9 @@ namespace OpenRA.Graphics
 	{
 		readonly int2 screenSize;
 		int2 scrollPosition;
-		readonly Renderer renderer;
-		readonly int2 mapStart;
-		readonly int2 mapEnd;
+		public readonly Renderer Renderer;
+		public readonly int2 MapStart;
+		public readonly int2 MapEnd;
 
 		public float2 Location { get { return scrollPosition; } }
 
@@ -52,8 +52,8 @@ namespace OpenRA.Graphics
 		
 		private int2 NormalizeScrollPosition(int2 newScrollPosition)
 		{
-			var topLeftBorder = Game.CellSize* mapStart;
-			var bottomRightBorder = Game.CellSize* mapEnd;
+			var topLeftBorder = Game.CellSize* MapStart;
+			var bottomRightBorder = Game.CellSize* MapEnd;
 		  
 			if(newScrollPosition.Y < topLeftBorder.Y - screenSize.Y/2)
 				newScrollPosition.Y = topLeftBorder.Y - screenSize.Y/2;
@@ -69,8 +69,8 @@ namespace OpenRA.Graphics
 		
 		public ScrollDirection GetBlockedDirections()
 		{
-			int2 topLeftBorder = (Game.CellSize* mapStart);
-			int2 bottomRightBorder = (Game.CellSize* mapEnd);
+			int2 topLeftBorder = (Game.CellSize* MapStart);
+			int2 bottomRightBorder = (Game.CellSize* MapEnd);
 			
 			ScrollDirection blockedDirections = ScrollDirection.None;
 			
@@ -89,16 +89,16 @@ namespace OpenRA.Graphics
 		public Viewport(int2 screenSize, int2 mapStart, int2 mapEnd, Renderer renderer)
 		{
 			this.screenSize = screenSize;
-			this.renderer = renderer;
-			this.mapStart = mapStart;
-			this.mapEnd = mapEnd;
+			this.Renderer = renderer;
+			this.MapStart = mapStart;
+			this.MapEnd = mapEnd;
 
 			this.scrollPosition = Game.CellSize* mapStart;
 		}
 		
 		public void DrawRegions( WorldRenderer wr, IInputHandler inputHandler )
 		{
-			renderer.BeginFrame(scrollPosition);
+			Renderer.BeginFrame(scrollPosition);
 			wr.Draw();
 
 			Widget.DoDraw( wr );
@@ -107,7 +107,7 @@ namespace OpenRA.Graphics
 			var c = new Cursor(cursorName);
 			c.Draw(wr, (int)cursorFrame, Viewport.LastMousePos + Location); 
 
-			renderer.EndFrame( inputHandler );
+			Renderer.EndFrame( inputHandler );
 		}
 
 		public void Tick()

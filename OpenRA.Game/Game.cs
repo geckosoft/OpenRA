@@ -85,6 +85,10 @@ namespace OpenRA
 		static ConnectionState lastConnectionState = ConnectionState.PreConnecting;
 		public static int LocalClientId { get { return orderManager.Connection.LocalClientId; } }
 
+		public static void Tick()
+		{
+			Tick(orderManager, viewport);
+		}
 		static void Tick( OrderManager orderManager, Viewport viewPort )
 		{
 			if (orderManager.Connection.ConnectionState != lastConnectionState)
@@ -189,66 +193,74 @@ namespace OpenRA
 		static Modifiers modifiers;
 		public static Modifiers GetModifierKeys() { return modifiers; }
 		internal static void HandleModifierKeys(Modifiers mods) { modifiers = mods; }
-
-		internal static void Initialize(Arguments args)
+		public static void Initialize(Arguments args, bool justLoadSupport)
 		{
 			AppDomain.CurrentDomain.AssemblyResolve += FileSystem.ResolveAssembly;
 
 			var defaultSupport = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
-												+ Path.DirectorySeparatorChar + "OpenRA";
+												+ Path.DirectorySeparatorChar + "OpenRA" + Path.DirectorySeparatorChar + "OpenRA_IEPlug";
 
 			SupportDir = args.GetValue("SupportDir", defaultSupport);
 			Settings = new Settings(SupportDir + "settings.yaml", args);
-
+			Mod.SupportDir = SupportDir;
 			Settings.Save();
+
+			if (justLoadSupport)
+				return;
 
 			Log.LogPath = SupportDir + "Logs" + Path.DirectorySeparatorChar;
 			Log.AddChannel("perf", "perf.log");
 			Log.AddChannel("debug", "debug.log");
 			Log.AddChannel("sync", "syncreport.log");
 
-			FileSystem.Mount("."); // Needed to access shaders
-			Renderer.Initialize( Game.Settings.Graphics.Mode );
+			FileSystem.Mount(SupportDir); // Needed to access shaders
+			Renderer.Initialize(Game.Settings.Graphics.Mode);
 			Renderer.SheetSize = Settings.Game.SheetSize;
 			Renderer = new Renderer();
-			
+
 			Console.WriteLine("Available mods:");
-			foreach(var mod in Mod.AllMods)
+			foreach (var mod in Mod.AllMods)
 				Console.WriteLine("\t{0}: {1} ({2})", mod.Key, mod.Value.Title, mod.Value.Version);
-			
+
 			// Discard any invalid mods
-			var mods = Settings.Game.Mods.Where( m => Mod.AllMods.ContainsKey( m ) ).ToArray();
-			Console.WriteLine("Loading mods: {0}",string.Join(",",mods));
-			
-			modData = new ModData( mods );
+			var mods = Settings.Game.Mods.Where(m => Mod.AllMods.ContainsKey(m)).ToArray();
+			Console.WriteLine("Loading mods: {0}", string.Join(",", mods));
+
+			modData = new ModData(mods);
 			Sound.Initialize();
 			PerfHistory.items["render"].hasNormalTick = false;
 			PerfHistory.items["batches"].hasNormalTick = false;
 			PerfHistory.items["text"].hasNormalTick = false;
 			PerfHistory.items["cursor"].hasNormalTick = false;
 
-			
+
 			JoinLocal();
 			StartGame(modData.Manifest.ShellmapUid);
 
 			// TODO: unhardcode this
-			modData.WidgetLoader.LoadWidget( new Dictionary<string,object>(), Widget.RootWidget, "PERF_BG" );
+			modData.WidgetLoader.LoadWidget(new Dictionary<string, object>(), Widget.RootWidget, "PERF_BG");
 			Widget.OpenWindow("MAINMENU_BG");
 
 			Game.orderManager.LastTickTime = Environment.TickCount;
+
 		}
 
-		static bool quit;
+		public static void Initialize(Arguments args)
+		{
+			Initialize(args, false);
+		}
+
+		public static bool Quitting { get; private set; }
 		internal static void Run()
 		{
-			while (!quit)
+			while (!Quitting)
 			{
 				Tick( orderManager, viewport );
 				Application.DoEvents();
 			}
 		}
 
-		public static void Exit() { quit = true; }
+		public static void Exit() { Quitting = true; }
 
 		public static Action<Color,string,string> AddChatLine = (c,n,s) => {};
 

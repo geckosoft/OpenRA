@@ -9,6 +9,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using OpenRA.FileFormats;
 using OpenRA.Widgets;
@@ -28,7 +29,7 @@ namespace OpenRA
 
 		public WidgetLoader( ModData modData )
 		{
-			foreach( var file in modData.Manifest.ChromeLayout.Select( a => MiniYaml.FromFile( a ) ) )
+			foreach( var file in modData.Manifest.ChromeLayout.Select( a => MiniYaml.FromFile( Path.Combine(Game.SupportDir, a) ) ) )
 				foreach( var w in file )
 					widgets.Add( w.Key.Substring( w.Key.IndexOf( '@' ) + 1 ), w );
 		}

@@ -9,6 +9,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OpenRA.FileFormats
@@ -28,7 +29,7 @@ namespace OpenRA.FileFormats
 		{
 			Mods = mods;
 			var yaml = mods
-				.Select(m => MiniYaml.FromFile("mods/" + m + "/mod.yaml"))
+				.Select(m => MiniYaml.FromFile(Path.Combine(Mod.SupportDir, "mods/" + m + "/mod.yaml")))
 				.Aggregate(MiniYaml.Merge);
 			
 			// Todo: Use fieldloader

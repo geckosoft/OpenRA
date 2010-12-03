@@ -34,7 +34,7 @@ namespace OpenRA
 			LoadScreen.Init();
 			LoadScreen.Display();
 			
-			FileSystem.LoadFromManifest( Manifest );
+			FileSystem.LoadFromManifest( Manifest, Game.SupportDir );
 			ChromeProvider.Initialize( Manifest.Chrome );
 			SheetBuilder = new SheetBuilder( TextureChannel.Red );
 			CursorSheetBuilder = new CursorSheetBuilder( this );
@@ -45,7 +45,7 @@ namespace OpenRA
 		// TODO: Do this nicer
 		Dictionary<string, MapStub> FindMaps(string[] mods)
 		{
-			var paths = new[] { "maps/" }.Concat(mods.Select(m => "mods/" + m + "/maps/"))
+			var paths = new[] { "maps/" }.Concat(mods.Select(m => Path.Combine(Game.SupportDir, "mods/" + m + "/maps/")))
 				.Where(p => Directory.Exists(p))
 				.SelectMany(p => Directory.GetDirectories(p)).ToList();
 

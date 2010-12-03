@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using OpenRA.FileFormats;
 using OpenRA.GameRules;
@@ -37,14 +38,14 @@ namespace OpenRA
 			TileSets = new Dictionary<string, TileSet>();
 			foreach (var file in m.TileSets)
 			{
-				var t = new TileSet(file);
+				var t = new TileSet(Path.Combine(Game.SupportDir,  file));
 				TileSets.Add(t.Id,t);
 			}
 		}
 		
 		static Dictionary<string, T> LoadYamlRules<T>(string[] files, List<MiniYamlNode> dict, Func<MiniYamlNode, Dictionary<string, MiniYaml>, T> f)
 		{
-			var y = files.Select(a => MiniYaml.FromFile(a)).Aggregate(dict,MiniYaml.Merge);
+			var y = files.Select(a => MiniYaml.FromFile(Path.Combine(Game.SupportDir, a))).Aggregate(dict, MiniYaml.Merge);
 			var yy = y.ToDictionary( x => x.Key, x => x.Value );
 			return y.ToDictionary(kv => kv.Key.ToLowerInvariant(), kv => f(kv, yy));
 		}

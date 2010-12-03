@@ -55,6 +55,18 @@ namespace OpenRA.Widgets
 		}
 		private static Widget rootWidget = new ContainerWidget();
 		
+		public static void ReinitAll()
+		{
+			if (rootWidget != null)
+			{
+				rootWidget.Initialize();
+				if (rootWidget.Children != null)
+				foreach (var child in rootWidget.Children)
+				{
+					child.Initialize();
+				}
+			}
+		}
 		public Widget(Widget widget)
 		{	
 			Id = widget.Id;

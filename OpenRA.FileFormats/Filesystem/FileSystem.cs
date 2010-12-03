@@ -50,8 +50,8 @@ namespace OpenRA.FileFormats
 
 		public static void Mount(string name)
 		{
-			var optional = name.StartsWith("~");
-			if (optional) name = name.Substring(1);
+			var optional = name.Contains("~");
+			if (optional) name = name.Replace("~", ""); // LAme hack :P
 
 			var a = (Action)(() => FileSystem.MountInner(OpenPackage(name)));
 
@@ -78,10 +78,10 @@ namespace OpenRA.FileFormats
 			if (!mountedFolders.Contains(mount)) mountedFolders.Add(mount);
 		}
 
-		public static void LoadFromManifest( Manifest manifest )
+		public static void LoadFromManifest(Manifest manifest, string supportDir)
 		{
 			UnmountAll();
-			foreach (var dir in manifest.Folders) Mount(dir);
+			foreach (var dir in manifest.Folders) Mount((supportDir != null)  ?Path.Combine(supportDir, dir) : dir);
 			foreach (var pkg in manifest.Packages) Mount(pkg);
 		}
 

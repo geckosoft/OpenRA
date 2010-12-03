@@ -18,7 +18,7 @@ namespace FileExtractor
 
 			var mods = args[0].Split(',');
 			var manifest = new Manifest(mods);
-			FileSystem.LoadFromManifest( manifest );
+			FileSystem.LoadFromManifest( manifest, null);
 			
 			try
 			{

@@ -39,11 +39,11 @@ namespace OpenRA.GameRules
 
 	public class GraphicSettings
 	{
-		public string Renderer = "Gl";
+		public string Renderer = "IEPlugGl";
 		public WindowMode Mode = WindowMode.PseudoFullscreen;
 		public int2 FullscreenSize = new int2(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 		public int2 WindowedSize = new int2(1024, 768);
-		public readonly int2 MinResolution = new int2(800, 600);
+		public readonly int2 MinResolution = new int2(1024, 768);
 	}
 	
 	public class SoundSettings

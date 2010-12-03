@@ -27,7 +27,7 @@ namespace OpenRA.Graphics
 			if (sequenceFiles.Length == 0)
 				return;
 
-			var sequences = sequenceFiles.Select(s => MiniYaml.FromFile(s)).Aggregate(sequenceNodes, MiniYaml.Merge);
+			var sequences = sequenceFiles.Select(s => MiniYaml.FromFile(Path.Combine(Game.SupportDir, s))).Aggregate(sequenceNodes, MiniYaml.Merge);
 
 			foreach (var s in sequences)
 				LoadSequencesForUnit(s.Key, s.Value);
