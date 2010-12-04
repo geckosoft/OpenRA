@@ -60,9 +60,8 @@ HARV:
 	RevealsShroud:
 		Range: 7
 	RenderUnit:
+		Scale: 2
 	-AttackMove:
-	Scale:
-		Value: 2
 #	RGIndestructible:
 	RGProduceActorOnDeath:
 		Actor: harv
@@ -568,6 +567,7 @@ C17:
 	Armor:
 		Type: Light
 	RenderUnit:
+		Scale: 2
 	WithShadow:
 	Cargo:
 #		Types: Infantry, Vehicle
@@ -577,8 +577,6 @@ C17:
 	-TargetableUnit:
 	-GainsExperience:
 	FlyAwayOnIdle:
-	Scale:
-		Value: 2
 
 A10:
 	Inherits: ^Plane

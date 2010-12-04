@@ -53,10 +53,10 @@ namespace OpenRg.Traits
 		public Order IssueOrder(Actor self, IOrderTargeter order, Target target, bool queued)
 		{
 			if (order.OrderID == "Unload")
-				return new Order(order.OrderID, self, self.World.LocalPlayer.PlayerActor??null, false );
+				return new Order(order.OrderID, self, false) {TargetActor = self.World.LocalPlayer.PlayerActor};
 
 			if (order.OrderID == "ReverseEnterTransport")
-				return new Order(order.OrderID, self, target.Actor, false);
+				return new Order(order.OrderID, self, false) {TargetActor = target.Actor};
 
 			return null;
 		}
@@ -136,7 +136,7 @@ namespace OpenRg.Traits
 				if (order.TargetActor != null && order.Subject.Owner == order.TargetActor.Owner)
 				{
 					var passenger = order.TargetActor.Trait<RGPassenger>();
-					passenger.ResolveOrder(order.TargetActor, new Order("EnterTransport", order.TargetActor, self, false));
+					passenger.ResolveOrder(order.TargetActor, new Order("EnterTransport", order.TargetActor, false) { TargetActor = self });
 				}
 			}
 		}

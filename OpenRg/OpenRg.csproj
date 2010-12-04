@@ -75,7 +75,7 @@
     <Compile Include="Activities\RGDisarmBeacon.cs" />
     <Compile Include="Activities\RGEnterTransport.cs" />
     <Compile Include="Activities\RGExitSteerable.cs" />
-    <Compile Include="Activities\RGIdleAnimation.cs" />
+    <None Include="Activities\RGIdleAnimation.cs" />
     <Compile Include="Activities\RGPlaceIonBeacon.cs" />
     <Compile Include="Activities\RGPlaceMine.cs" />
     <Compile Include="Activities\RGPlaceNukeBeacon.cs" />

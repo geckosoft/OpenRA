@@ -4,6 +4,7 @@ using OpenRA;
 using OpenRA.Mods.RA.Move;
 using OpenRA.Mods.RA.Render;
 using OpenRA.Traits;
+using OpenRA.Traits.Activities;
 using OpenRg.Traits;
 
 namespace OpenRg.Activities

@@ -97,7 +97,7 @@ namespace OpenRg.Traits.Abilities
 							&& a.Owner.Stances[Beacon.Self.Owner] == Stance.Enemy).FirstOrDefault();
 
 					if (underCursor != null)
-						yield return new Order("PlaceNukeBeacon", Beacon.Self, underCursor, false);
+						yield return new Order("PlaceNukeBeacon", Beacon.Self, false) {TargetActor = underCursor};
 				}
 			}
 

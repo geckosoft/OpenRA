@@ -30,10 +30,7 @@ namespace OpenRg.Traits
 
 		public Order IssueOrder(Actor self, IOrderTargeter order, Target target, bool queued)
 		{
-			if (order.OrderID == "DisarmBeacon")
-				return new Order(order.OrderID, self, target.Actor, false);
-
-			return null;
+			return order.OrderID == "DisarmBeacon" ? new Order(order.OrderID, self, false) {TargetActor = target.Actor} : null;
 		}
 
 		#endregion

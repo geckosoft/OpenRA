@@ -271,6 +271,7 @@
 	Buildable:
 		Queue: Building
 	RenderBuilding:
+		Scale: 2
 	DeadBuildingState:
 	EmitInfantryOnSell:
 		ActorTypes: c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,e1,e1,e1,e1,e1,e1,e1

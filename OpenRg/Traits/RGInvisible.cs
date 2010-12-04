@@ -41,9 +41,13 @@ namespace OpenRg.Traits
 			return new Renderable[] {};
 		}
 
-		public bool IsVisible(Actor self, Player byPlayer)
+		#region Implementation of IVisibilityModifier
+
+		public bool IsVisible(Actor self)
 		{
 			return Visible;
 		}
+
+		#endregion
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenRA;
 using OpenRA.Traits;
+using OpenRA.Traits.Activities;
 
 namespace OpenRg.Activities
 {

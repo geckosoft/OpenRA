@@ -141,10 +141,10 @@ namespace OpenRg.Widgets
 						Game.Renderer.BoldFont.DrawText(sp.Info.Description, pos, Color.White);
 
 						pos += new int2(0, 20);
-						if (WorldUtils.FormatTime(sp.TotalTime) != WorldUtils.FormatTime(0))
+						if (WidgetUtils.FormatTime(sp.TotalTime) != WidgetUtils.FormatTime(0))
 						{
-							Game.Renderer.BoldFont.DrawText(WorldUtils.FormatTime(sp.RemainingTime).ToString(), pos, Color.White);
-							Game.Renderer.BoldFont.DrawText("/ {0}".F(WorldUtils.FormatTime(sp.TotalTime)), pos + new int2(45, 0),
+							Game.Renderer.BoldFont.DrawText(WidgetUtils.FormatTime(sp.RemainingTime).ToString(), pos, Color.White);
+							Game.Renderer.BoldFont.DrawText("/ {0}".F(WidgetUtils.FormatTime(sp.TotalTime)), pos + new int2(45, 0),
 							                                Color.White);
 						}
 

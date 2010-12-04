@@ -442,7 +442,8 @@ namespace OpenRg.Widgets
 
 		public static Order OrderStartProduction(World world, Actor subject, string item, int count)
 		{
-			return new Order("RgStartProduction", subject, world.LocalPlayer.PlayerActor, new int2(count, 0), item, false);
+			return new Order("RgStartProduction", subject, false)
+			       {TargetActor = world.LocalPlayer.PlayerActor, TargetLocation = new int2(count, 0), TargetString = item};
 		}
 
 		private void DrawBuildTabs(World world, int paletteHeight)
@@ -554,7 +555,7 @@ namespace OpenRg.Widgets
 
 			int time = CurrentQueue.GetBuildTime(info.Name)
 			           *((lowpower) ? CurrentQueue.Info.LowPowerSlowdown : 1);
-			DrawRightAligned(WorldUtils.FormatTime(time), pos + new int2(-5, 35), lowpower ? Color.Red : Color.White);
+			DrawRightAligned(WidgetUtils.FormatTime(time), pos + new int2(-5, 35), lowpower ? Color.Red : Color.White);
 
 			var bi = info.Traits.GetOrDefault<BuildingInfo>();
 			if (bi != null)

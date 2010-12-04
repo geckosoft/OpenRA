@@ -33,8 +33,6 @@ FACT:
 #		BuildSpeed: .4
 #		LowPowerSlowdown: 3
 	BaseBuilding:
-	Scale:
-		Value: 2
 	StoresOre:
 		PipCount: 5
 		PipColor: Green
@@ -64,8 +62,6 @@ NUKE:
 	RevealsShroud:
 		Range: 4
 	Bib:
-	Scale:
-		Value: 2
 	RGMustBeDestroyed:
 
 PROC:
@@ -110,8 +106,6 @@ PROC:
 		InitialActivity: Harvest
 		SpawnOffset: 2,4
 		Facing: 64
-	Scale:
-		Value: 2
 	RGMustBeDestroyed:
 	
 
@@ -297,8 +291,6 @@ EYE:
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 1
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGMustBeDestroyed
 	
 TMPL:
@@ -339,8 +331,6 @@ TMPL:
 		SpawnOffset: 12,24
 		ExitCell: 1,2
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGMustBeDestroyed
 
 OBLI:
@@ -369,6 +359,7 @@ OBLI:
 		Range: 8
 	RenderBuildingCharge:
 		ChargeAudio: obelpowr.aud
+		Scale: 2
 	AttackOmni:
 		PrimaryWeapon: RgLaser
 		PrimaryOffset: 0,0,0,-16
@@ -377,8 +368,6 @@ OBLI:
 	-RenderBuilding:
 	RenderRangeCircle:
 	-EmitInfantryOnSell:
-	Scale:
-		Value: 2
 	RGMustBeDestroyed
 
 CYCL:
@@ -474,8 +463,6 @@ GUN:
 	-RenderBuilding:
 	-DeadBuildingState:
 	RenderRangeCircle:
-	Scale:
-		Value: 2
 
 SAM:
 	Inherits: ^Building
@@ -510,8 +497,6 @@ SAM:
 	-RenderBuilding:
 	-DeadBuildingState:
 	RenderRangeCircle:
-	Scale:
-		Value: 2
 	
 GTWR:
 	Inherits: ^Building
@@ -538,8 +523,6 @@ GTWR:
 	DetectCloaked:
 		Range: 3
 	RenderRangeCircle:
-	Scale:
-		Value: 2
 	
 ATWR:
 	Inherits: ^Building
@@ -570,7 +553,5 @@ ATWR:
 	DetectCloaked:
 		Range: 6
 	RenderRangeCircle:
-	Scale:
-		Value: 2
 	RGMustBeDestroyed
 

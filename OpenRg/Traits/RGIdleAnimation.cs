@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenRA;
+using OpenRA.Mods.RA.Render;
 using OpenRA.Traits;
 
 namespace OpenRg.Traits
@@ -21,6 +22,17 @@ namespace OpenRg.Traits
 
 	public class RGIdleAnimation : INotifyDamage, INotifyIdle
 	{
+		enum IdleState
+		{
+			None,
+			Waiting,
+			Active
+		};
+
+		string sequence;
+		int delay;
+		IdleState state;
+
 		public readonly RGIdleAnimationInfo Info;
 
 		public RGIdleAnimation(RGIdleAnimationInfo info)
@@ -32,16 +44,38 @@ namespace OpenRg.Traits
 
 		public void Damaged(Actor self, AttackInfo e)
 		{
-			if (self.GetCurrentActivity() is Activities.RGIdleAnimation)
+			if (state != IdleState.None)
 				self.CancelActivity();
 		}
 
 		#endregion
 
+		public void Tick(Actor self)
+		{
+			if (!self.IsIdle)
+			{
+				state = IdleState.None;
+				return;
+			}
+
+			if (state == IdleState.Active)
+				return;
+
+			if (delay > 0 && --delay == 0)
+			{
+				state = IdleState.Active;
+				self.Trait<RenderInfantry>().anim.PlayThen(sequence, () => state = IdleState.None);
+			}
+		}
+
 		public void TickIdle(Actor self)
 		{
-			self.QueueActivity(new Activities.RGIdleAnimation(Info.Animations.Random(self.World.SharedRandom),
-															  Info.IdleWaitTicks));
+			if (state != IdleState.None)
+				return;
+
+			state = IdleState.Waiting;
+			sequence = Info.Animations.Random(self.World.SharedRandom);
+			delay = Info.IdleWaitTicks;
 		}
 	}
 }

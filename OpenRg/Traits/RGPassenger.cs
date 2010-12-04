@@ -48,7 +48,7 @@ namespace OpenRg.Traits
 		public Order IssueOrder(Actor self, IOrderTargeter order, Target target, bool queued)
 		{
 			if (order.OrderID == "EnterTransport")
-				return new Order(order.OrderID, self, target.Actor, queued);
+				return new Order(order.OrderID, self, false) {TargetActor = target.Actor};
 
 			return null;
 		}

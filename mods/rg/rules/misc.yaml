@@ -1,4 +1,5 @@
 
+		
 MINP:
 	RGMine:
 		Weapon: APMine
@@ -6,13 +7,12 @@ MINP:
 	Health:
 		HP: 1
 	RenderUnit:
+		Scale: 0.5
 	BelowUnits:
 #	InvisibleToOthers:
 	RGIndestructible:
 	Tooltip:
 		Name: Anti-Personnel Mine
-	Scale:
-		Value: 0.5
 
 MINV:
 	RGMine:
@@ -21,13 +21,12 @@ MINV:
 	Health:
 		HP: 1
 	RenderUnit:
+		Scale: 0.5
 	BelowUnits:
 	RGIndestructible:
 #	InvisibleToOthers:
 	Tooltip:
 		Name: Anti-Tank Mine
-	Scale:
-		Value: 0.5
 		
 
 MINE:
@@ -37,10 +36,9 @@ MINE:
 	Health:
 		HP: 1
 	RenderUnit:
+		Scale: 0.5
 	BelowUnits:
 #	InvisibleToOthers:
 	RGIndestructible:
 	Tooltip:
 		Name: Anti-Personnel Mine
-	Scale:
-		Value: 0.5

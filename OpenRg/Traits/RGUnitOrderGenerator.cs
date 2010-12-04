@@ -40,9 +40,10 @@ namespace OpenRg.Traits
 
 			var actorsInvolved = orders.Select(o => o.self).Distinct();
 			if (actorsInvolved.Any())
-				yield return new Order("CreateGroup", actorsInvolved.First().Owner.PlayerActor,
-									   string.Join(",", actorsInvolved.Select(a => a.ActorID.ToString()).ToArray()), false)
-					;
+				yield return new Order("CreateGroup", actorsInvolved.First().Owner.PlayerActor, false)
+				{
+					TargetString = string.Join(",", actorsInvolved.Select(a => a.ActorID.ToString()).ToArray())
+				};
 
 			foreach (var o in orders)
 				yield return CheckSameOrder(o.iot, o.trait.IssueOrder(o.self, o.iot, o.target, mi.Modifiers.HasModifier(Modifiers.Shift)));

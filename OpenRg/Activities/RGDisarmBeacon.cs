@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using OpenRA;
 using OpenRA.Traits;
+using OpenRA.Traits.Activities;
 using OpenRg.Traits;
 
 namespace OpenRg.Activities

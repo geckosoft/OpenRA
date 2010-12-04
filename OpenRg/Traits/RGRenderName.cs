@@ -46,9 +46,14 @@ namespace OpenRg.Traits
 			if (RGGame.LocalPlayer == null || self == RGGame.LocalPlayer.Actor) // spectator
 			{
 				shouldRender = true;
-			}else if (self.IsVisible(RGGame.LocalPlayer.Player) && RGGame.LocalPlayer.Actor != null)
+			}else
 			{
-				if ((RGGame.LocalPlayer.Actor.TraitOrDefault<RGRevealsShroud>() == null) || (RGGame.LocalPlayer.Actor.TraitOrDefault<RGRevealsShroud>().RevealRange <= (RGGame.LocalPlayer.Actor.Location - self.Location).Length))
+				if (!self.World.LocalShroud.IsVisible(self))
+					return;
+
+				if ((RGGame.LocalPlayer.Actor.TraitOrDefault<RGRevealsShroud>() == null) ||
+				    (RGGame.LocalPlayer.Actor.TraitOrDefault<RGRevealsShroud>().RevealRange <=
+				     (RGGame.LocalPlayer.Actor.Location - self.Location).Length))
 				{
 					shouldRender = true;
 				}

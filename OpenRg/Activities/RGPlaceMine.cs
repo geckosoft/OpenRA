@@ -2,6 +2,7 @@
 using OpenRA;
 using OpenRA.FileFormats;
 using OpenRA.Traits;
+using OpenRA.Traits.Activities;
 using OpenRg.Traits;
 using OpenRg.Traits.Abilities;
 

@@ -1,3 +1,11 @@
+rallypoint:
+	flag:flagfly
+		Start: 0
+		Length: *
+	circles:fpls
+		Start: 0
+		Length: *
+		
 clock:
 	idle: hclock
 		Start: 0

@@ -30,7 +30,7 @@ namespace OpenRg.Effects
 			GoingUp = true;
 			if (silo == null)
 			{
-				Altitude = playerActor.World.Map.Height * Game.CellSize;
+				Altitude = playerActor.World.Map.Bounds.Height * Game.CellSize;
 				StartDescent(playerActor.World);
 			}
 			else
@@ -46,7 +46,7 @@ namespace OpenRg.Effects
 			if (GoingUp)
 			{
 				Altitude += 100;
-				if (Altitude >= world.Map.Height * Game.CellSize)
+				if (Altitude >= world.Map.Bounds.Height * Game.CellSize)
 					StartDescent(world);
 			}
 			else

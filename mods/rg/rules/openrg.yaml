@@ -583,8 +583,6 @@ EYE:
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 1
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGMustBeDestroyed:
 	RGReplaceActorOnDeath:
 		Actor: eye_destroyed
@@ -627,8 +625,6 @@ TMPL:
 		SpawnOffset: 12,24
 		ExitCell: 1,2
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGReplaceActorOnDeath:
 		Actor: tmpl_destroyed
 		
@@ -665,8 +661,6 @@ EYE_DESTROYED:
 	RGIndestructible:
 	RenderBuilding:
 		HasMakeAnimation: false
-	Scale:
-		Value: 2
 	
 TMPL_DESTROYED:
 	Inherits: ^Building
@@ -700,8 +694,6 @@ TMPL_DESTROYED:
 		SpawnOffset: 12,24
 		ExitCell: 1,2
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGIndestructible:
 	RenderBuilding:
 		HasMakeAnimation: false
@@ -743,8 +735,6 @@ PYLE_DESTROYED:
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 3
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGIndestructible:
 	RenderBuilding:
 		HasMakeAnimation: false
@@ -782,8 +772,6 @@ HAND_DESTROYED:
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 3
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGIndestructible:	
 	RenderBuilding:
 		HasMakeAnimation: false
@@ -837,8 +825,6 @@ WEAP_DESTROYED:
 	Exit@1:
 		SpawnOffset: -8,-8
 		ExitCell: 0,6
-	Scale:
-		Value: 2
 	RGProduction:
 		Produces: Vehicle
 	RGProductionQueue@Vehicle:
@@ -884,8 +870,6 @@ AFLD_DESTROYED:
 		Type: Vehicle
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 3
-	Scale:
-		Value: 2
 	RGIndestructible:	
 	RenderBuilding:
 		HasMakeAnimation: false
@@ -927,8 +911,6 @@ PYLE:
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 3
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGReplaceActorOnDeath:
 		Actor: pyle_destroyed
 	RGMustBeDestroyed
@@ -966,8 +948,6 @@ HAND:
 		BuildSpeed: 0.000001
 		LowPowerSlowdown: 3
 	RGAssignUnit:
-	Scale:
-		Value: 2
 	RGReplaceActorOnDeath:
 		Actor: hand_destroyed
 	RGMustBeDestroyed
@@ -1015,8 +995,6 @@ AFLD:
 		Type: Vehicle
 		BuildSpeed: 0.1
 		LowPowerSlowdown: 2
-	Scale:
-		Value: 2
 	RGReplaceActorOnDeath:
 		Actor: afld_destroyed
 	RGMustBeDestroyed
@@ -1048,13 +1026,12 @@ WEAP:
 	Bib:
 	-RenderBuilding:
 	RenderWarFactory:
+		Scale: 2
 	RallyPoint:
 		RallyPoint: 0,8
 	Exit@1:
 		SpawnOffset: -8,-8
 		ExitCell: 0,6
-	Scale:
-		Value: 2
 	RGProduction:
 		Produces: Vehicle
 	RGProductionQueue@Vehicle:
@@ -1129,6 +1106,7 @@ NOD_APC:
 		PrimaryOffset: 0,0,0,-4
 		MuzzleFlash: yes
 	RenderUnit:
+		Scale: 1.25
 	WithMuzzleFlash:
 #	AutoTarget:
 #	Cargo:
@@ -1137,8 +1115,6 @@ NOD_APC:
 #		UnloadFacing: 220
 	RGSteerable:
 		Passengers: 5
-	Scale:
-		Value: 1.25
 		
 		
 NOD_STEALTH_TANK:
